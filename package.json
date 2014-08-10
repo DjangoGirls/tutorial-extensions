@@ -1,0 +1,14 @@
+{
+  "name": "djangogirls-tutorial-extensions",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DjangoGirls/tutorial-extensions.git"
+  },
+  "author": "Django Girls <hello@djangogirls.org>",
+  "dependencies": {
+    "gitbook-plugin-anchors": "^0.3.0",
+    "gitbook-plugin-richquotes": "0.0.3"
+  }
+}

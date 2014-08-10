@@ -1,0 +1,24 @@
+{
+    "links": {
+        "home": false,
+        "about": "http://djangogirls.org",
+        "issues": false,
+        "contribute": "http://tutorial.djangogirls.org/contributing_and_editing_this_book/README.html",
+
+        "sharing": {
+            "google": false,
+            "facebook": "https://www.facebook.com/djangogirls",
+            "twitter": "http://twitter.com/djangogirls"
+        }
+    },
+
+    "plugins": [
+        "anchors", "richquotes"
+    ],
+
+    "pluginsConfig": {
+        "richquotes" : {
+            "todos" : true
+        }
+    }
+}
