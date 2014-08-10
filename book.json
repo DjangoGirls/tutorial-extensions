@@ -3,7 +3,7 @@
         "home": false,
         "about": "http://djangogirls.org",
         "issues": false,
-        "contribute": "http://tutorial.djangogirls.org/contributing_and_editing_this_book/README.html",
+        "contribute": "https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md",
 
         "sharing": {
             "google": false,
