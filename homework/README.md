@@ -8,7 +8,7 @@ Remember the chapter about querysets? We created a view `post_list` that display
 
 Time to do something similar, but for draft posts.
 
-Let's add a link in `mysite/templates/mysite/base.html` near the button for adding new posts (just above `<h1><a href="/">Django Girls Blog</a></h1>` line!):
+Let's add a link in `blog/templates/blog/base.html` near the button for adding new posts (just above `<h1><a href="/">Django Girls Blog</a></h1>` line!):
 
     <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 
@@ -26,7 +26,7 @@ This line `Post.objects.filter(published_date__isnull=True).order_by('created_da
 
 Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
 
-    {% extends 'mysite/base.html' %}
+    {% extends 'blog/base.html' %}
 
     {% block content %}
         {% for post in posts %}
