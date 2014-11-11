@@ -49,10 +49,10 @@ urlpatterns = patterns('',
 )
 ```
 
-Then we need a template for the login page, so create a directory `mysite/templates/registration` and a file inside named `login.html`:
+Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
 
 ```
-{% extends "mysite/base.html" %}
+{% extends "blog/base.html" %}
 
 {% block content %}
 
@@ -92,7 +92,7 @@ Now when the login is accessed directly, it will redirect successful login to th
 
 ## Improving the layout
 
-So now we made sure that only authorized users (ie. us) can add, edit or publish posts. But still everyone gets to view the buttons to add or edit posts, lets hide these for users that aren't logged in. For this we need to edit the templates, so lets start with the base template from `mysite/templates/mysite/base.html`:
+So now we made sure that only authorized users (ie. us) can add, edit or publish posts. But still everyone gets to view the buttons to add or edit posts, lets hide these for users that aren't logged in. For this we need to edit the templates, so lets start with the base template from `blog/templates/blog/base.html`:
 
 ```
     <body>
@@ -122,7 +122,7 @@ You might recognize the pattern here. There is an if-condition inside the templa
 
 ## More on authenticated users
 
-Lets add some nice sugar to our templates while we are at it. First we will add some stuff to show that we are logged in. Edit `mysite/templates/mysite/base.html` like this:
+Lets add some nice sugar to our templates while we are at it. First we will add some stuff to show that we are logged in. Edit `blog/templates/blog/base.html` like this:
 
 ```
         <div class="page-header">
