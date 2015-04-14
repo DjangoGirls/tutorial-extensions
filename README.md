@@ -11,6 +11,7 @@ This book contains additional tutorials you can do after you're finished with [D
 Current tutorials are:
 - [Homework: add more to your website!](homework/README.html)
 - [Homework: secure your website](authentication_authorization/README.html)
+- [Homework: create comment model](homework_create_more_models/README.html)
 - [Optional: PostgreSQL installation](optional_postgresql_installation/README.html)
 
 ## Contributing
