@@ -7,7 +7,7 @@ Now we only have Post model, what about receiving some feedback from your reader
 Let's open `blog/models.py` and append this piece of code to the end of file:
 
     class Comment(models.Model):
-    	post = models.ForeignKey('blog.Post')
+    	post = models.ForeignKey('blog.Post', related_name='comments')
     	author = models.CharField(max_length=200)
     	text = models.TextField()
     	created_date = models.DateTimeField(default=timezone.now)
@@ -24,6 +24,8 @@ You can go back to **Django models** chapter in tutorial if you need to remind y
 
 In this chapter we have new type of field:
 - `models.BooleanField` - this is true/false field.
+
+And `related_name` option in `models.ForeignKey` allow us to have access to comments from blog model.
 
 
 ## Create tables for models in your database
@@ -60,9 +62,35 @@ Don't forget to import Comment model, file should look like this:
     admin.site.register(Post)
     admin.site.register(Comment)
 
-If you type `python manage.py runserver` in command prompt and go to `http://127.0.0.1:8000/admin/` in your browser, you should have access to list, add and remove comments.
+If you type `python manage.py runserver` in command prompt and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to list, add and remove comments. Don't hesitate to play with it!
 
-## Let's add some views
+## Make our comments visible
+
+Go to `blog/templated/blog/post_detail.html` file and add those lines before `{% endblock %}` tag:
+
+	<hr>
+	{% for comment in post.comments.all %}
+		<div class="comment">
+			<div class="date">{{ comment.created_date }}</div>
+			<strong>{{ comment.author }}</strong>
+			<p>{{ comment.text|linebreaks }}</p>
+		</div>
+	{% empty %}
+		<p>No comments here yet :(</p>
+	{% endfor %}
+
+Now you can see the comments section on pages with post details.
+
+But it can look a little bit better, add those some css to `static/css/blog.css`:
+
+    .comment {
+        margin: 20px 0px 20px 20px;
+    }
+
+
+
+
+
 
 
 
