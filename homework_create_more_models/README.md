@@ -79,7 +79,7 @@ Go to `blog/templated/blog/post_detail.html` file and add those lines before `{%
 		<p>No comments here yet :(</p>
 	{% endfor %}
 
-Now you can see the comments section on pages with post details.
+Now we can see the comments section on pages with post details.
 
 But it can look a little bit better, add those some css to `static/css/blog.css`:
 
@@ -107,3 +107,81 @@ After that our template should look like this:
             </div>
         {% endfor %}
     {% endblock content %}
+
+## Let your readers write comments
+
+Right now we can see comments on our blog, but we cannot add them, let's change that!
+
+Go to `blog/forms.py` and add those lines to the end of the file:
+
+    class CommentForm(forms.ModelForm):
+
+    	class Meta:
+    		model = Comment
+    		fields = ('author', 'text',)
+
+Don't forget to import Comment model, change line:
+
+    from .models import Post
+
+into:
+
+    from .models import Post, Comment
+
+Now go to `blog/templates/blog/post_detail.html` and before line `{% for comment in post.comments.all %}` add:
+
+    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+Go to post detail page and you should see error:
+
+![NoReverseMatch](images/error_after_url.png)
+
+Let's fix this! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
+
+    url(r'^post/(?P<pk>[0-9]+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+
+Now you should see this error:
+
+![AttributeError](images/error_after_urls.png)
+
+To fix this, add this piece of code to `blog/views.py`:
+
+    def add_comment_to_post(request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.post = post
+                comment.save()
+                return redirect('blog.views.post_detail', pk=post.pk)
+        else:
+            form = CommentForm()
+        return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
+Don't forget about imports at the beginning of the file:
+
+    from .forms import PostForm, CommentForm
+
+Now you should see:
+
+![TemplateDoesNotExist](images/template_error.png)
+
+
+Like error mentions, template does not exist, create one as `blog/templates/blog/add_comment_to_post.html` and add those lines:
+
+    {% extends 'blog/base.html' %}
+
+    {% block content %}
+        <h1>New comment</h1>
+        <form method="POST" class="post-form">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Send</button>
+        </form>
+    {% endblock %}
+
+Yay! Now your readers can let you know what they think below your posts!
+
+
+
+
