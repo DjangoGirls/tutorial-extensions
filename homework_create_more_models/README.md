@@ -46,8 +46,23 @@ You can see that this command created for us another migration file in `blog/mig
 
 Our Comment model exists in database now. It would be nice if we had access to it in our admin panel.
 
+## Register comment model in admin panel
 
+To register model in admin panel, go to `blog/admin.py` and add line:
 
+    admin.site.register(Comment)
+
+Don't forget to import Comment model, file should look like this:
+
+    from django.contrib import admin
+    from .models import Post, Comment
+
+    admin.site.register(Post)
+    admin.site.register(Comment)
+
+If you type `python manage.py runserver` in command prompt and go to `http://127.0.0.1:8000/admin/` in your browser, you should have access to list, add and remove comments.
+
+## Let's add some views
 
 
 
