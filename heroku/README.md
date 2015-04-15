@@ -1,18 +1,17 @@
-# Deploy!
+# Deploy to Heroku (as well as PythonAnyhere)
 
-> __Note__: The following chapter can be sometimes a bit hard to get through. Persist and finish it; deployment is an important part of the website development process. This chapter is placed in the middle of the tutorial so that your mentor can help with the slightly tricker process of getting your website online. This means you can still finish the tutorial on your own if you run out of time.
+It's always good for a developer to have a couple of different deployment options under their belt.   Why not try deploying your site to Heroku, as well as PythonAnywhere?
 
-Until now your website was only available on your computer, now you will learn how to deploy it! Deploying is the process of publishing your application on the Internet so people can finally go and see your app :).
-
-As you learned, a website has to be located on a server. There are a lot of providers, but we will use the one with the simplest deployment process: [Heroku](http://heroku.com/). Heroku is free for small applications that don't have too many visitors, it'll definitely be enough for you now.
+[Heroku](http://heroku.com/) is also free for small applications that don't have too many visitors, but it's a bit more tricky to get deployed.
 
 We will be following this tutorial: https://devcenter.heroku.com/articles/getting-started-with-django, but we pasted it here so it's easier for you.
 
+
 ## The `requirements.txt` file
 
-We need to create a `requirements.txt` file to tell Heroku what Python packages need to be installed on our server.
+If you didn't create one before, we need to create a `requirements.txt` file to tell Heroku what Python packages need to be installed on our server.
 
-But first, Heroku needs us to install a few packages. Go to your console with `virtualenv` activated and type this:
+But first, Heroku needs us to install a few new packages. Go to your console with `virtualenv` activated and type this:
 
     (myvenv) $ pip install dj-database-url gunicorn whitenoise
 
@@ -33,8 +32,7 @@ This line is needed for your application to work on Heroku.
 
 ## Procfile
 
-Another thing we need to create is a Procfile. This will let Heroku know which commands to run in order to start our website.
-Open up your code editor, create a file called `Procfile` in `djangogirls` directory and add this line:
+Another thing Heroku wants is a Procfile. This tells Heroku which commands to run in order to start our website. Open up your code editor, create a file called `Procfile` in `djangogirls` directory and add this line:
 
     web: gunicorn mysite.wsgi
 
@@ -44,13 +42,13 @@ Then save it. Done!
 
 ## The `runtime.txt` file
 
-We need to tell Heroku which Python version we want to use. This is done by creating a `runtime.txt` in the `djangogirls` directory using your editor's "new file" command, and putting the following text (and nothing else!) inside:
+We also need to tell Heroku which Python version we want to use. This is done by creating a `runtime.txt` in the `djangogirls` directory using your editor's "new file" command, and putting the following text (and nothing else!) inside:
 
     python-3.4.2
 
-## mysite/local_settings.py
+## `mysite/local_settings.py`
 
-There is a difference between settings we are using locally (on our computer) and settings for our server. Heroku is using one database, and your computer is using a different database. That's why we need to create a separate file for settings that will only be available for our local environment.
+Because it's more restrictive than PythonAnywhere, Heroku wants to use different settings from the ones we use on our locally (on our computer). Heroku wants to use Postgres while we use SQLite for example. That's why we need to create a separate file for settings that will only be available for our local environment.
 
 Go ahead and create `mysite/local_settings.py` file. It should contain your `DATABASE` setup from your `mysite/settings.py` file. Just like that:
 
@@ -78,8 +76,6 @@ Another thing we need to do is modify our website's `settings.py` file. Open `my
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     ALLOWED_HOSTS = ['*']
-
-    STATIC_ROOT = 'staticfiles'
 
     DEBUG = False
 
@@ -119,70 +115,25 @@ Then authenticate your Heroku account on your computer by running this command:
 
 In case you don't have an SSH key this command will automatically create one. SSH keys are required to push code to the Heroku.
 
-## Git
-Git is a version control system used by a lot of programmers - software which keeps track of changes to a file or set of files over time so that you can recall specific versions later. Heroku uses a git repository to manage your project files, so we need to use it too.
+## Git commit
 
-Create a file named `.gitignore` in your `djangogirls` directory with the following content:
+Heroku uses git for its deployments.  Unlike PythonAnywhere, you can push to Heroku directly, without going via Github.  But we need to tweak a couple of things first.
 
+Open the file named `.gitignore` in your `djangogirls` directory and add `local_settings.py` to it.  We want git to ignore `local_settings`, so it stays on our local computer and doesn't end up on Heroku.
+
+    *.pyc
+    db.sqlite3
     myvenv
     __pycache__
-    staticfiles
     local_settings.py
-    db.sqlite3
-    *.py[co]
 
-and save it. The dot on the beginning of the file name is important! As you can see, we're now telling Heroku to ignore `local_settings.py` and don't download it, so it's only available on your computer (locally).
 
-Next, we’ll create a new git repository and save our changes.
-
-> __Note__: Check out your current working directory with a `pwd` command before initializing the repository. You should be in the `djangogirls` folder.
-
-Go to your console and run these commands:
-
-    $ git init
-    Initialized empty Git repository in ~/djangogirls/.git/
-    $ git config user.name "Your Name"
-    $ git config user.email you@example.com
-
-Initializing the git repository is something we only need to do once per project.
-
-It's a good idea to use a `git status` command before `git add` or whenever you find yourself unsure of what will be done, to prevent any surprises from happening (e.g. wrong files will be added or commited). The `git status` command returns information about any untracked/modifed/staged files, branch status and much more. The output should be similar to:
+And we commit our changes
 
     $ git status
-    On branch master
-
-    Initial commit
-
-    Untracked files:
-      (use "git add <file>..." to include in what will be committed)
-
-      .gitignore
-      Procfile
-      mysite/__init__.py
-      mysite/settings.py
-      mysite/urls.py
-      mysite/wsgi.py
-      manage.py
-      requirements.txt
-      runtime.txt
-
-    nothing added to commit but untracked files present (use "git add" to track)
-
-And finally we save our changes. Go to your console and run these commands:
-
     $ git add -A .
-    $ git commit -m "My Django Girls app"
-    [master (root-commit) 2943412] My Django Girls
-     7 files changed, 230 insertions(+)
-     create mode 100644 .gitignore
-     create mode 100644 Procfile
-     create mode 100644 mysite/__init__.py
-     create mode 100644 mysite/settings.py
-     create mode 100644 mysite/urls.py
-     create mode 100644 mysite/wsgi.py
-     create mode 100644 manage.py
-     create mode 100644 requirements.txt
-     create mode 100644 runtime.txt
+    $ git commit -m "additional files and changes for Heroku"
+
 
 ## Pick an application name
 
@@ -233,14 +184,16 @@ We can now visit the app in our browser with `heroku open`.
 
 > __Note__: you will see an error page! We'll talk about that in a minute.
 
-This will open a url like [https://djangogirlsblog.herokuapp.com/]() in your browser, and at the moment you will probably see an error page. Since we only created the admin view for the app so far, add `admin/` to the url (e.g. [https://djangogirlsblog.herokuapp.com/admin/]()) to see a working page of our web app.
+This will open a url like [https://djangogirlsblog.herokuapp.com/]() in your browser, and at the moment you will probably see an error page.
 
-The error you saw was because we when we deployed to Heroku, we created a new database and it's empty. We need to run the ```migrate``` command like we did when we first started our project to set our database up properly:
+The error you saw was because we when we deployed to Heroku, we created a new database and it's empty. We need to run the `migrate` and `createsuperuser` commands, just like we did on PythonAnywhere.  This time, they come via a special command-line on our own computer, `heroku run`:
 
     $ heroku run python manage.py migrate
 
     $ heroku run python manage.py createsuperuser
 
-The command prompt will ask you to choose a username and a password again. These will be your login details on your live website's admin page. Refresh it in your browser, and you're good to go!
+The command prompt will ask you to choose a username and a password again. These will be your login details on your live website's admin page. 
 
-You should now be able to see your website in a browser! Congrats :)!
+
+Refresh it in your browser, and there you go!  You now know how to deploy to two different hosting platforms.  Pick your favourite :)
+
