@@ -87,14 +87,23 @@ But it can look a little bit better, add those some css to `static/css/blog.css`
         margin: 20px 0px 20px 20px;
     }
 
+We can also let know about comments on post list page, go to `blog/templates/blog/post_list.html` file and add line:
 
+    <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 
+After that our template should look like this:
 
+    {% extends 'blog/base.html' %}
 
-
-
-
-
-
-
-
+    {% block content %}
+        {% for post in posts %}
+            <div class="post">
+                <div class="date">
+                    {{ post.published_date }}
+                </div>
+                <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                <p>{{ post.text|linebreaks }}</p>
+                <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+            </div>
+        {% endfor %}
+    {% endblock content %}
