@@ -4,7 +4,7 @@ You might have noticed that you didn't have to use your password, apart from bac
 
 ## Authorizing add/edit of posts
 
-First lets make things secure. We will protect our `post_new`, `post_edit` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for that using, the kind of advanced topic, _decorators_. Don't worry about the technicalities now, you can read up on these later. The decorator to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
+First lets make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for that using, the kind of advanced topic, _decorators_. Don't worry about the technicalities now, you can read up on these later. The decorator to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
 
 So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
 
@@ -12,7 +12,7 @@ So edit your `blog/views.py` and add these lines at the top along with the rest 
 from django.contrib.auth.decorators import login_required
 ```
 
-Then add a line before each of the `post_new`, `post_edit` and `post_publish` views (decorating them) like the following:
+Then add a line before each of the `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorating them) like the following:
 
 ```
 @login_required
@@ -26,7 +26,7 @@ Thats it! Now try to access `http://localhost:8000/post/new/`, notice the differ
 
 You should get one of the beloved errors. This one is quite interesting actually: The decorator we added before will redirect you to the login page. But that isn't available yet, so it raises a "Page not found (404)".
 
-Don't forget to add the decorator from above to `post_edit` and `post_publish` too.
+Don't forget to add the decorator from above to `post_edit`, `post_remove`, `post_draft_list` and `post_publish` too.
 
 Horray, we reached part of the goal! Other people can't just create posts on our blog anymore. Unfortunately we can't create posts anymore too. So lets fix that next.
 
@@ -49,7 +49,7 @@ urlpatterns = patterns('',
 )
 ```
 
-Then we need a template for the login page, so create a directory `mysite/templates/registration` and a file inside named `login.html`:
+Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
 
 ```
 {% extends "blog/base.html" %}
@@ -122,14 +122,14 @@ You might recognize the pattern here. There is an if-condition inside the templa
 
 ## More on authenticated users
 
-Lets add some nice sugar to our templates while we are at it. First we will add some stuff to show that we are logged in. Edit `mysite/templates/mysite/base.html` like this:
+Lets add some nice sugar to our templates while we are at it. First we will add some stuff to show that we are logged in. Edit `blog/templates/blog/base.html` like this:
 
 ```
         <div class="page-header">
             {% if user.is_authenticated %}
             <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
             <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-            <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</p>
+            <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</small></p>
             {% else %}
             <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
             {% endif %}

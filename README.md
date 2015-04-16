@@ -9,10 +9,10 @@ http://creativecommons.org/licenses/by-sa/4.0/
 This book contains additional tutorials you can do after you're finished with [Django Girls Tutorial](http://tutorial.djangogirls.org/).
 
 Current tutorials are:
-- [Homework: add more to your website!](homework/README.html)
-- [Homework: secure your website](authentication_authorization/README.html)
-- [Homework: create comment model](homework_create_more_models/README.html)
-- [Optional: PostgreSQL installation](optional_postgresql_installation/README.html)
+- [Homework: add more to your website!](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework/README.md)
+- [Homework: secure your website](https://github.com/DjangoGirls/tutorial-extensions/blob/master/authentication_authorization/README.md)
+- [Homework: create comment model](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework_create_more_models/README.md)
+- [Optional: PostgreSQL installation](https://github.com/DjangoGirls/tutorial-extensions/blob/master/optional_postgresql_installation/README.md)
 
 ## Contributing
 
