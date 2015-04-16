@@ -25,7 +25,7 @@ You can go back to **Django models** chapter in tutorial if you need to remind y
 In this chapter we have new type of field:
 - `models.BooleanField` - this is true/false field.
 
-And `related_name` option in `models.ForeignKey` allow us to have access to comments from blog model.
+And `related_name` option in `models.ForeignKey` allow us to have access to comments from post model.
 
 
 ## Create tables for models in your database
