@@ -182,6 +182,88 @@ Like error mentions, template does not exist, create one as `blog/templates/blog
 
 Yay! Now your readers can let you know what they think below your posts!
 
+## Moderating your comments
+
+Not all of our comments should be displayed. Blog owner should have option to approve or delete comments. Let's do something about it.
+
+Go to `blog/templates/blog/post_detail.html` and change lines:
+
+	{% for comment in post.comments.all %}
+		<div class="comment">
+			<div class="date">{{ comment.created_date }}</div>
+			<strong>{{ comment.author }}</strong>
+			<p>{{ comment.text|linebreaks }}</p>
+		</div>
+	{% empty %}
+		<p>No comments here yet :(</p>
+	{% endfor %}
+
+to:
+
+	{% for comment in post.comments.all %}
+		{% if user.is_authenticated or comment.approved %}
+		<div class="comment">
+			<div class="date">
+				{{ comment.created_date }}
+				{% if not comment.approved %}
+					<a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+					<a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+				{% endif %}
+			</div>
+			<strong>{{ comment.author }}</strong>
+			<p>{{ comment.text|linebreaks }}</p>
+		</div>
+		{% endif %}
+	{% empty %}
+		<p>No comments here yet :(</p>
+	{% endfor %}
+
+You should see `NoReverseMatch`, because no url matches `comment_remove` and `comment_approve` patterns.
+
+Add url patterns to `blog/urls.py`:
+
+	url(r'^comment/(?P<pk>[0-9]+)/approve/$', views.comment_approve, name='comment_approve'),
+	url(r'^comment/(?P<pk>[0-9]+)/remove/$', views.comment_remove, name='comment_remove'),
+
+Now you should see `AttributeError`. To get rid of it, create more views in `blog/views.py`:
+
+    @login_required
+    def comment_approve(request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        comment.approve()
+        return redirect('blog.views.post_detail', pk=comment.post.pk)
+
+    @login_required
+    def comment_remove(request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        post_pk = comment.post.pk
+        comment.delete()
+        return redirect('blog.views.post_detail', pk=post_pk)
+
+And of course fix imports.
+
+Everything works, but there is one misconception. In our post list page under posts we see number of all comments attached, but we want to have number of approved comments there.
+
+Go to `blog/templates/blog/post_list.html` and change line:
+
+    <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+
+to:
+
+    <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+
+And also add this method to Post model in `blog/models.py`:
+
+    def approved_comments(self):
+        return self.comments.filter(approved=True)
+
+
+
+After that your comment feature is finished. Congrats! :-)
+
+
+
+
 
 
 
