@@ -134,7 +134,7 @@ Now go to `blog/templates/blog/post_detail.html` and before line `{% for comment
 
 Go to post detail page and you should see error:
 
-![NoReverseMatch](images/error_after_url.png)
+![NoReverseMatch](images/url_error.png)
 
 Let's fix this! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
@@ -142,7 +142,7 @@ Let's fix this! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
 Now you should see this error:
 
-![AttributeError](images/error_after_urls.png)
+![AttributeError](images/views_error.png)
 
 To fix this, add this piece of code to `blog/views.py`:
 
