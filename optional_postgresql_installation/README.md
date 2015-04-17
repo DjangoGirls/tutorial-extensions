@@ -93,14 +93,14 @@ And replace it with this:
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'djangogirls',
-            'USER': 'yourname',
+            'USER': 'name',
             'PASSWORD': '',
             'HOST': 'localhost',
             'PORT': '',
         }
     }
 
-Remeber to change `yourname` to the name of the database that you created earlier in this chapter.
+Remeber to change `name` to the user name that you created earlier in this chapter.
 
 # Installing PostgreSQL package for Python
 
