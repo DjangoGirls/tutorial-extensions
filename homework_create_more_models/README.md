@@ -7,18 +7,18 @@ Now we only have Post model, what about receiving some feedback from your reader
 Let's open `blog/models.py` and append this piece of code to the end of file:
 
     class Comment(models.Model):
-    	post = models.ForeignKey('blog.Post', related_name='comments')
-    	author = models.CharField(max_length=200)
-    	text = models.TextField()
-    	created_date = models.DateTimeField(default=timezone.now)
-    	approved = models.BooleanField(default=False)
+        post = models.ForeignKey('blog.Post', related_name='comments')
+        author = models.CharField(max_length=200)
+        text = models.TextField()
+        created_date = models.DateTimeField(default=timezone.now)
+        approved = models.BooleanField(default=False)
 
-    	def approve(self):
-    		self.approved = True
-    		self.save()
+        def approve(self):
+            self.approved = True
+            self.save()
 
-    	def __str__(self):
-    		return self.text
+        def __str__(self):
+            return self.text
 
 You can go back to **Django models** chapter in tutorial if you need to remind yourself what each of field types means.
 
@@ -26,7 +26,6 @@ In this chapter we have new type of field:
 - `models.BooleanField` - this is true/false field.
 
 And `related_name` option in `models.ForeignKey` allow us to have access to comments from post model.
-
 
 ## Create tables for models in your database
 
@@ -68,20 +67,20 @@ If you type `python manage.py runserver` in command prompt and go to [http://127
 
 Go to `blog/templated/blog/post_detail.html` file and add those lines before `{% endblock %}` tag:
 
-	<hr>
-	{% for comment in post.comments.all %}
-		<div class="comment">
-			<div class="date">{{ comment.created_date }}</div>
-			<strong>{{ comment.author }}</strong>
-			<p>{{ comment.text|linebreaks }}</p>
-		</div>
-	{% empty %}
-		<p>No comments here yet :(</p>
-	{% endfor %}
+    <hr>
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>No comments here yet :(</p>
+    {% endfor %}
 
 Now we can see the comments section on pages with post details.
 
-But it can look a little bit better, add those some css to `static/css/blog.css`:
+But it can look a little bit better, add some css to `static/css/blog.css`:
 
     .comment {
         margin: 20px 0px 20px 20px;
@@ -116,9 +115,9 @@ Go to `blog/forms.py` and add those lines to the end of the file:
 
     class CommentForm(forms.ModelForm):
 
-    	class Meta:
-    		model = Comment
-    		fields = ('author', 'text',)
+        class Meta:
+            model = Comment
+            fields = ('author', 'text',)
 
 Don't forget to import Comment model, change line:
 
@@ -188,42 +187,42 @@ Not all of our comments should be displayed. Blog owner should have option to ap
 
 Go to `blog/templates/blog/post_detail.html` and change lines:
 
-	{% for comment in post.comments.all %}
-		<div class="comment">
-			<div class="date">{{ comment.created_date }}</div>
-			<strong>{{ comment.author }}</strong>
-			<p>{{ comment.text|linebreaks }}</p>
-		</div>
-	{% empty %}
-		<p>No comments here yet :(</p>
-	{% endfor %}
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>No comments here yet :(</p>
+    {% endfor %}
 
 to:
 
-	{% for comment in post.comments.all %}
-		{% if user.is_authenticated or comment.approved %}
-		<div class="comment">
-			<div class="date">
-				{{ comment.created_date }}
-				{% if not comment.approved %}
-					<a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-					<a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-				{% endif %}
-			</div>
-			<strong>{{ comment.author }}</strong>
-			<p>{{ comment.text|linebreaks }}</p>
-		</div>
-		{% endif %}
-	{% empty %}
-		<p>No comments here yet :(</p>
-	{% endfor %}
+    {% for comment in post.comments.all %}
+        {% if user.is_authenticated or comment.approved %}
+        <div class="comment">
+            <div class="date">
+                {{ comment.created_date }}
+                {% if not comment.approved %}
+                    <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                {% endif %}
+            </div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+        {% endif %}
+    {% empty %}
+        <p>No comments here yet :(</p>
+    {% endfor %}
 
 You should see `NoReverseMatch`, because no url matches `comment_remove` and `comment_approve` patterns.
 
 Add url patterns to `blog/urls.py`:
 
-	url(r'^comment/(?P<pk>[0-9]+)/approve/$', views.comment_approve, name='comment_approve'),
-	url(r'^comment/(?P<pk>[0-9]+)/remove/$', views.comment_remove, name='comment_remove'),
+    url(r'^comment/(?P<pk>[0-9]+)/approve/$', views.comment_approve, name='comment_approve'),
+    url(r'^comment/(?P<pk>[0-9]+)/remove/$', views.comment_remove, name='comment_remove'),
 
 Now you should see `AttributeError`. To get rid of it, create more views in `blog/views.py`:
 
@@ -258,12 +257,4 @@ And also add this method to Post model in `blog/models.py`:
         return self.comments.filter(approved=True)
 
 
-
-After that your comment feature is finished. Congrats! :-)
-
-
-
-
-
-
-
+Now your comment feature is finished! Congrats! :-)
