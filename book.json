@@ -1,24 +1,3 @@
 {
-    "links": {
-        "home": false,
-        "about": "http://djangogirls.org",
-        "issues": false,
-        "contribute": "https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md",
-
-        "sharing": {
-            "google": false,
-            "facebook": "https://www.facebook.com/djangogirls",
-            "twitter": "http://twitter.com/djangogirls"
-        }
-    },
-
-    "plugins": [
-        "anchors", "richquotes"
-    ],
-
-    "pluginsConfig": {
-        "richquotes" : {
-            "todos" : true
-        }
-    }
+    "gitbook": "1.5.0"
 }
