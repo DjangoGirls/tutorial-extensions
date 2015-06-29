@@ -1,19 +1,19 @@
-# Django Girls Tutorial: Extensions
+# Django Girls Tutorial: Extensões
 
-> **Info** This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
-International License. To view a copy of this license, visit
+> **Informações** Este trabalho está licenciado sob a Creative Commons Attribution-Share Alike 4.0
+Licença Internacional. Para ver uma cópia desta licença, visite
 http://creativecommons.org/licenses/by-sa/4.0/
 
-## Introduction
+## Introdução
 
-This book contains additional tutorials you can do after you're finished with [Django Girls Tutorial](http://tutorial.djangogirls.org/).
+Este livro contém tutoriais adicionais que você pode fazer depois de você terminar o [Tutorial Django Girls] (http://tutorial.djangogirls.org/).
 
-Current tutorials are:
-- [Homework: add more to your website!](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework/README.md)
-- [Homework: secure your website](https://github.com/DjangoGirls/tutorial-extensions/blob/master/authentication_authorization/README.md)
-- [Homework: create comment model](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework_create_more_models/README.md)
-- [Optional: PostgreSQL installation](https://github.com/DjangoGirls/tutorial-extensions/blob/master/optional_postgresql_installation/README.md)
+Tutoriais atuais são:
+- [Lição de casa: adicionar mais ao seu site!](https://github.com/DjangoGirls/tutorial-extensions/pt/blog/master/homework/README.md)
+- [Lição de casa: proteger seu website](https://github.com/DjangoGirls/tutorial-extensions/pt/blog/master/authentication_authorization/README.md)
+- [Lição de casa: criar o modelo comment](https://github.com/DjangoGirls/tutorial-extensions/pt/blog/master/homework_create_more_models/README.md)
+- [Opcional: instalação do PostgreSQL](https://github.com/DjangoGirls/tutorial-extensions/pt/blog/master/optional_postgresql_installation/README.md)
 
-## Contributing
+## Contribuir
 
-This tutorials are maintained by [DjangoGirls](http://djangogirls.org/). If you find any mistakes or want to update the tutorial please [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md).
+Este tutorial é mantido por [DjangoGirls](http://djangogirls.org/). e você encontrar quaisquer erros ou quiser atualizar o tutorial, por favor [siga as orientações de contribuição](https://github.com/DjangoGirls/tutorial/blog/master/CONTRIBUTING.md).

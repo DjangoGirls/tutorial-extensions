@@ -1,30 +1,30 @@
-# Homework: add more to your website!
+# Lição de casa: adicionar mais ao seu site!
 
-Yes, this is the last thing we will do in this tutorial. You have already learned a lot! Time to use this knowledge.
+Sim, esta é a última coisa que vamos fazer neste tutorial. Você já aprendeu muito! Hora de usar esse conhecimento.
 
-## Page with list of unpublished posts
+## Página com a lista de posts não publicados
 
-Remember the chapter about querysets? We created a view `post_list` that displays only published blog posts (those with non-empty `published_date`).
+Lembra-se do capítulo sobre querysets? Criamos uma view `post_list` que exibe no blog apenas os posts publicados (aqueles com `published_date` não vazio).
 
-Time to do something similar, but for draft posts.
+Hora de fazer algo semelhante, mas para os posts não publicados.
 
-Let's add a link in `blog/templates/blog/base.html` near the button for adding new posts (just above `<h1><a href="/">Django Girls Blog</a></h1>` line!):
+Vamos adicionar um link em `blog/templates/blog/base.html` próximo do botão para adicionar novos posts (logo acima `<h1><a href="/">Django Girls Blog</a></h1>` dessa linha!):
 
     <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 
-Next: urls! In `blog/urls.py` we add:
+Próximo: urls! Em `blog/urls.py` nós adicionamos:
 
     url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
 
-Time to create a view in `blog/views.py`:
+Agora crie a view em `blog/views.py`:
 
     def post_draft_list(request):
         posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
         return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
-This line `Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
+Esta linha `Post.objects.filter(published_date__isnull=True).order_by('created_date')` pega apenas os posts não publicados (`published_date__isnull=True`) e ordena pelo `created_date` (`order_by('created_date')`).
 
-Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
+Ok, a última parte, naturalmente é o template! Crie o arquivo `blog/templates/blog/post_draft_list.html` e adicione o seguinte:
 
     {% extends 'blog/base.html' %}
 
@@ -38,85 +38,82 @@ Ok, the last bit is of course a template! Create a file `blog/templates/blog/pos
         {% endfor %}
     {% endblock %}
 
-It looks very similar to our `post_list.html`, right?
+Veja que é muito similar ao nosso `post_list.html`, certo?
 
-Now when you go to `http://127.0.0.1:8000/drafts/` you will see the list of unpublished posts.
+Agora, quando você acessar `http://127.0.0.1:8000/drafts/` você verá a lista de posts não publicados.
 
-Yay! Your first task is done!
+Boa! Sua primeira tarefa está concluída!
 
-## Add publish button
+## Adicionar botão publicar
 
-It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
+Seria bom ter um botão na página de detalhes do post para publicar imediatamente o post, certo?
 
-Let's open `blog/template/blog/post_detail.html` and change these lines:
+Vamos abrir o `blog/template/blog/post_detail.html` e alterar estas linhas:
 
     {% if post.published_date %}
         {{ post.published_date }}
     {% endif %}
 
-into these:
+para estas:
 
     {% if post.published_date %}
         {{ post.published_date }}
     {% else %}
-        <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
+        <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publicar</a>
     {% endif %}
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+Como você percebeu, nós adicionamos `{% else %}` esta linha. Isso significa que, se a condição `{% if post.published_date %}` não for cumprida (então não há `published_date`), então nós queremos mostrar a linha `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publicar</a>`. Note que estamos passando um `pk` na variável `{% url %}`.
 
-Time to create a URL (in `blog/urls.py`):
+Agora vamos criar a URL (em `blog/urls.py`):
 
     url(r'^post/(?P<pk>[0-9]+)/publish/$', views.post_publish, name='post_publish'),
 
-and finally, a *view* (as always, in `blog/views.py`):
+e finalmente, criar a *view* (como sempre, em `blog/views.py`):
 
     def post_publish(request, pk):
         post = get_object_or_404(Post, pk=pk)
         post.publish()
         return redirect('blog.views.post_detail', pk=pk)
 
-Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
+Lembre-se, quando criamos o modelo`Post` nós escrevemos um método `publish`. Ele ficou assim:
 
     def publish(self):
         self.published_date = timezone.now()
         self.save()
 
-Now we can finally use this!
+Agora podemos finalmente utilizar este!
 
-And once again after publishing the post we are immediately redirected to the `post_detail` page!
+E mais uma vez após a publicação do post é imediatamente redirecionado para a página `post_detail`!
 
 ![Publish button](images/publish2.png)
 
-Congratulations! You are almost there. The last step is adding a delete button!
+Parabéns! Você está quase lá. O último passo é adicionar um botão delete!
 
-## Delete post
+## Deletar post
 
-Let's open `blog/templates/blog/post_detail.html` once again and add this line:
+Vamos abrir o `blog/templates/blog/post_detail.html` e mais uma vez adicionar esta linha:
 
     <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 
-just under a line with the edit button.
+logo abaixo da linha do botão editar.
 
-Now we need a URL (`blog/urls.py`):
+Agora precisamos de uma URL (`blog/urls.py`):
 
     url(r'^post/(?P<pk>[0-9]+)/remove/$', views.post_remove, name='post_remove'),
 
-Now, time for a view! Open `blog/views.py` and add this code:
+Agora, é hora de criar a view! Abra `blog/views.py` e adicione este código:
 
     def post_remove(request, pk):
         post = get_object_or_404(Post, pk=pk)
         post.delete()
         return redirect('blog.views.post_list')
 
-The only new thing is to actually delete a blog post. Every Django model can be deleted by `.delete()`. It is as simple as that!
+A única coisa nova é realmente excluir uma postagem do blog. Todo modelo Django pode ser excluído por `.delete ()`. É tão simples quanto isso!
 
-And this time, after deleting a post we want to go to the webpage with a list of posts, so we are using `redirect`.
+E desta vez, após a exclusão de um post queremos ir para a página com uma lista de posts, por isso estamos usando `redirect`.
 
-Let's test it! Go to the page with a post and try to delete it!
+Vamos testá-lo! Vá para uma página com um post e tente excluí-lo!
 
 ![Delete button](images/delete3.png)
 
-Yes, this is the last thing! You completed this tutorial! You are awesome!
-
-
-
+Sim, esta é a última parte! Você completou este tutorial! Você é incrível!
