@@ -11,10 +11,10 @@ Let's open `blog/models.py` and append this piece of code to the end of file:
         author = models.CharField(max_length=200)
         text = models.TextField()
         created_date = models.DateTimeField(default=timezone.now)
-        approved = models.BooleanField(default=False)
+        approved_comment = models.BooleanField(default=False)
 
         def approve(self):
-            self.approved = True
+            self.approved_comment = True
             self.save()
 
         def __str__(self):
@@ -200,11 +200,11 @@ Go to `blog/templates/blog/post_detail.html` and change lines:
 to:
 
     {% for comment in post.comments.all %}
-        {% if user.is_authenticated or comment.approved %}
+        {% if user.is_authenticated or comment.approved_comment %}
         <div class="comment">
             <div class="date">
                 {{ comment.created_date }}
-                {% if not comment.approved %}
+                {% if not comment.approved_comment %}
                     <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
                     <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
                 {% endif %}
