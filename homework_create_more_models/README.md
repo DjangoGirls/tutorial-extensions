@@ -254,7 +254,7 @@ to:
 And also add this method to Post model in `blog/models.py`:
 
     def approved_comments(self):
-        return self.comments.filter(approved=True)
+        return self.comments.filter(approved_comment=True)
 
 
 Now your comment feature is finished! Congrats! :-)
