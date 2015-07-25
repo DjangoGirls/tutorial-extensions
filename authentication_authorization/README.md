@@ -8,13 +8,13 @@ First lets make things secure. We will protect our `post_new`, `post_edit`, `pos
 
 So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
 
-```
+```python
 from django.contrib.auth.decorators import login_required
 ```
 
 Then add a line before each of the `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorating them) like the following:
 
-```
+```python
 @login_required
 def post_new(request):
     [...]
@@ -36,7 +36,7 @@ Now we could try to do lots of magic stuff to implement users and passwords and 
 
 In your `mysite/urls.py` add a url `url(r'^accounts/login/$', 'django.contrib.auth.views.login')`. So the file should now look similar to this:
 
-```
+```python
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
@@ -51,7 +51,7 @@ urlpatterns = patterns('',
 
 Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
 
-```
+```django
 {% extends "blog/base.html" %}
 
 {% block content %}
@@ -84,7 +84,7 @@ You will see that this also makes use of our base-template for the overall look 
 
 The nice thing here is that this _just works[TM]_. We don't have to deal with handling of the forms submission nor with passwords and securing them. Only one thing is left here, we should add a setting to `mysite/settings.py`:
 
-```
+```python
 LOGIN_REDIRECT_URL = '/'
 ```
 
@@ -94,26 +94,26 @@ Now when the login is accessed directly, it will redirect successful login to th
 
 So now we made sure that only authorized users (ie. us) can add, edit or publish posts. But still everyone gets to view the buttons to add or edit posts, lets hide these for users that aren't logged in. For this we need to edit the templates, so lets start with the base template from `blog/templates/blog/base.html`:
 
-```
-    <body>
-        <div class="page-header">
-            {% if user.is_authenticated %}
-            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-            {% else %}
-            <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-            {% endif %}
-            <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
-        </div>
-        <div class="content">
-            <div class="row">
-                <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-                </div>
+```django
+<body>
+    <div class="page-header">
+        {% if user.is_authenticated %}
+        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+        {% else %}
+        <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        {% endif %}
+        <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
             </div>
         </div>
-    </body>
+    </div>
+</body>
 ```
 
 You might recognize the pattern here. There is an if-condition inside the template that checks for authenticated users to show the edit buttons. Otherwise it shows a login button.
@@ -124,17 +124,17 @@ You might recognize the pattern here. There is an if-condition inside the templa
 
 Lets add some nice sugar to our templates while we are at it. First we will add some stuff to show that we are logged in. Edit `blog/templates/blog/base.html` like this:
 
-```
-        <div class="page-header">
-            {% if user.is_authenticated %}
-            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-            <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</small></p>
-            {% else %}
-            <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-            {% endif %}
-            <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
-        </div>
+```django
+<div class="page-header">
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+    <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+    <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</small></p>
+    {% else %}
+    <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+    {% endif %}
+    <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
+</div>
 ```
 
 This adds a nice "Hello &lt;username&gt;" to remind us who we are and that we are authenticated. Also this adds a link to log out of the blog. But as you might notice this isn't working yet. Oh nooz, we broke the internetz! Lets fix it!
@@ -143,7 +143,7 @@ We decided to rely on django to handle login, lets see if Django can also handle
 
 Done reading? You should by now think about adding a url (in `mysite/urls.py`) pointing to the `django.contrib.auth.views.logout` view. Like this:
 
-```
+```python
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
