@@ -52,17 +52,19 @@ Because it's more restrictive than PythonAnywhere, Heroku wants to use different
 
 Go ahead and create `mysite/local_settings.py` file. It should contain your `DATABASE` setup from your `mysite/settings.py` file. Just like that:
 
-    import os
-    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+```python
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
 
-    DEBUG = True
+DEBUG = True
+```
 
 Then just save it! :)
 
@@ -70,19 +72,21 @@ Then just save it! :)
 
 Another thing we need to do is modify our website's `settings.py` file. Open `mysite/settings.py` in your editor and add the following lines at the end of the file:
 
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config()
+```python
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
 
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']
 
-    DEBUG = False
+DEBUG = False
 
-    try:
-        from .local_settings import *
-    except ImportError:
-        pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+```
 
 It'll do necessary configuration for Heroku and also it'll import all of your local settings if `mysite/local_settings.py` exists.
 
@@ -92,8 +96,10 @@ Then save the file.
 
 Open the `mysite/wsgi.py` file and add these lines at the end:
 
-    from whitenoise.django import DjangoWhiteNoise
-    application = DjangoWhiteNoise(application)
+```python
+from whitenoise.django import DjangoWhiteNoise
+application = DjangoWhiteNoise(application)
+```
 
 All right!
 
@@ -192,7 +198,7 @@ The error you saw was because we when we deployed to Heroku, we created a new da
 
     $ heroku run python manage.py createsuperuser
 
-The command prompt will ask you to choose a username and a password again. These will be your login details on your live website's admin page. 
+The command prompt will ask you to choose a username and a password again. These will be your login details on your live website's admin page.
 
 
 Refresh it in your browser, and there you go!  You now know how to deploy to two different hosting platforms.  Pick your favourite :)

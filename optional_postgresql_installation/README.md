@@ -80,25 +80,29 @@ Great - that's databases all sorted!
 
 Find this part in your `mysite/settings.py` file:
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
+```
 
 And replace it with this:
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'djangogirls',
-            'USER': 'name',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '',
-        }
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'djangogirls',
+        'USER': 'name',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
     }
+}
+```
 
 Remeber to change `name` to the user name that you created earlier in this chapter.
 

@@ -6,19 +6,21 @@ Now we only have Post model, what about receiving some feedback from your reader
 
 Let's open `blog/models.py` and append this piece of code to the end of file:
 
-    class Comment(models.Model):
-        post = models.ForeignKey('blog.Post', related_name='comments')
-        author = models.CharField(max_length=200)
-        text = models.TextField()
-        created_date = models.DateTimeField(default=timezone.now)
-        approved_comment = models.BooleanField(default=False)
+```python
+class Comment(models.Model):
+    post = models.ForeignKey('blog.Post', related_name='comments')
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=False)
 
-        def approve(self):
-            self.approved_comment = True
-            self.save()
+    def approve(self):
+        self.approved_comment = True
+        self.save()
 
-        def __str__(self):
-            return self.text
+    def __str__(self):
+        return self.text
+```
 
 You can go back to **Django models** chapter in tutorial if you need to remind yourself what each of field types means.
 
@@ -51,15 +53,19 @@ Our Comment model exists in database now. It would be nice if we had access to i
 
 To register model in admin panel, go to `blog/admin.py` and add line:
 
-    admin.site.register(Comment)
+```python
+admin.site.register(Comment)
+```
 
 Don't forget to import Comment model, file should look like this:
 
-    from django.contrib import admin
-    from .models import Post, Comment
+```python
+from django.contrib import admin
+from .models import Post, Comment
 
-    admin.site.register(Post)
-    admin.site.register(Comment)
+admin.site.register(Post)
+admin.site.register(Comment)
+```
 
 If you type `python manage.py runserver` in command prompt and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to list, add and remove comments. Don't hesitate to play with it!
 
@@ -67,45 +73,53 @@ If you type `python manage.py runserver` in command prompt and go to [http://127
 
 Go to `blog/templated/blog/post_detail.html` file and add those lines before `{% endblock %}` tag:
 
-    <hr>
-    {% for comment in post.comments.all %}
-        <div class="comment">
-            <div class="date">{{ comment.created_date }}</div>
-            <strong>{{ comment.author }}</strong>
-            <p>{{ comment.text|linebreaks }}</p>
-        </div>
-    {% empty %}
-        <p>No comments here yet :(</p>
-    {% endfor %}
+```django
+<hr>
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+```
 
 Now we can see the comments section on pages with post details.
 
 But it can look a little bit better, add some css to `static/css/blog.css`:
 
-    .comment {
-        margin: 20px 0px 20px 20px;
-    }
+```css
+.comment {
+    margin: 20px 0px 20px 20px;
+}
+```
 
 We can also let know about comments on post list page, go to `blog/templates/blog/post_list.html` file and add line:
 
-    <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+```django
+<a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+```
 
 After that our template should look like this:
 
-    {% extends 'blog/base.html' %}
+```django
+{% extends 'blog/base.html' %}
 
-    {% block content %}
-        {% for post in posts %}
-            <div class="post">
-                <div class="date">
-                    {{ post.published_date }}
-                </div>
-                <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                <p>{{ post.text|linebreaks }}</p>
-                <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+{% block content %}
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                {{ post.published_date }}
             </div>
-        {% endfor %}
-    {% endblock content %}
+            <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaks }}</p>
+            <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+        </div>
+    {% endfor %}
+{% endblock content %}
+```
 
 ## Let your readers write comments
 
@@ -113,23 +127,31 @@ Right now we can see comments on our blog, but we cannot add them, let's change 
 
 Go to `blog/forms.py` and add those lines to the end of the file:
 
-    class CommentForm(forms.ModelForm):
+```python
+class CommentForm(forms.ModelForm):
 
-        class Meta:
-            model = Comment
-            fields = ('author', 'text',)
+    class Meta:
+        model = Comment
+        fields = ('author', 'text',)
+```
 
 Don't forget to import Comment model, change line:
 
-    from .models import Post
+```python
+from .models import Post
+```
 
 into:
 
-    from .models import Post, Comment
+```python
+from .models import Post, Comment
+```
 
 Now go to `blog/templates/blog/post_detail.html` and before line `{% for comment in post.comments.all %}` add:
 
-    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+```django
+<a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+```
 
 Go to post detail page and you should see error:
 
@@ -137,7 +159,9 @@ Go to post detail page and you should see error:
 
 Let's fix this! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
-    url(r'^post/(?P<pk>[0-9]+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+```python
+url(r'^post/(?P<pk>[0-9]+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+```
 
 Now you should see this error:
 
@@ -145,22 +169,26 @@ Now you should see this error:
 
 To fix this, add this piece of code to `blog/views.py`:
 
-    def add_comment_to_post(request, pk):
-        post = get_object_or_404(Post, pk=pk)
-        if request.method == "POST":
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.post = post
-                comment.save()
-                return redirect('blog.views.post_detail', pk=post.pk)
-        else:
-            form = CommentForm()
-        return render(request, 'blog/add_comment_to_post.html', {'form': form})
+```python
+def add_comment_to_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('blog.views.post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+```
 
 Don't forget about imports at the beginning of the file:
 
-    from .forms import PostForm, CommentForm
+```python
+from .forms import PostForm, CommentForm
+```
 
 Now you should see:
 
@@ -169,15 +197,17 @@ Now you should see:
 
 Like error mentions, template does not exist, create one as `blog/templates/blog/add_comment_to_post.html` and add those lines:
 
-    {% extends 'blog/base.html' %}
+```django
+{% extends 'blog/base.html' %}
 
-    {% block content %}
-        <h1>New comment</h1>
-        <form method="POST" class="post-form">{% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Send</button>
-        </form>
-    {% endblock %}
+{% block content %}
+    <h1>New comment</h1>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Send</button>
+    </form>
+{% endblock %}
+```
 
 Yay! Now your readers can let you know what they think below your posts!
 
@@ -187,57 +217,65 @@ Not all of our comments should be displayed. Blog owner should have option to ap
 
 Go to `blog/templates/blog/post_detail.html` and change lines:
 
-    {% for comment in post.comments.all %}
-        <div class="comment">
-            <div class="date">{{ comment.created_date }}</div>
-            <strong>{{ comment.author }}</strong>
-            <p>{{ comment.text|linebreaks }}</p>
-        </div>
-    {% empty %}
-        <p>No comments here yet :(</p>
-    {% endfor %}
+```django
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+```
 
 to:
 
-    {% for comment in post.comments.all %}
-        {% if user.is_authenticated or comment.approved_comment %}
-        <div class="comment">
-            <div class="date">
-                {{ comment.created_date }}
-                {% if not comment.approved_comment %}
-                    <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                    <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-                {% endif %}
-            </div>
-            <strong>{{ comment.author }}</strong>
-            <p>{{ comment.text|linebreaks }}</p>
+```django
+{% for comment in post.comments.all %}
+    {% if user.is_authenticated or comment.approved_comment %}
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            {% if not comment.approved_comment %}
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+            {% endif %}
         </div>
-        {% endif %}
-    {% empty %}
-        <p>No comments here yet :(</p>
-    {% endfor %}
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+    {% endif %}
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+```
 
 You should see `NoReverseMatch`, because no url matches `comment_remove` and `comment_approve` patterns.
 
 Add url patterns to `blog/urls.py`:
 
-    url(r'^comment/(?P<pk>[0-9]+)/approve/$', views.comment_approve, name='comment_approve'),
-    url(r'^comment/(?P<pk>[0-9]+)/remove/$', views.comment_remove, name='comment_remove'),
+```python
+url(r'^comment/(?P<pk>[0-9]+)/approve/$', views.comment_approve, name='comment_approve'),
+url(r'^comment/(?P<pk>[0-9]+)/remove/$', views.comment_remove, name='comment_remove'),
+```
 
 Now you should see `AttributeError`. To get rid of it, create more views in `blog/views.py`:
 
-    @login_required
-    def comment_approve(request, pk):
-        comment = get_object_or_404(Comment, pk=pk)
-        comment.approve()
-        return redirect('blog.views.post_detail', pk=comment.post.pk)
+```python
+@login_required
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approve()
+    return redirect('blog.views.post_detail', pk=comment.post.pk)
 
-    @login_required
-    def comment_remove(request, pk):
-        comment = get_object_or_404(Comment, pk=pk)
-        post_pk = comment.post.pk
-        comment.delete()
-        return redirect('blog.views.post_detail', pk=post_pk)
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post_pk = comment.post.pk
+    comment.delete()
+    return redirect('blog.views.post_detail', pk=post_pk)
+```
 
 And of course fix imports.
 
@@ -245,16 +283,21 @@ Everything works, but there is one misconception. In our post list page under po
 
 Go to `blog/templates/blog/post_list.html` and change line:
 
-    <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+```django
+<a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+```
 
 to:
 
-    <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+```django
+<a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+```
 
 And also add this method to Post model in `blog/models.py`:
 
-    def approved_comments(self):
-        return self.comments.filter(approved_comment=True)
-
+```python
+def approved_comments(self):
+    return self.comments.filter(approved_comment=True)
+```
 
 Now your comment feature is finished! Congrats! :-)
