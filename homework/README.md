@@ -1,6 +1,16 @@
 # Homework: add more to your website!
 
-Yes, this is the last thing we will do in this tutorial. You have already learned a lot! Time to use this knowledge.
+Our blog has come a long way but there's still room for improvement. Next, we will add features for post drafts and their publication. We will also add deletion of posts that we no longer want. Neat!
+
+## Save new posts as drafts
+
+Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` method:
+
+```python
+post.published_date = timezone.now()
+```
+
+This way, new posts will be saved as drafts that we can review later on rather than being instantly published. All we need now is a way to list and publish drafts, let's get to it!
 
 ## Page with list of unpublished posts
 
