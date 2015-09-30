@@ -96,7 +96,7 @@ But it can look a little bit better, add some css to `static/css/blog.css`:
 }
 ```
 
-We can also let know about comments on post list page, go to `blog/templates/blog/post_list.html` file and add line:
+We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add line:
 
 ```django
 <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
