@@ -71,7 +71,7 @@ If you type `python manage.py runserver` in command prompt and go to [http://127
 
 ## Make our comments visible
 
-Go to `blog/templated/blog/post_detail.html` file and add those lines before `{% endblock %}` tag:
+Go to `blog/templates/blog/post_detail.html` file and add those lines before `{% endblock %}` tag:
 
 ```django
 <hr>
