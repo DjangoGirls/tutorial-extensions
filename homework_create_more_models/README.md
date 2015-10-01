@@ -190,7 +190,12 @@ Don't forget about imports at the beginning of the file:
 from .forms import PostForm, CommentForm
 ```
 
-Now you should see:
+
+Now, on the post detail page, you should see the "Add Comment" button
+
+![AddComment](images/add_comment_button.png)
+
+However, when you click that button, you should see:
 
 ![TemplateDoesNotExist](images/template_error.png)
 
