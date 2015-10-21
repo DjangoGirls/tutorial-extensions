@@ -31,7 +31,7 @@ Ok, a última parte, naturalmente é o template! Crie o arquivo `blog/templates/
     {% block content %}
         {% for post in posts %}
             <div class="post">
-                <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+                <p class="date">criado em: {{ post.created_date|date:'d-m-Y' }}</p>
                 <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
                 <p>{{ post.text|truncatechars:200 }}</p>
             </div>
@@ -108,7 +108,7 @@ Agora, é hora de criar a view! Abra `blog/views.py` e adicione este código:
         post.delete()
         return redirect('blog.views.post_list')
 
-A única coisa nova é realmente excluir uma postagem do blog. Todo modelo Django pode ser excluído por `.delete ()`. É tão simples quanto isso!
+A única coisa nova é realmente excluir uma postagem do blog. Todo modelo Django pode ser excluído por `.delete()`. É tão simples quanto isso!
 
 E desta vez, após a exclusão de um post queremos ir para a página com uma lista de posts, por isso estamos usando `redirect`.
 
