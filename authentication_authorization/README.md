@@ -1,18 +1,18 @@
-# Homework: Adding security to your website
+# Lição de casa: Adicionando segurança para o seu site
 
-You might have noticed that you didn't have to use your password, apart from back when we used the admin interface. You might also have noticed that this means that anyone can add or edit posts in your blog. I don't know about you, but I don't want just anyone to post on my blog. So lets do something about it.
+Você deve ter notado que você não tem que usar sua senha, independentemente de quando usamos a interface de administração. Você também pode ter notado que isto significa que qualquer pessoa pode adicionar ou editar mensagens em seu blog. Eu não sei você, mas eu não quero que qualquer pessoa poste no meu blog. Então vamos fazer algo sobre isso.
 
-## Authorizing add/edit of posts
+## Autorizando adicionar/editar posts
 
-First lets make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for that using, the kind of advanced topic, _decorators_. Don't worry about the technicalities now, you can read up on these later. The decorator to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
+Primeiro vamos tornar as coisas seguras. Vamos proteger o nosso `post_new`, `post_edit`, `post_draft_list`, `post_remove` e `post_publish` views, de modo que somente usuários registrados possam acessá-los. Django fornece algumas agradáveis ajudas para uso, o tipo de tópico avançado, _decorators_. Não se preocupe com os detalhes técnicos agora, você pode ler sobre isso mais tarde. O decorator que vamos usar se encontra no módulo do Django `django.contrib.auth.decorators` e é chamado `login_required`.
 
-So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
+Então edite seu `blog/views.py` e adicione estas linhas na parte superior junto com o resto das importações:
 
 ```
 from django.contrib.auth.decorators import login_required
 ```
 
-Then add a line before each of the `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorating them) like the following:
+Em seguida, adicione uma linha antes de cada `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorá-los) como o seguinte:
 
 ```
 @login_required
@@ -20,21 +20,21 @@ def post_new(request):
     [...]
 ```
 
-Thats it! Now try to access `http://localhost:8000/post/new/`, notice the difference?
+É isso aí! Agora tente acessar `http://localhost:8000/post/new/`, notou a diferença?
 
-> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://localhost:8000/admin/logout/` to log out, then goto `http://localhost:8000/post/new` again.
+> Se você só tem o formulário vazio, você provavelmente ainda está conectado na parte da administração. Vá para `http://localhost:8000/admin/logout/` para sair, em seguida, Vá para `http://localhost:8000/post/new` novamente.
 
-You should get one of the beloved errors. This one is quite interesting actually: The decorator we added before will redirect you to the login page. But that isn't available yet, so it raises a "Page not found (404)".
+Você deve obter um dos erros amados. Este erro é bastante interessante, na verdade: O decorator que nós adicionamos antes está redirecionando para a página de login. Mas isso ainda não está disponível, por isso está dando "página não encontrada (404)".
 
-Don't forget to add the decorator from above to `post_edit`, `post_remove`, `post_draft_list` and `post_publish` too.
+Não se esqueça de adicionar o decorator na parte de cima no `post_edit`, `post_remove`, `post_draft_list` e `post_publish` também.
 
-Horray, we reached part of the goal! Other people can't just create posts on our blog anymore. Unfortunately we can't create posts anymore too. So lets fix that next.
+Uaaau, nós alcançamos parte da meta! Outras pessoas não podem mais criar posts em nosso blog. Infelizmente, não podemos criar mais posts também. Então, vamos consertar isso no próximo passo.
 
-## Login users
+## Acesso aos usuários
 
-Now we could try to do lots of magic stuff to implement users and passwords and authentication but doing this kind of stuff correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication stuff provided.
+Agora nós podemos tentar fazer muita coisa mágica para implementar usuários e senhas e autenticação, mas fazer esse tipo de coisa corretamente é bastante complicado. Como Django é "batteries included", alguém fez o trabalho duro para nós, por isso vamos continuar a fazer uso do material de autenticação fornecido.
 
-In your `mysite/urls.py` add a url `url(r'^accounts/login/$', 'django.contrib.auth.views.login')`. So the file should now look similar to this:
+No seu `mysite/urls.py` adicione a url `url(r'^accounts/login/$', 'django.contrib.auth.views.login')`. Portanto, o arquivo agora deve ser semelhante a este:
 
 ```
 from django.conf.urls import patterns, include, url
@@ -49,7 +49,7 @@ urlpatterns = patterns('',
 )
 ```
 
-Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
+Então precisamos de um modelo para a página de login, assim criamos um diretório `blog/templates/registration` e um arquivo dentro chamado `login.html`:
 
 ```
 {% extends "blog/base.html" %}
@@ -57,7 +57,7 @@ Then we need a template for the login page, so create a directory `blog/template
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p>Seu nome de usuário e senha não coincidem. Por favor, tente novamente.</p>
 {% endif %}
 
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
@@ -73,26 +73,26 @@ Then we need a template for the login page, so create a directory `blog/template
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="Entrar" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {% endblock %}
 ```
 
-You will see that this also makes use of our base-template for the overall look and feel of your blog.
+Você vai ver que isso também faz uso do nosso modelo-base para a aparência geral do seu blog.
 
-The nice thing here is that this _just works[TM]_. We don't have to deal with handling of the forms submission nor with passwords and securing them. Only one thing is left here, we should add a setting to `mysite/settings.py`:
+O bom aqui é que isso _simplesmente funciona[TM]_. Nós não temos que lidar com a manipulação de envio de formulários nem com senhas e assegurar-lhes. Só uma coisa devemos fazer aqui, devemos acrescentar uma configuração em `mysite/settings.py`:
 
 ```
 LOGIN_REDIRECT_URL = '/'
 ```
 
-Now when the login is accessed directly, it will redirect successful login to the top level index.
+Agora, quando o login é acessado diretamente, ele irá redirecionar para o index se o login for bem-sucedido.
 
-## Improving the layout
+## Melhorar o layout
 
-So now we made sure that only authorized users (ie. us) can add, edit or publish posts. But still everyone gets to view the buttons to add or edit posts, lets hide these for users that aren't logged in. For this we need to edit the templates, so lets start with the base template from `blog/templates/blog/base.html`:
+Então, agora temos a certeza que somente usuários autorizados (ie. us) podem adicionar, editar ou publicar mensagens. Mas todos ainda consegue ver os botões adicionar ou editar mensagens, vamos esconder os botões para os usuários que não estão logados. Para isso, precisamos editar os modelos, então vamos começar com o modelo base `blog/templates/blog/base.html`:
 
 ```
     <body>
@@ -116,20 +116,20 @@ So now we made sure that only authorized users (ie. us) can add, edit or publish
     </body>
 ```
 
-You might recognize the pattern here. There is an if-condition inside the template that checks for authenticated users to show the edit buttons. Otherwise it shows a login button.
+Você pode reconhecer o padrão aqui. Há uma condição 'se' dentro do modelo que verifica a existência de usuários autenticados para mostrar os botões de edição. Caso contrário, ele mostra um botão de login.
 
-*Homework*: Edit the template `blog/templates/blog/post_detail.html` to only show the edit buttons for authenticated users.
+*Lição de casa*: Edite o modelo `blog/templates/blog/post_detail.html` para mostrar apenas os botões de edição para usuários autenticados.
 
-## More on authenticated users
+## Mais informações sobre usuários autenticados
 
-Lets add some nice sugar to our templates while we are at it. First we will add some stuff to show that we are logged in. Edit `blog/templates/blog/base.html` like this:
+Vamos adicionar algumas coisas bem legais em nossos modelos para melhorar a experiência do usuário. Primeiro vamos adicionar algumas coisas para mostrar que está logado. Edite o `blog/templates/blog/base.html` assim:
 
 ```
         <div class="page-header">
             {% if user.is_authenticated %}
             <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
             <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-            <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</small></p>
+            <p class="top-menu">Olá {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Sair</a>)</small></p>
             {% else %}
             <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
             {% endif %}
@@ -137,11 +137,11 @@ Lets add some nice sugar to our templates while we are at it. First we will add 
         </div>
 ```
 
-This adds a nice "Hello &lt;username&gt;" to remind us who we are and that we are authenticated. Also this adds a link to log out of the blog. But as you might notice this isn't working yet. Oh nooz, we broke the internetz! Lets fix it!
+Isso adiciona um agradável "Olá &lt;username&gt;" para nos lembrar quem somos e que estamos autenticados. Além disso, isso adiciona um link para deslogar do blog. Mas, como você pode notar, isso não está funcionando ainda. Oh Nooz, nós quebramos a internetz! Vamos corrigi-lo!
 
-We decided to rely on django to handle login, lets see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/1.6/topics/auth/default/ and see if you find something.
+Decidimos contar com Django para lidar com o login, vamos ver se Django também pode lidar com o deslogar para nós. Verifique https://docs.djangoproject.com/en/1.8/topics/auth/default/ e veja se você encontra algo.
 
-Done reading? You should by now think about adding a url (in `mysite/urls.py`) pointing to the `django.contrib.auth.views.logout` view. Like this:
+Terminou a leitura? Você agora deve estar pensando em adicionar uma url (em `mysite/urls.py`) apontando para a `django.contrib.auth.views.logout` view. Assim:
 
 ```
 from django.conf.urls import patterns, include, url
@@ -157,8 +157,8 @@ urlpatterns = patterns('',
 )
 ```
 
-Thats it! If you followed all of the above until this point (and did the homework), you now have a blog where you
+É isso aí! Se você seguiu todos os itens acima até este ponto (e fez o dever de casa), agora você tem um blog onde você
 
- - need a username and password to log in,
- - need to be logged in to add/edit/publish(/delete) posts
- - and can log out again
+ - precisa de um nome de usuário e senha para entrar,
+ - precisa estar logado para adicionar/editar/publicar(/excluir) posts
+ - e pode sair novamente
