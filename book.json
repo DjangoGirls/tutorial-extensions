@@ -1,3 +1,12 @@
 {
-    "gitbook": "2.1.0"
+"plugins": [
+        "anchors@0.5.0", "richquotes@0.0.7"
+    ],
+    "pluginsConfig": {
+        "richquotes" : {
+            "default" : false
+        }
+    },
+    
+    "gitbook": ">=2.5.2"
 }
