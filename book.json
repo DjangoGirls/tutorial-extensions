@@ -1,6 +1,6 @@
 {
 "plugins": [
-        "anchors@0.5.0", "richquotes@0.0.7"
+        "heading-anchors", "richquotes@0.0.7"
     ],
     "pluginsConfig": {
         "richquotes" : {
