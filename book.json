@@ -1,10 +1,13 @@
 {
 "plugins": [
-        "heading-anchors", "richquotes@0.0.7"
+        "heading-anchors", "richquotes@0.0.7", "github"
     ],
     "pluginsConfig": {
         "richquotes" : {
             "default" : false
+        },
+        "github": {
+            "url": "https://github.com/DjangoGirls/tutorial-extensions"
         }
     },
     
