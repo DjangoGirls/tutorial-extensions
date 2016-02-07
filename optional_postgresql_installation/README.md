@@ -104,7 +104,7 @@ DATABASES = {
 }
 ```
 
-Remeber to change `name` to the user name that you created earlier in this chapter.
+Remember to change `name` to the user name that you created earlier in this chapter.
 
 # Installing PostgreSQL package for Python
 
