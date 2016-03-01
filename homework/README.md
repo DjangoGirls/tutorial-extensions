@@ -89,7 +89,7 @@ As you noticed, we added `{% else %}` line here. That means, that if the conditi
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>[0-9]+)/publish/$', views.post_publish, name='post_publish'),
+url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
@@ -130,7 +130,7 @@ just under a line with the edit button.
 Now we need a URL (`blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>[0-9]+)/remove/$', views.post_remove, name='post_remove'),
+url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
 ```
 
 Now, time for a view! Open `blog/views.py` and add this code:
