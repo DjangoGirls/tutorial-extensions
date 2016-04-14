@@ -31,14 +31,14 @@ The `related_name` option in `models.ForeignKey` allows us to have access to com
 
 ## Create tables for models in your database
 
-Now it's time to add our comment model to the database. To do this we have to tell Django that we made changes to our model. Type `python manage.py makemigrations blog` in your Terminal. You should see output like this:
+Now it's time to add our comment model to the database. To do this we have to tell Django that we made changes to our model. Type `python manage.py makemigrations blog` in your command line. You should see output like this:
 
     (myvenv) ~/djangogirls$ python manage.py makemigrations blog
     Migrations for 'blog':
       0002_comment.py:
         - Create model Comment
 
-You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the Terminal. The output should look like this:
+You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the command line. The output should look like this:
 
     (myvenv) ~/djangogirls$ python manage.py migrate blog
     Operations to perform:
@@ -141,7 +141,7 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-Remember to import the Comment model, changing line:
+Remember to import the Comment model, changing the line:
 
 ```python
 from .models import Post
@@ -159,7 +159,7 @@ Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for co
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
-If you go to post detail page you should see this error:
+If you go to the post detail page you should see this error:
 
 ![NoReverseMatch](images/url_error.png)
 
