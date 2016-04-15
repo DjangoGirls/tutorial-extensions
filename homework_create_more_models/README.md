@@ -1,6 +1,6 @@
 # Homework: create comment model
 
-Now we only have Post model, what about receiving some feedback from your readers?
+Currently, we only have a Post model. What about receiving some feedback from your readers and letting them comment?
 
 ## Creating comment blog model
 
@@ -22,23 +22,23 @@ class Comment(models.Model):
         return self.text
 ```
 
-You can go back to **Django models** chapter in tutorial if you need to remind yourself what each of field types means.
+You can go back to the **Django models** chapter in the tutorial if you need a refresher on what each of the field types mean.
 
-In this chapter we have new type of field:
+In this tutorial extension we have a new type of field:
 - `models.BooleanField` - this is true/false field.
 
-And `related_name` option in `models.ForeignKey` allow us to have access to comments from post model.
+The `related_name` option in `models.ForeignKey` allows us to have access to comments from within the Post model.
 
 ## Create tables for models in your database
 
-Now it's time to add our comment model to database. To do this we have to let know Django that we made changes in our model. Type `python manage.py makemigrations blog`. Just like this:
+Now it's time to add our comment model to the database. To do this we have to tell Django that we made changes to our model. Type `python manage.py makemigrations blog` in your command line. You should see output like this:
 
     (myvenv) ~/djangogirls$ python manage.py makemigrations blog
     Migrations for 'blog':
       0002_comment.py:
         - Create model Comment
 
-You can see that this command created for us another migration file in `blog/migrations/` directory. Now we need to apply those changes with `python manage.py migrate blog`. It should look like this:
+You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the command line. The output should look like this:
 
     (myvenv) ~/djangogirls$ python manage.py migrate blog
     Operations to perform:
@@ -47,17 +47,23 @@ You can see that this command created for us another migration file in `blog/mig
       Rendering model states... DONE
       Applying blog.0002_comment... OK
 
-Our Comment model exists in database now. It would be nice if we had access to it in our admin panel.
+Our Comment model exists in the database now! Wouldn't it be nice if we had access to it in our admin panel?
 
-## Register comment model in admin panel
+## Register Comment model in admin panel
 
-To register model in admin panel, go to `blog/admin.py` and add line:
+To register the Comment model in the admin panel, go to `blog/admin.py` and add this line:
 
 ```python
 admin.site.register(Comment)
 ```
 
-Don't forget to import Comment model, file should look like this:
+directly under this line:
+
+```python
+admin.site.register(Post)
+```
+
+Remember to import the Comment model at the top of the file, too, like this:
 
 ```python
 from django.contrib import admin
@@ -67,11 +73,11 @@ admin.site.register(Post)
 admin.site.register(Comment)
 ```
 
-If you type `python manage.py runserver` in command prompt and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to list, add and remove comments. Don't hesitate to play with it!
+If you type `python manage.py runserver` on the command line and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to the list of comments, and also the capability to add and remove comments. Play around with the new comments feature!
 
 ## Make our comments visible
 
-Go to `blog/templates/blog/post_detail.html` file and add those lines before `{% endblock %}` tag:
+Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% endblock %}` tag:
 
 ```django
 <hr>
@@ -88,7 +94,7 @@ Go to `blog/templates/blog/post_detail.html` file and add those lines before `{%
 
 Now we can see the comments section on pages with post details.
 
-But it can look a little bit better, add some css to `static/css/blog.css`:
+But it could look a little bit better, so let's add some CSS to the bottom of the `static/css/blog.css` file:
 
 ```css
 .comment {
@@ -96,7 +102,7 @@ But it can look a little bit better, add some css to `static/css/blog.css`:
 }
 ```
 
-We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add line:
+We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add the line:
 
 ```django
 <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
@@ -123,9 +129,9 @@ After that our template should look like this:
 
 ## Let your readers write comments
 
-Right now we can see comments on our blog, but we cannot add them, let's change that!
+Right now we can see comments on our blog, but we can't add them. Let's change that!
 
-Go to `blog/forms.py` and add those lines to the end of the file:
+Go to `blog/forms.py` and add the following lines to the end of the file:
 
 ```python
 class CommentForm(forms.ModelForm):
@@ -135,7 +141,7 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-Don't forget to import Comment model, change line:
+Remember to import the Comment model, changing the line:
 
 ```python
 from .models import Post
@@ -147,27 +153,27 @@ into:
 from .models import Post, Comment
 ```
 
-Now go to `blog/templates/blog/post_detail.html` and before line `{% for comment in post.comments.all %}` add:
+Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for comment in post.comments.all %}`, add:
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
-Go to post detail page and you should see error:
+If you go to the post detail page you should see this error:
 
 ![NoReverseMatch](images/url_error.png)
 
-Let's fix this! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
+We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
 ```python
 url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
-Now you should see this error:
+Refresh the page, and we get a different error!
 
 ![AttributeError](images/views_error.png)
 
-To fix this, add this piece of code to `blog/views.py`:
+To fix this error, add this view to `blog/views.py`:
 
 ```python
 def add_comment_to_post(request, pk):
@@ -184,23 +190,23 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-Don't forget about imports at the beginning of the file:
+Remember to import `CommentForm` at the beginning of the file:
 
 ```python
 from .forms import PostForm, CommentForm
 ```
 
 
-Now, on the post detail page, you should see the "Add Comment" button
+Now, on the post detail page, you should see the "Add Comment" button.
 
 ![AddComment](images/add_comment_button.png)
 
-However, when you click that button, you should see:
+However, when you click that button, you'll see:
 
 ![TemplateDoesNotExist](images/template_error.png)
 
 
-Like error mentions, template does not exist, create one as `blog/templates/blog/add_comment_to_post.html` and add those lines:
+Like the error tells us, the template doesn't exist yet. So, let's create a new one at `blog/templates/blog/add_comment_to_post.html` and add the following code:
 
 ```django
 {% extends 'blog/base.html' %}
@@ -214,11 +220,11 @@ Like error mentions, template does not exist, create one as `blog/templates/blog
 {% endblock %}
 ```
 
-Yay! Now your readers can let you know what they think below your posts!
+Yay! Now your readers can let you know what they think of your blog posts!
 
 ## Moderating your comments
 
-Not all of our comments should be displayed. Blog owner should have option to approve or delete comments. Let's do something about it.
+Not all of the comments should be displayed. As the blog owner, you probably want the option to approve or delete comments. Let's do something about it.
 
 Go to `blog/templates/blog/post_detail.html` and change lines:
 
@@ -256,16 +262,16 @@ to:
 {% endfor %}
 ```
 
-You should see `NoReverseMatch`, because no url matches `comment_remove` and `comment_approve` patterns.
+You should see `NoReverseMatch`, because no URL matches the `comment_remove` and `comment_approve` patterns... yet!
 
-Add url patterns to `blog/urls.py`:
+To fix the error, add these URL patterns to `blog/urls.py`:
 
 ```python
 url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
 url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
 ```
 
-Now you should see `AttributeError`. To get rid of it, create more views in `blog/views.py`:
+Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
 
 ```python
 @login_required
@@ -282,11 +288,15 @@ def comment_remove(request, pk):
     return redirect('blog.views.post_detail', pk=post_pk)
 ```
 
-And of course fix imports.
+And of course, remember to import `Comment` at the top of the file:
 
-Everything works, but there is one misconception. In our post list page under posts we see number of all comments attached, but we want to have number of approved comments there.
+```python
+from .models import Post, Comment
+```
 
-Go to `blog/templates/blog/post_list.html` and change line:
+Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.
+
+To fix this, go to `blog/templates/blog/post_list.html` and change the line:
 
 ```django
 <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
@@ -298,7 +308,7 @@ to:
 <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
 
-And also add this method to Post model in `blog/models.py`:
+Finally, add this method to the Post model in `blog/models.py`:
 
 ```python
 def approved_comments(self):
