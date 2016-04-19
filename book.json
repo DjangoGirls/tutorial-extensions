@@ -1,6 +1,9 @@
 {
 "plugins": [
-        "heading-anchors", "richquotes@0.0.7", "github"
+        "heading-anchors", 
+        "richquotes@0.0.7", 
+        "github",
+        "language-picker"
     ],
     "pluginsConfig": {
         "richquotes" : {
@@ -8,6 +11,9 @@
         },
         "github": {
             "url": "https://github.com/DjangoGirls/tutorial-extensions"
+        },
+        "language-picker": {
+            "grid-columns": 3
         }
     },
     
