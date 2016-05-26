@@ -34,17 +34,18 @@ Horray, we reached part of the goal! Other people can't just create posts on our
 
 Now we could try to do lots of magic stuff to implement users and passwords and authentication but doing this kind of stuff correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication stuff provided.
 
-In your `mysite/urls.py` add a url `url(r'^accounts/login/$', 'django.contrib.auth.views.login')`. So the file should now look similar to this:
+In your `mysite/urls.py` add a url `url(r'^accounts/login/$', django.contrib.auth.views.login)`. So the file should now look similar to this:
 
 ```python
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+import django.contrib.auth.views
 
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
     url(r'', include('blog.urls')),
 )
 ```
@@ -60,7 +61,7 @@ Then we need a template for the login page, so create a directory `blog/template
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>
 <tr>
@@ -101,7 +102,7 @@ So now we made sure that only authorized users (ie. us) can add, edit or publish
         <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
         <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
         {% else %}
-        <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
         {% endif %}
         <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
     </div>
@@ -129,9 +130,9 @@ Lets add some nice sugar to our templates while we are at it. First we will add 
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
     <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-    <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>)</small></p>
+    <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
     {% else %}
-    <a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
     {% endif %}
     <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
 </div>
@@ -144,15 +145,16 @@ We decided to rely on django to handle login, lets see if Django can also handle
 Done reading? You should by now think about adding a url (in `mysite/urls.py`) pointing to the `django.contrib.auth.views.logout` view. Like this:
 
 ```python
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+include django.contrib.auth.views
 
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
+    url(r'^accounts/logout/$', django.contrib.auth.views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'', include('blog.urls')),
 )
 ```
