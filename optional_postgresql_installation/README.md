@@ -60,19 +60,17 @@ First, let's launch the Postgres console by running `psql`. Remember how to laun
     Type "help" for help.
     #
 
-Our `$` now changed into `#`, which means that we're now sending commands to PostgreSQL. Let's create a user:
+Our `$` now changed into `#`, which means that we're now sending commands to PostgreSQL. Let's create a user with `CREATE USER name;` (remember to use the semicolon):
 
     # CREATE USER name;
-    CREATE ROLE
 
-Replace `name` with your own name. You shouldn't use accented letters or whitespace (e.g. `bożena maria` is invalid - you need to convert it into `bozena_maria`).
+Replace `name` with your own name. You shouldn't use accented letters or whitespace (e.g. `bożena maria` is invalid - you need to convert it into `bozena_maria`). If it goes well, you should get `CREATE ROLE` response from the console.
 
 Now it's time to create a database for your Django project:
 
     # CREATE DATABASE djangogirls OWNER name;
-    CREATE DATABASE
 
-Remember to replace `name` with the name you've chosen (e.g. `bozena_maria`).
+Remember to replace `name` with the name you've chosen (e.g. `bozena_maria`).  This creates an empty database that you can now use in your project. If it goes well, you should get `CREATE DATABASE` response from the console.
 
 Great - that's databases all sorted!
 
@@ -140,3 +138,17 @@ If that goes well, you'll see something like this
 ---
 
 Once that's completed, run `python -c "import psycopg2"`. If you get no errors, everything's installed successfully.
+
+# Applying migrations and creating a superuser
+
+In order to use the newly created database in your website project, you need to apply all the migrations. In your virtual environment run the following code:
+
+    (myvenv) ~/djangogirls$ python manage.py migrate
+
+To add new posts to your blog, you also need to create a superuser by running the code:
+
+    (myvenv) ~/djangogirls$ manage.py createsuperuser name 
+    
+Remember to replace `name` with the username. You will be prompted for email and password.
+
+Now you can run the server, log into your application with the superuser account and start adding posts to your new database.
