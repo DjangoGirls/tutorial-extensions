@@ -10,6 +10,5 @@
             "url": "https://github.com/DjangoGirls/tutorial-extensions"
         }
     },
-    
-    "gitbook": ">=2.5.2"
+    "gitbook": ">=3.1.1"
 }

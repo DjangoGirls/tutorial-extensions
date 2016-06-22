@@ -40,12 +40,14 @@ Now it's time to add our comment model to the database. To do this we have to te
 
 You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the command line. The output should look like this:
 
+```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
     Operations to perform:
       Apply all migrations: blog
     Running migrations:
       Rendering model states... DONE
       Applying blog.0002_comment... OK
+```
 
 Our Comment model exists in the database now! Wouldn't it be nice if we had access to it in our admin panel?
 

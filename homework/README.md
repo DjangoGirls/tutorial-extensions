@@ -70,7 +70,9 @@ Let's open `blog/template/blog/post_detail.html` and change these lines:
 
 ```django
 {% if post.published_date %}
-    {{ post.published_date }}
+    <div class="date">
+        {{ post.published_date }}
+    </div>
 {% endif %}
 ```
 
@@ -78,8 +80,10 @@ into these:
 
 ```django
 {% if post.published_date %}
-    {{ post.published_date }}
-{% else %}
+    <div class="date">
+        {{ post.published_date }}
+    </div>
+{% endif %}
     <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
 {% endif %}
 ```
