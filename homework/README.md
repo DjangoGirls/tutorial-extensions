@@ -4,7 +4,7 @@ Our blog has come a long way but there's still room for improvement. Next, we wi
 
 ## Save new posts as drafts
 
-Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` method:
+Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
 
 ```python
 post.published_date = timezone.now()
