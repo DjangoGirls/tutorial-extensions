@@ -147,7 +147,7 @@ In order to use the newly created database in your website project, you need to 
 
 To add new posts to your blog, you also need to create a superuser by running the code:
 
-    (myvenv) ~/djangogirls$ python manage.py createsuperuser name 
+    (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name 
     
 Remember to replace `name` with the username. You will be prompted for email and password.
 
