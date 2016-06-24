@@ -83,7 +83,7 @@ into these:
     <div class="date">
         {{ post.published_date }}
     </div>
-{% endif %}
+{% else %}
     <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
 {% endif %}
 ```
