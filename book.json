@@ -1,6 +1,10 @@
 {
-"plugins": [
-        "heading-anchors", "richquotes@0.0.7", "github"
+    "gitbook": ">=3.1.1",
+    "plugins": [
+        "heading-anchors", 
+        "richquotes@0.0.7", 
+        "github",
+        "sidebar-ad"
     ],
     "pluginsConfig": {
         "richquotes" : {
@@ -8,7 +12,12 @@
         },
         "github": {
             "url": "https://github.com/DjangoGirls/tutorial-extensions"
+        },
+        "sidebar-ad": {
+            "imageUrl": "https://cdn.shopify.com/s/files/1/0992/7712/products/codelikeagirl---mockup4_large.jpg",
+            "url": "https://store.djangogirls.org/",
+            "description": "💖 Support our work and buy a Django Girls t-shirt! ✨",
+            "btnText": "Get a t-shirt!"
         }
-    },
-    "gitbook": ">=3.1.1"
+    }
 }
