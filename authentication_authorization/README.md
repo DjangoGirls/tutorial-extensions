@@ -145,8 +145,8 @@ We decided to rely on django to handle login, lets see if Django can also handle
 Done reading? You should by now think about adding a url (in `mysite/urls.py`) pointing to the `django.contrib.auth.views.logout` view. Like this:
 
 ```python
-from django.conf.urls import include, url
-include django.contrib.auth.views
+from django.conf.urls import include, url, patterns
+import django.contrib.auth.views
 
 from django.contrib import admin
 admin.autodiscover()
