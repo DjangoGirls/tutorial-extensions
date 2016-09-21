@@ -49,7 +49,7 @@ Ok, the last bit is of course a template! Create a file `blog/templates/blog/pos
     {% for post in posts %}
         <div class="post">
             <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
-            <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
             <p>{{ post.text|truncatechars:200 }}</p>
         </div>
     {% endfor %}
@@ -102,7 +102,7 @@ and finally, a *view* (as always, in `blog/views.py`):
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
-    return redirect('blog.views.post_detail', pk=pk)
+    return redirect('post_detail', pk=pk)
 ```
 
 Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
