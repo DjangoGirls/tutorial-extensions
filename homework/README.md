@@ -84,7 +84,7 @@ into these:
         {{ post.published_date }}
     </div>
 {% else %}
-    <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
+    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
 {% endif %}
 ```
 
@@ -143,7 +143,7 @@ Now, time for a view! Open `blog/views.py` and add this code:
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
-    return redirect('blog.views.post_list')
+    return redirect('post_list')
 ```
 
 The only new thing is to actually delete a blog post. Every Django model can be deleted by `.delete()`. It is as simple as that!
