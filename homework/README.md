@@ -18,7 +18,7 @@ Remember the chapter about querysets? We created a view `post_list` that display
 
 Time to do something similar, but for draft posts.
 
-Let's add a link in `blog/templates/blog/base.html` near the button for adding new posts (just above `<h1><a href="/">Django Girls Blog</a></h1>` line!):
+Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
