@@ -13,7 +13,9 @@ Current tutorials are:
 - [Homework: secure your website](https://github.com/DjangoGirls/tutorial-extensions/blob/master/authentication_authorization/README.md)
 - [Homework: create comment model](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework_create_more_models/README.md)
 - [Optional: PostgreSQL installation](https://github.com/DjangoGirls/tutorial-extensions/blob/master/optional_postgresql_installation/README.md)
+- [Optional: Domain](https://github.com/DjangoGirls/tutorial-extensions/blob/master/domain/README.md)
+- [Deploy your website on Heroku](https://github.com/DjangoGirls/tutorial-extensions/blob/master/heroku/README.md)
 
 ## Contributing
 
-This tutorials are maintained by [DjangoGirls](http://djangogirls.org/). If you find any mistakes or want to update the tutorial please [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md).
+This tutorials are maintained by [DjangoGirls](http://djangogirls.org/). If you find any mistakes or want to update the tutorial please [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial#how-to-contribute).
