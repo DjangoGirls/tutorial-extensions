@@ -103,9 +103,9 @@ So now we made sure that only authorized users (ie. us) can add, edit or publish
         {% else %}
         <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
         {% endif %}
-        <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
+        <h1><a href="/">Django Girls</a></h1>
     </div>
-    <div class="content">
+    <div class="content container">
         <div class="row">
             <div class="col-md-8">
             {% block content %}
