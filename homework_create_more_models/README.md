@@ -107,7 +107,7 @@ But it could look a little bit better, so let's add some CSS to the bottom of th
 We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add the line:
 
 ```django
-<a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
 After that our template should look like this:
@@ -121,9 +121,9 @@ After that our template should look like this:
             <div class="date">
                 {{ post.published_date }}
             </div>
-            <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaks }}</p>
-            <a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaksbr }}</p>
+            <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
         </div>
     {% endfor %}
 {% endblock content %}
@@ -186,7 +186,7 @@ def add_comment_to_post(request, pk):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return redirect('blog.views.post_detail', pk=post.pk)
+            return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
@@ -280,14 +280,14 @@ Now, you should see `AttributeError`. To fix this error, add these views in `blo
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.approve()
-    return redirect('blog.views.post_detail', pk=comment.post.pk)
+    return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     post_pk = comment.post.pk
     comment.delete()
-    return redirect('blog.views.post_detail', pk=post_pk)
+    return redirect('post_detail', pk=post_pk)
 ```
 
 You'll also need to import `login_required` at the beginning of the file:
@@ -307,13 +307,13 @@ Everything works! There is one small tweak we can make. In our post list page --
 To fix this, go to `blog/templates/blog/post_list.html` and change the line:
 
 ```django
-<a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
 to:
 
 ```django
-<a href="{% url 'blog.views.post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
 
 Finally, add this method to the Post model in `blog/models.py`:
