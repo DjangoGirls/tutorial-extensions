@@ -25,7 +25,7 @@ This will create a file called `requirements.txt` with a list of your installed 
 
 Open this file and add the following line at the bottom:
 
-    psycopg2==2.5.4
+    psycopg2==2.6.2
 
 This line is needed for your application to work on Heroku.
 
@@ -44,7 +44,7 @@ Then save it. Done!
 
 We also need to tell Heroku which Python version we want to use. This is done by creating a `runtime.txt` in the `djangogirls` directory using your editor's "new file" command, and putting the following text (and nothing else!) inside:
 
-    python-3.4.2
+    python-3.5.2
 
 ## `mysite/local_settings.py`
 
