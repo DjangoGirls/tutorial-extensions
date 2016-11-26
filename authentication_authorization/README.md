@@ -42,11 +42,11 @@ import django.contrib.auth.views
 
 from django.contrib import admin
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
     url(r'', include('blog.urls')),
-)
+]
 ```
 
 Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
@@ -144,18 +144,17 @@ We decided to rely on django to handle login, lets see if Django can also handle
 Done reading? You should by now think about adding a url (in `mysite/urls.py`) pointing to the `django.contrib.auth.views.logout` view. Like this:
 
 ```python
-from django.conf.urls import include, url, patterns
+from django.conf.urls import include, url
 from django.contrib.auth import views
 
 from django.contrib import admin
-admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'', include('blog.urls')),
-)
+]
 ```
 
 Thats it! If you followed all of the above until this point (and did the homework), you now have a blog where you
