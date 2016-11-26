@@ -290,13 +290,8 @@ def comment_remove(request, pk):
     return redirect('post_detail', pk=post_pk)
 ```
 
-You'll also need to import `login_required` at the beginning of the file:
 
-```python
-from django.contrib.auth.decorators import login_required
-```
-
-And of course, remember to import `Comment` at the top of the file:
+You'll need to import `Comment` at the top of the file:
 
 ```python
 from .models import Post, Comment
