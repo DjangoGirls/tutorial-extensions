@@ -82,7 +82,7 @@ Then we need a template for the login page, so create a directory `blog/template
 
 You will see that this also makes use of our base-template for the overall look and feel of your blog.
 
-The nice thing here is that this _just works[TM]_. We don't have to deal with handling of the forms submission nor with passwords and securing them. Only one thing is left here, we should add a setting to `mysite/settings.py`:
+The nice thing here is that this _just works<sup>TM</sup>_. We don't have to deal with handling of the forms submission nor with passwords and securing them. Only one thing is left here, we should add a setting to `mysite/settings.py`:
 
 ```python
 LOGIN_REDIRECT_URL = '/'
@@ -161,4 +161,4 @@ Thats it! If you followed all of the above until this point (and did the homewor
 
  - need a username and password to log in,
  - need to be logged in to add/edit/publish(/delete) posts
- - and can log out again
+ - and can log out again.
