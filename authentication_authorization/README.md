@@ -1,10 +1,10 @@
 # Homework: Adding security to your website
 
-You might have noticed that you didn't have to use your password, apart from back when we used the admin interface. You might also have noticed that this means that anyone can add or edit posts in your blog. I don't know about you, but I don't want just anyone to post on my blog. So let's do something about it.
+You might have noticed that you didn't have to use your password, apart from back when we used the admin interface. You might have also noticed that this means that anyone can add or edit posts in your blog. I don't know about you, but I don't want just anyone to post on my blog. So let's do something about it.
 
 ## Authorizing add/edit of posts
 
-First let's make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for that using, the kind of advanced topic, _decorators_. Don't worry about the technicalities now, you can read up on these later. The decorator to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
+First let's make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for doing that, called _decorators_. Don't worry about the technicalities now, you can read up on these later. The decorator to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
 
 So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
 
@@ -22,13 +22,13 @@ def post_new(request):
 
 That's it! Now try to access `http://localhost:8000/post/new/`, notice the difference?
 
-> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://localhost:8000/admin/logout/` to log out, then goto `http://localhost:8000/post/new` again.
+> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://localhost:8000/admin/logout/` to log out, then visit `http://localhost:8000/post/new` again.
 
-You should get one of the beloved errors. This one is quite interesting actually: The decorator we added before will redirect you to the login page. But that isn't available yet, so it raises a "Page not found (404)".
+You should get one of the beloved errors. This one is quite interesting actually: the decorator we added before will redirect you to the login page. But since the login page isn't available yet, it raises a "Page not found (404)".
 
 Don't forget to add the decorator from above to `post_edit`, `post_remove`, `post_draft_list` and `post_publish` too.
 
-Horray, we reached part of the goal! Other people can't just create posts on our blog anymore. Unfortunately we can't create posts anymore too. So let's fix that next.
+Hooray! We have reached part of the goal! Now other people can't create posts on our blog anymore. But unfortunately, we too can't create posts anymore. So let's fix that next.
 
 ## Login users
 
