@@ -4,7 +4,7 @@ You might have noticed that you didn't have to use your password, apart from bac
 
 ## Authorizing add/edit of posts
 
-First let's make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for that using a kind of advanced topic, _decorators_. Don't worry about the technicalities now; you can read up on these later. The decorator we want to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
+First let's make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for doing that, called _decorators_. Don't worry about the technicalities now; you can read up on these later. The decorator we want to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
 
 So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
 
@@ -28,19 +28,20 @@ You should get one of our beloved errors. This one is quite interesting, actuall
 
 Don't forget to add the decorator from above to `post_edit`, `post_remove`, `post_draft_list` and `post_publish` too.
 
-Hooray, we've reached part of our goal!! Now other people can't just create posts on our blog anymore. Unfortunately we can't create posts anymore too. So let's fix that next.
+Hooray, we've reached part of our goal!! Now other people can't create posts on our blog anymore. Unfortunately we can't create posts anymore too. So let's fix that next.
 
-## Login users
 
-Now we could try to do lots of magic stuff to implement users and passwords and authentication, but doing this correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication tools provided.
+## Log in users
+
+We could now try to do lots of magical stuff to implement users and passwords and authentication, but doing this correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication tools provided.
 
 In your `mysite/urls.py` add a url `url(r'^accounts/login/$', views.login)`. So the file should now look similar to this:
 
 ```python
 from django.conf.urls import include, url
-from django.contrib.auth import views
-
 from django.contrib import admin
+
+from django.contrib.auth import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -55,44 +56,42 @@ Then we need a template for the login page, so create a directory `blog/template
 {% extends "blog/base.html" %}
 
 {% block content %}
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+        <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
+        </table>
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
 {% endblock %}
 ```
 
-You will see that this also makes use of our base-template for the overall look and feel of your blog.
+You will see that this also makes use of our _base_ template for the overall look and feel of your blog.
 
-The nice thing here is that this _just works[TM]_. We don't have to deal with handling of the forms submission nor with passwords and securing them. Only one thing is left. We should add a setting to `mysite/settings.py`:
+The nice thing here is that this _just works<sup>TM</sup>_. We don't have to deal with handling of the form submission nor with passwords and securing them. Only more thing is left to do. We should add a setting to `mysite/settings.py`:
 
 ```python
 LOGIN_REDIRECT_URL = '/'
 ```
 
-Now when the login is accessed directly, it will redirect successful login to the top level index.
+so that when the login page is accessed directly, it will redirect a successful login to the top-level index (the homepage of our blog).
 
 ## Improving the layout
 
-So now we made sure that only authorized users (ie. us) can add, edit or publish posts. But everyone still gets to view the buttons to add or edit posts. Let's hide these for users that aren't logged in. For this we need to edit the templates, so let's start with the base template from `blog/templates/blog/base.html`:
+So now we have made sure that only authorized users (ie. us) can add, edit or publish posts. But everyone still gets to view the buttons to add or edit posts. Let's hide these for users that aren't logged in. For this we need to edit the templates, so let's start with the base template from `blog/templates/blog/base.html`:
 
 ```django
 <body>
@@ -116,9 +115,9 @@ So now we made sure that only authorized users (ie. us) can add, edit or publish
 </body>
 ```
 
-You might recognize the pattern here. There is an if-condition inside the template that checks for authenticated users to show the edit buttons. Otherwise it shows a login button.
+You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. Otherwise it shows a login button.
 
-*Homework*: Edit the template `blog/templates/blog/post_detail.html` to only show the edit buttons for authenticated users.
+**Homework**: Edit the template `blog/templates/blog/post_detail.html` to only show the add and edit buttons to authenticated users.
 
 ## More on authenticated users
 
@@ -129,7 +128,7 @@ Let's add some sugar to our templates while we're at it. First we will add some 
     {% if user.is_authenticated %}
         <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
         <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-        <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+        <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
     {% else %}
         <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
     {% endif %}
@@ -137,17 +136,17 @@ Let's add some sugar to our templates while we're at it. First we will add some 
 </div>
 ```
 
-This adds a nice "Hello &lt;username&gt;" to remind us who we are and that we are authenticated. Also, this adds a link to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
+This adds a nice "Hello _&lt;username&gt;_" to remind us who we are logged in as, and that we are authenticated. Also, this adds a link to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
 
-We decided to rely on Django to handle login, so let's see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/1.8/topics/auth/default/ and see if you find something.
+We decided to rely on Django to handle login, so let's see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/1.10/topics/auth/default/ and see if you find something.
 
-Done reading? You should by now think about adding a url (in `mysite/urls.py`) pointing to the `django.contrib.auth.views.logout` view. Like this:
+Done reading? By now you may be thinking about adding a URL in `mysite/urls.py` pointing to Django's logout view (i.e. `django.contrib.auth.views.logout`), like this:
 
 ```python
 from django.conf.urls import include, url
-from django.contrib.auth import views
-
 from django.contrib import admin
+
+from django.contrib.auth import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -157,8 +156,8 @@ urlpatterns = [
 ]
 ```
 
-That's it! If you followed all of the above until this point (and did the homework), you now have a blog where you
+That's it! If you followed all of the above up to this point (and did the homework), you now have a blog where you
 
  - need a username and password to log in,
- - need to be logged in to add/edit/publish(/delete) posts
- - and can log out again
+ - need to be logged in to add, edit, publish or delete posts,
+ - and can log out again.
