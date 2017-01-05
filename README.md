@@ -9,12 +9,12 @@ http://creativecommons.org/licenses/by-sa/4.0/
 This book contains additional tutorials you can do after you're finished with [Django Girls Tutorial](http://tutorial.djangogirls.org/).
 
 Current tutorials are:
-- [Homework: add more to your website!](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework/README.md)
-- [Homework: secure your website](https://github.com/DjangoGirls/tutorial-extensions/blob/master/authentication_authorization/README.md)
-- [Homework: create comment model](https://github.com/DjangoGirls/tutorial-extensions/blob/master/homework_create_more_models/README.md)
-- [Optional: PostgreSQL installation](https://github.com/DjangoGirls/tutorial-extensions/blob/master/optional_postgresql_installation/README.md)
-- [Optional: Domain](https://github.com/DjangoGirls/tutorial-extensions/blob/master/domain/README.md)
-- [Deploy your website on Heroku](https://github.com/DjangoGirls/tutorial-extensions/blob/master/heroku/README.md)
+- [Homework: add more to your website!](https://djangogirls.gitbooks.io/django-girls-tutorial-extensions/content/homework/)
+- [Homework: secure your website](https://djangogirls.gitbooks.io/django-girls-tutorial-extensions/content/authentication_authorization/)
+- [Homework: create comment model](https://djangogirls.gitbooks.io/django-girls-tutorial-extensions/content/homework_create_more_models/)
+- [Optional: PostgreSQL installation](https://djangogirls.gitbooks.io/django-girls-tutorial-extensions/content/optional_postgresql_installation/)
+- [Optional: Domain](https://djangogirls.gitbooks.io/django-girls-tutorial-extensions/content/domain/)
+- [Deploy your website on Heroku](https://djangogirls.gitbooks.io/django-girls-tutorial-extensions/content/heroku/)
 
 ## Contributing
 
