@@ -92,7 +92,7 @@ And replace it with this:
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'djangogirls',
         'USER': 'name',
         'PASSWORD': '',
