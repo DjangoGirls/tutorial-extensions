@@ -35,7 +35,7 @@ Hooray, we've reached part of our goal!! Now other people can't create posts on 
 
 We could now try to do lots of magical stuff to implement users and passwords and authentication, but doing this correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication tools provided.
 
-In your `mysite/urls.py` add a url `url(r'^accounts/login/$', views.login)`. So the file should now look similar to this:
+In your `mysite/urls.py` add a url `url(r'^accounts/login/$', views.login, name='login')`. So the file should now look similar to this:
 
 ```python
 from django.conf.urls import include, url
@@ -117,7 +117,7 @@ So now we have made sure that only authorized users (ie. us) can add, edit or pu
 
 You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. Otherwise it shows a login button.
 
-**Homework**: Edit the template `blog/templates/blog/post_detail.html` to only show the add and edit buttons to authenticated users.
+**Homework**: Edit the template `blog/templates/blog/post_detail.html` to only show the delete and edit buttons to authenticated users.
 
 ## More on authenticated users
 
