@@ -132,9 +132,10 @@ Let's add some sugar to our templates while we're at it. First we will add some 
 ```django
 <div class="page-header">
     {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="top-menu"><span class="glyphicon glyphicon-off"></span></a>
         <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
         <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-        <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+        <p class="top-menu">Hello {{ user.username }} </p>
     {% else %}
         <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
     {% endif %}
@@ -142,7 +143,7 @@ Let's add some sugar to our templates while we're at it. First we will add some 
 </div>
 ```
 
-This adds a nice "Hello _&lt;username&gt;_" to remind us who we are logged in as, and that we are authenticated. Also, this adds a link to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
+This adds a nice "Hello _&lt;username&gt;_" to remind us who we are logged in as, and that we are authenticated. Also, this adds a button to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
 
 We decided to rely on Django to handle login, so let's see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/1.10/topics/auth/default/ and see if you find something.
 
