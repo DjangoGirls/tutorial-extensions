@@ -91,7 +91,15 @@ so that when the login page is accessed directly, it will redirect a successful 
 
 ## Improving the layout
 
-So now we have made sure that only authorized users (ie. us) can add, edit or publish posts. But everyone still gets to view the buttons to add or edit posts. Let's hide these for users that aren't logged in. For this we need to edit the templates, so let's start with the base template from `blog/templates/blog/base.html`:
+We already set things up so that only authorized users (i.e. us) see the buttons for adding and editing posts. Now we want to make sure a login button appears for everybody else.
+
+We will add a login button that looks like this:
+
+```django
+    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+```
+
+For this we need to edit the templates, so let's open up `blog/templates/blog/base.html` and change it so the part between the `<body>` tags looks like this:
 
 ```django
 <body>
@@ -116,8 +124,6 @@ So now we have made sure that only authorized users (ie. us) can add, edit or pu
 ```
 
 You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. Otherwise it shows a login button.
-
-**Homework**: Edit the template `blog/templates/blog/post_detail.html` to only show the delete and edit buttons to authenticated users.
 
 ## More on authenticated users
 
