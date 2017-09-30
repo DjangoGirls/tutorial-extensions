@@ -66,7 +66,7 @@ Yay! Your first task is done!
 
 It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
 
-Let's open `blog/template/blog/post_detail.html` and change these lines:
+Let's open `blog/templates/blog/post_detail.html` and change these lines:
 
 ```django
 {% if post.published_date %}
