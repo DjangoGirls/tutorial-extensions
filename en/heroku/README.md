@@ -34,7 +34,7 @@ This line is needed for your application to work on Heroku.
 
 Another thing Heroku wants is a Procfile. This tells Heroku which commands to run in order to start our website. Open up your code editor, create a file called `Procfile` in `djangogirls` directory and add this line:
 
-    web: gunicorn mysite.wsgi
+    web: gunicorn mysite.wsgi --log-file -
 
 This line means that we're going to be deploying a `web` application, and we'll do that by running the command `gunicorn mysite.wsgi` (`gunicorn` is a program that's like a more powerful version of Django's `runserver` command).
 
@@ -70,25 +70,37 @@ Then just save it! :)
 
 ## mysite/settings.py
 
-Another thing we need to do is modify our website's `settings.py` file. Open `mysite/settings.py` in your editor and add the following lines at the end of the file:
+Another thing we need to do is modify our website's `settings.py` file. Open `mysite/settings.py` in your editor and change/add the following lines:
 
 ```python
 import dj_database_url
-DATABASES['default'] = dj_database_url.config()
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-ALLOWED_HOSTS = ['*']
+...
 
 DEBUG = False
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+
+...
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'djangogirls',
+        'USER': 'name',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+...
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 ```
 
-It'll do necessary configuration for Heroku and also it'll import all of your local settings if `mysite/local_settings.py` exists.
+It'll do necessary configuration for Heroku.
 
 Then save the file.
 
@@ -202,4 +214,3 @@ The command prompt will ask you to choose a username and a password again. These
 
 
 Refresh it in your browser, and there you go!  You now know how to deploy to two different hosting platforms.  Pick your favourite :)
-
