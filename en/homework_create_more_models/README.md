@@ -310,7 +310,7 @@ to:
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
 
-Finally, add this method to the Post model in `blog/models.py`:
+Finally, add this method to the `Post` model in `blog/models.py`:
 
 ```python
 def approved_comments(self):
