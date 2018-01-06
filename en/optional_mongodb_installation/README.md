@@ -4,7 +4,7 @@ MongoDB is a schema free database that supports both relational data of SQL data
 
 # Using Django with MongoDB
 
-Every time a query is made, Django creates a SQL query string and sends it to the database. MongoDB however, uses python **query documents** to talk with the database. Pymongo is the python driver for connecting with MongoDB. A connector is needed for translating the SQL query strings into pymongo query documents.  The [Pymongo documentation](https://api.mongodb.com/python/current/tools.html) recommends using [Djongo](https://nesdis.github.io/djongo/) for connecting Django with MongoDB.
+Every time a query is made, Django creates a SQL query string and sends it to the database. MongoDB however, uses python *query documents* to talk with the database. Pymongo is the python driver for connecting with MongoDB. A connector is needed for translating the SQL query strings into pymongo query documents.  The [Pymongo documentation](https://api.mongodb.com/python/current/tools.html) recommends using [Djongo](https://nesdis.github.io/djongo/) for connecting Django with MongoDB.
 
 ## Installing Djongo
 
