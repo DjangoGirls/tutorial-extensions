@@ -15,6 +15,7 @@ Current tutorials are:
 - [Homework: secure your website](/en/authentication_authorization)
 - [Homework: create comment model](/en/homework_create_more_models)
 - [Optional: PostgreSQL installation](/en/optional_postgresql_installation)
+- [Optional: MongoDB installation](/en/optional_mongodb_installation)
 - [Optional: Domain](/en/domain)
 - [Deploy your website on Heroku](/en/heroku)
 
