@@ -11,7 +11,7 @@ Los tutoriales actuales son:
 * [Tarea: agregar mas a tu sitio web](homework/README.md)
 * [Tarea: Asegura tu sitio](authentication_authorization/README.md)
 * [Tarea: Crea un modelo de comentarios](homework_create_more_models/README.md)
-* [Optional: PostgreSQL installation](optional_postgresql_installation/README.md)
+* [Opcional: Instalación de PostgreSQL](optional_postgresql_installation/README.md)
 
 ## Contribuir
 
