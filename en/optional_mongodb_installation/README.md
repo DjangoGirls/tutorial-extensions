@@ -4,7 +4,7 @@ MongoDB is a schema free database that supports both relational data of SQL data
 
 # Using Django with MongoDB
 
-Every time a query is made, Django creates a SQL query string and sends it to the database. MongoDB however, uses python *query documents* to talk with the database. Pymongo is the python driver for connecting with MongoDB. A connector is needed for translating the SQL query strings into pymongo query documents.  The [Pymongo documentation](https://api.mongodb.com/python/current/tools.html) recommends using [Djongo](https://nesdis.github.io/djongo/) for connecting Django with MongoDB.
+Every time a query is made, Django creates a SQL query string and sends it to the database. MongoDB however, uses *query documents* to talk with the database. A connector is needed for translating the SQL query strings into query documents.  The [Pymongo documentation](https://api.mongodb.com/python/current/tools.html) recommends using [Djongo](https://nesdis.github.io/djongo/) for connecting Django with MongoDB.
 
 ## Installing Djongo
 
@@ -48,8 +48,6 @@ from djongo.models import forms
 class BlogContent(models.Model):
     comment = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
-    class Meta:
-        abstract = True
 ```
 
 To access the model using Django Admin you will need a Form definition for the above model. Define it as below:
@@ -62,17 +60,6 @@ class BlogContentForm(forms.ModelForm):
         fields = (
             'comment', 'author'
         )
-```
-
-Now ‘embed’ your `BlogContent` inside a `BlogPost` using the `EmbeddedModelField`:
-
-```python
-class BlogPost(models.Model):
-    h1 = models.CharField(max_length=100)
-    content = models.EmbeddedModelField(
-        model_container=BlogContent,
-        model_form_class=BlogContentForm
-    )   
 ```
 
 That’s it you are set! Fire up Django Admin on http://localhost:8000/admin/
