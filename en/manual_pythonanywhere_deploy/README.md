@@ -14,6 +14,20 @@ So, read on!
 * This extension assumes you already have some code on GitHub.  See the begining of the deploy chapter for instructions on that, if you need.
 * It also assumes you have a PythonAnywhere account.  If it already has a djangogirls webapp running in it, you'll need to delete that first (or just sign up for a new account!)
 
+## Overview
+
+Deploying to PythonAnywhere, or indeed to any server, involves pretty much the same steps:
+
+* Getting your code onto the server.  We'll use `git clone` and `git pull` for this
+
+* Installing your dependencies on the server.  We'll use a virtualenv for this, just like on your own computer, but we'll use a shortcut recommended by PythonAnywhere called `virtualenvwrapper`
+
+* Configuring your database on the server.  The database on your own computer and the one on the server are separate.  We'll use `manage.py migrate` and `manage.py createsuperuser` for this.
+
+* Configuring your static files on the server.  On your own laptop, `runserver` takes care of static files, but servers like to manage things differently in order to optimise serving static files.  Here we'll use a new command called `collectstatic`, and configure the static files through PythonAnywhere's **Web tab**.
+
+* And actually hooking up our Django app to be served, live, on the public Internet.  We do this on PythonAnywhere's **Web tab**, by configuring something they call a **WSGI file**.
+
 
 ## Pulling our code down on PythonAnywhere
 
@@ -23,19 +37,22 @@ Go to the [PythonAnywhere Dashboard](https://www.pythonanywhere.com), and choose
 
 > **Note** PythonAnywhere is based on Linux, so if you're on Windows, the console will look a little different from the one on your computer.
 
-Let's pull down our code from GitHub and onto PythonAnywhere by creating a "clone" of our repo. Type the following into the console on PythonAnywhere (don't forget to use your GitHub username in place of `<your-github-username>`):
+Let's pull down our code from GitHub and onto PythonAnywhere by creating a "clone" of our repo. Type the following into the console on PythonAnywhere:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
-$ git clone https://github.com/<your-github-username>/my-first-blog.git
+$ git clone https://github.com/<your-github-username>/my-first-blog.git <your-pythonanywhere-username>.pythonanywhere.com
 ```
 
-This will pull down a copy of your code onto PythonAnywhere. Check it out by typing `tree my-first-blog`:
+* Use your actual GitHub username in place of `<your-github-username>`
+* And use your actual PythonAnywhere username in place of `<your-pythonanywhere-username>`)
+
+This will pull down a copy of your code onto PythonAnywhere, and put it into a folder named after your (future) website address. Check it out by typing `tree`:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
-$ tree my-first-blog
-my-first-blog/
+$ tree
+ola.pythonanywhere.com/
 ├── blog
 │   ├── __init__.py
 │   ├── admin.py
@@ -56,25 +73,41 @@ my-first-blog/
 
 ### Creating a virtualenv on PythonAnywhere
 
-Just like you did on your own computer, you can create a virtualenv on PythonAnywhere. In the Bash console, type:
+Just like you did on your own computer, you need to create a virtualenv on PythonAnywhere. In the Bash console, type:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
-$ cd my-first-blog
-
-$ virtualenv --python=python3.6 myvenv
+$ mkvirtualenv --python=python3.6 <your-pythonanywhere-username>.pythonanywhere.com
 Running virtualenv with interpreter /usr/bin/python3.6
 [...]
 Installing setuptools, pip...done.
-
-$ source myvenv/bin/activate
-
-(myvenv) $  pip install django~=1.11.0
-Collecting django
-[...]
-Successfully installed django-1.11.3
 ```
 
+`mkvirtualenv` comes from a tool called "virtualenvwrapper", which PythonAnywhere recommends.  It's a set of shortcuts built around the normal `virtualenv` command that you've already learned about using on your own computer.
+
+When the command finishes, your virtualenv should be active; we've named it after your future website address, just like we named the project source code folder.  Let's try de-activating and re-activating the virtualenv, just for practice.
+
+Deactivating is `deactivate`, just like on your computer, but to activate we use the virtualenvwrapper shortcut command `workon`, which just needs the name of your virtualenv:
+
+{% filename %}PythonAnywhere command-line{% endfilename %}
+```
+(ola.pythonanywhere.com) $ deactivate
+$  which python
+/usr/bin/python
+$  workon <your-pythonanywhere-username>.pythonanywhere.com
+(ola.pythonanywhere.com) $ which python
+/home/ola/.virtualenvs/ola.pythonanywhere.com/bin/python
+```
+
+Now let's install Django into our virtualenv on PythonAnywhere
+
+{% filename %}PythonAnywhere command-line{% endfilename %}
+```
+(ola.pythonanywhere.com) $ pip install 'django<2'
+Collecting django
+[...]
+Successfully installed django-1.11.9
+```
 
 > **Note** The `pip install` step can take a couple of minutes.  Patience, patience!  But if it takes more than five minutes, something is wrong.  Ask your coach.
 
@@ -87,13 +120,29 @@ Here's another thing that's different between your own computer and the server: 
 
 Just as we did on your own computer, we repeat the step to initialize the database on the server, with `migrate` and `createsuperuser`:
 
+Go back to your Bash console, make sure your virtualenv is still active, and then run these commands. (If you've closed your console, you can open a new one, and use the `workon` command to activate your virtualenv).
+
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
-(mvenv) $ python manage.py migrate
+(ola.pythonanywhere.com) $ python manage.py migrate
 Operations to perform:
 [...]
   Applying sessions.0001_initial... OK
-(mvenv) $ python manage.py createsuperuser
+(ola.pythonanywhere.com) $ python manage.py createsuperuser
+```
+
+### Collecting static files
+
+Now we learn a new command, `collecstatic`, whose job it is to collect all the static files from your apps (including apps you've written like *blog*, and built-in Django apps like the *admin*), and put them in one place, so the server can find them:
+
+{% filename %}PythonAnywhere command-line{% endfilename %}
+```
+(ola.pythonanywhere.com) $ python manage.py collectstatic
+You have requested to collect static files at the destination
+[...]
+Are you sure you want to do this?
+[...]
+62 static files copied to '/home/ola/ola.pythonanywhere.com/static'.
 ```
 
 
@@ -112,11 +161,22 @@ After confirming your domain name, choose **manual configuration** (N.B. – *no
 
 You'll be taken to the PythonAnywhere config screen for your webapp, which is where you'll need to go whenever you want to make changes to the app on the server.
 
-<img src="images/pythonanywhere_web_tab_virtualenv.png" />
+<img src="images/pythonanywhere_web_tab_virtualenv.png" alt="screenshot of web tab virtualenv config section with path correctly filled in" />
 
 In the "Virtualenv" section, click the red text that says "Enter the path to a virtualenv", and enter `/home/<your-PythonAnywhere-username>/my-first-blog/myvenv/`. Click the blue box with the checkmark to save the path before moving on.
 
 > **Note** Substitute your own PythonAnywhere username as appropriate. If you make a mistake, PythonAnywhere will show you a little warning.
+
+
+### Adding the static files mapping
+
+We need to tell PythonAnywhere that static files which live under the URL `/static/` are all located in a file inside your source code folder called static. We do that in the "Static Files" section on the Web tab.
+
+Click the red text that says "Enter URL", and enter `/static/`, and click the blue checkbox to save.  Then click the text that says "Enter path", and enter `/home/<your-pythonanywhere-username>/<your-pythonanywhere-username.pythonanywhere.com/static` (using your own username, as usual):
+
+<img src="images/static_files_screenshot.png" alt="screenshot of web tab static files config section with url and path correctly filled in" />
+
+
 
 
 ### Configuring the WSGI file
@@ -132,20 +192,20 @@ Delete all the contents and replace them with the following:
 import os
 import sys
 
-path = os.path.expanduser('~/my-first-blog')
+path = '/home/<your-pythonanywhere-username>/<your-pythonanywhere-username>.pythonanywhere.com')
 if path not in sys.path:
     sys.path.append(path)
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
 
 from django.core.wsgi import get_wsgi_application
-from django.contrib.staticfiles.handlers import StaticFilesHandler
-application = StaticFilesHandler(get_wsgi_application())
+application = get_wsgi_application()
 ```
 
-This file's job is to tell PythonAnywhere where our web app lives and what the Django settings file's name is.
+> **Note** As always, substitute your own PythonAnywhere username in this file.
 
-The `StaticFilesHandler` is for dealing with our CSS. This is taken care of automatically for you during local development by the `runserver` command. We'll find out a bit more about static files later in the tutorial, when we edit the CSS for our site.
+
+This file's job is to tell PythonAnywhere where our web app lives and what the Django settings file's name is.
 
 Hit **Save** and then go back to the **Web** tab.
 
