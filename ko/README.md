@@ -1,7 +1,11 @@
-# 장고걸스 튜토리얼 : 심화 
+# 장고걸스 튜토리얼 : 심화 (Django Girls Tutorial: Extensions)
 
-> **정보** 이 튜토리얼은 Creative Commons Attribution-ShareAlike 4.0 International 저작권을 따르고 있습니다. 라이센스 전문은 http://creativecommons.org/licenses/by-sa/4.0/ 에서 확인하세요.
+> 이 튜토리얼은 Creative Commons Attribution-ShareAlike 4.0 International 저작권을 따르고 있습니다. 라이센스 전문은 http://creativecommons.org/licenses/by-sa/4.0/ 에서 확인하세요.
 
+## 번역
+이 튜토리얼은 열정적인 장고걸스 코치들과 자원봉사자들의 수고로 번역되었습니다.
+> 번역 업데이트 및 번역자 
+* 1차 : 2018. 3. 1. [이수진](https://github.com/sujinleeme), [박조은](https://github.com/corazzon) 
 ## Introduction
 
 This book contains additional tutorials you can do after you're finished with [Django Girls Tutorial](http://tutorial.djangogirls.org/).
