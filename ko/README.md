@@ -6,16 +6,20 @@
 이 튜토리얼은 열정적인 장고걸스 코치들과 자원봉사자들의 수고로 번역되었습니다.
 > 번역 업데이트 및 번역자 
 * 1차 : 2018. 3. 1. [이수진](https://github.com/sujinleeme), [박조은](https://github.com/corazzon) 
+
 ## Introduction
 
-This book contains additional tutorials you can do after you're finished with [Django Girls Tutorial](http://tutorial.djangogirls.org/).
+이 튜토리얼은 [장고걸스 튜토리얼](http://tutorial.djangogirls.org/)을 마친 분들을 위한 심화 튜토리얼입니다.
 
-Current tutorials are:
-* [Homework: add more to your website!](homework/README.md)
-* [Homework: secure your website](authentication_authorization/README.md)
-* [Homework: create comment model](homework_create_more_models/README.md)
-* [Optional: PostgreSQL installation](optional_postgresql_installation/README.md)
+### 목차
+* [들어가며](README.md)
+* [숙제: 블로그 개선하기](homework/README.md)
+* [숙제: 안전한 웹사이트 만들기](authentication_authorization/README.md)
+* [숙제: 댓글 모델 만들기](homework_create_more_models/README.md)
+* [옵션: PostgreSQL 설치하기](optional_postgresql_installation/README.md)
+* [옵션: 도메인 만들기](domain/README.md)
+* [Heroku 배포하기](heroku/README.md)
 
-## Contributing
 
-This tutorial is maintained by [DjangoGirls](http://djangogirls.org/). If you find any mistakes or want to update the tutorial please [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md).
+## 튜토리얼 참여하기
+이 튜토리얼은 [장고걸스](https://djangogirls.org/)에서 지속적으로 관리하고 있습니다. 오류를 발견하거나 튜토리얼 내용을 업데이트하고 싶다면 [참여 방법](https://github.com/DjangoGirls/tutorial/blob/master/README.md)을 참고하세요.

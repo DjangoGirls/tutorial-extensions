@@ -1,4 +1,4 @@
-# Domain
+# 도메인 만들기
 
 PythonAnywhere gave you a free domain, but maybe you don't want to have ".pythonanywhere.com" at the end of your blog URL. Maybe you want your blog to just live at "www.infinite-kitten-pictures.org" or "www.3d-printed-steam-engine-parts.com" or "www.antique-buttons.com" or "www.mutant-unicornz.net", or whatever it'll be.
 

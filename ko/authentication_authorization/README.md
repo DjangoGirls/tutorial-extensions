@@ -1,4 +1,4 @@
-# Homework: Adding security to your website
+# 숙제: 블로그 개선하기
 
 You might have noticed that you didn't have to use your password, apart from back when we used the admin interface. You might also have noticed that this means that anyone can add or edit posts in your blog. I don't know about you, but I don't want just anyone to post on my blog. So let's do something about it.
 

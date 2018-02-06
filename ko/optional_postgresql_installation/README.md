@@ -1,12 +1,7 @@
-# PostgreSQL installation
+# 옵션: PostgreSQL 설치하기
 
-> Part of this chapter is based on tutorials by Geek Girls Carrots (http://django.carrots.pl/).
-
-> Parts of this chapter is based on the [django-marcador
-tutorial](http://django-marcador.keimlink.de/) licensed under Creative Commons
-Attribution-ShareAlike 4.0 International License. The django-marcador tutorial
-is copyrighted by Markus Zapke-Gründemann et al.
-
+> **Note** 이 장의 일부는 [Geek Girls Carrots](http://django.carrots.pl/) 튜토리얼과 [django-marcador
+  tutorial](http://django-marcador.keimlink.de/) 튜토리얼을 기초로 작성되었습니다. django-marcador 튜토리얼 저작권은 Markus Zapke-Gründemann et al이 소유하고 있습니다. 
 
 ## Windows
 
