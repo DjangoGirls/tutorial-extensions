@@ -3,75 +3,77 @@
 > **Note** 이 장의 일부는 [Geek Girls Carrots](http://django.carrots.pl/) 튜토리얼과 [django-marcador
   tutorial](http://django-marcador.keimlink.de/) 튜토리얼을 기초로 작성되었습니다. django-marcador 튜토리얼 저작권은 Markus Zapke-Gründemann et al이 소유하고 있습니다. 
 
-## Windows
+## 윈도우
 
-The easiest way to install Postgres on Windows is using a program you can find here: http://www.enterprisedb.com/products-services-training/pgdownload#windows
+다음 링크에서 Postgres 설치 프로그램을 다운로드하세요. : http://www.enterprisedb.com/products-services-training/pgdownload#windows
 
-Choose the newest version available for your operating system. Download the installer, run it and then follow the instructions available here: http://www.postgresqltutorial.com/install-postgresql/. Take note of the installation directory as you will need it in the next step (typically, it's `C:\Program Files\PostgreSQL\9.3`).
+운영체제에 맞는 최신 버전의 설치 프로그램을 다운받은 후 다음 가이드를 따라 설치하세요. : http://www.postgresqltutorial.com/install-postgresql/. 설치 경로가 필요하니 주의깊게 봐두세요. (특히 `C:\Program Files\PostgreSQL\9.3` 부분입니다.)
 
-## Mac OS X
+## 맥 OS X
 
-The easiest way is to download the free [Postgres.app](http://postgresapp.com/) and install it like any other application on your operating system.
+다음 링크에서 Postgres App 설치 프로그램을 다운로드하세요. : http://postgresapp.com/
 
-Download it, drag to the Applications directory and run by double clicking. That's it!
+다운받은 애플리케이션을 응용 프로그램 디렉터리로 드래그한 후 더블클릭하면 됩니다!
 
-You'll also have to add the Postgres command line tools to your `PATH` variable, what is described [here](http://postgresapp.com/documentation/cli-tools.html).
+`PATH` 변수에 Postgres 커맨드 라인을 추가해야 합니다. 자세한 내용은 [링크](http://postgresapp.com/documentation/cli-tools.html)를 확인하세요.
 
-## Linux
+## 리눅스
 
-Installation steps vary from distribution to distribution. Below are the commands for Ubuntu and Fedora, but if you're using a different distro [take a look at the PostgreSQL documentation](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux).
+리눅스는 배포판에 따라 설치방법이 매우 다양합니다. 여기서는 우분투 리눅스, 페도라 리눅스를 기준으로 설명하겠습니다. 다른 배포판은 [PostgresSQL 공식 문서 중 리눅스 설치 내용](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux)을 참고하세요.
+                                                  
+### 우분투
 
-### Ubuntu
-
-Run the following command:
+아래 명령을 실행하세요.
 
     sudo apt-get install postgresql postgresql-contrib
 
-### Fedora
+### 페도라
 
-Run the following command:
+아래 명령을 실행하세요.
 
     sudo yum install postgresql93-server
 
-# Create database
+# 데이터베이스 생성하기
 
-Next up, we need to create our first database, and a user that can access that database. PostgreSQL lets you create as many databases and users as you like, so if you're running more than one site you should create a database for each one.
+이제 데이터베이스를 생성하고, 그 데이터베이스에 접근할 유저계정을 생성하겠습니다. PostgreSQL에서는 원하는 만큼의 데이터베이스와 유저계정을 생성할 수 있어요. 그래서 다수의 사이트를 운영할 경우, 각 사이트마다 데이터베이스를 생성할 수 있습니다.
 
-## Windows
+## 윈도우
 
-If you're using Windows, there's a couple more steps we need to complete. For now it's not important for you to understand the configuration we're doing here, but feel free to ask your coach if you're curious as to what's going on.
+윈도우에서 몇 가지 설정작업이 더 필요해요. 지금 다루는 설정을 모두 이해할 필요는 없어요. 하지만 각 설정들이 어떤 역할을 하는지 궁금하다면, 코치들에게 자유롭게 물어보세요.
 
-1. Open the Command Prompt (Start menu → All Programs → Accessories → Command Prompt)
-2. Run the following by typing it in and hitting return: `setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`. You can paste things into the Command Prompt by right clicking and selecting `Paste`. Make sure that the path is the same one you noted during installation with `\bin` added at the end. You should see the message `SUCCESS: Specified value was saved.`.
-3. Close and then reopen the Command Prompt.
+1. 명령프롬프트를 실행하세요. (시작 → 모든 프로그램 → 보조 프로그램 → 명령 프롬프트)
+2. 다음 명령을 입력하고 엔터키를 입력해주세요: `setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`.프롬프트에서 코드를 붙여넣기하려면, 마우스 오른쪽 버튼를 클릭한 후 메뉴에서 `붙여넣기를 선택하세요. 경로 끝에 `\bin` 이 있는지 확인하세요. `SUCCESS: Specified value was saved.` 라는 메세지가 보여야해요.
+3. 명령 프롬프트 창을 닫고 다시 열어주세요.
 
-## Create the database
 
-First, let's launch the Postgres console by running `psql`. Remember how to launch the console?
->On Mac OS X you can do this by launching the `Terminal` application (it's in Applications → Utilities). On Linux, it's probably under Applications → Accessories → Terminal. On Windows you need to go to Start menu → All Programs → Accessories → Command Prompt. Furthermore, on Windows, `psql` might require logging in using the username and password you chose during installation. If `psql` is asking you for a password and doesn't seem to work, try `psql -U <username> -W` first and enter the password later.
+## 데이터베이스 생성하기
+
+먼저, `psql` 명령을 입력해서 Postgres 콘솔을 실행하겠습니다. 콘솔을 어떻게 실행시키는지 모두 기억하고 있죠?
+
+>맥 OS X 에서는 터미널 애플리케이션을 실행하세요. (애플리케이션 → 유틸리티 안에 있어요) 리눅스에서는 애플리케이션(Applications) → 보조 프로그램(Accessories) → 터미널(Command) 안에 있습니다. 윈도우에서는 시작 메뉴 → 모든 프로그램 → 악세사리 → 명령 프롬프트 에 있습니다. 간혹 윈도우에서는 `psql` 실행 시에, Postgres 설치 시에 선택했던 username과 password입력을 요구할 수 있습니다. 만약 psql에서 암호를 입력했는데 인증되지 않는다면, `psql -U <username> -W` 명령을 실행한 후 암호를 입력해보세요.
 
     $ psql
     psql (9.3.4)
     Type "help" for help.
     #
 
-Our `$` now changed into `#`, which means that we're now sending commands to PostgreSQL. Let's create a user with `CREATE USER name;` (remember to use the semicolon):
+프롬프트가 `$` 에서 `#` 으로 바뀌었습니다. 이제 PostgreSQL로 명령을 보낼 수 있다는 뜻이에요. `CREATE USER name;` 명령을 실행해 유저 계정을 생성합시다.
 
     # CREATE USER name;
 
-Replace `name` with your own name. You shouldn't use accented letters or whitespace (e.g. `bożena maria` is invalid - you need to convert it into `bozena_maria`). If it goes well, you should get `CREATE ROLE` response from the console.
+ `name` 부분을 로그인 아이디(혹은 자기 이름)로 변경해주세요. 악센트가 들어간 글자나 공백문자는 쓸 수 없습니다. (예를 들어 `bożena maria`일 경우 유효하지 않습니다. `bozena_maria`로 변경해주세요.) 성공하면 콘솔에서 `CREATE ROLE` 응답이 보일 거에요.
 
-Now it's time to create a database for your Django project:
+이제 Django 프로젝트에서 쓸 데이터베이스를 생성해봐요.
 
     # CREATE DATABASE djangogirls OWNER name;
 
-Remember to replace `name` with the name you've chosen (e.g. `bozena_maria`).  This creates an empty database that you can now use in your project. If it goes well, you should get `CREATE DATABASE` response from the console.
+`name`에는 위 ROLE 에서 입력했던 `name`을 써야해요. (예: `bozena_maria`). 이제 현재 프로젝트에서 사용할 수있는 빈 데이터베이스가 만들어졌어요. 성공하면 콘솔에서 `CREATE ROLE` 응답이 보일 거에요. 
 
-Great - that's databases all sorted!
+잘했어요. 이 데이터베이스는 모두 정렬된 데이터베이스랍니다!
 
-# Updating settings
+# 프로젝트 설정 수정하기
 
-Find this part in your `mysite/settings.py` file:
+`mysite/settings.py` 파일에서 `DATABASES` 부분을 찾아서
 
 ```python
 DATABASES = {
@@ -82,7 +84,7 @@ DATABASES = {
 }
 ```
 
-And replace it with this:
+아래와 같이 수정해주세요.
 
 ```python
 DATABASES = {
@@ -97,33 +99,37 @@ DATABASES = {
 }
 ```
 
-Remember to change `name` to the user name that you created earlier in this chapter.
+`USER`와 `NAME`에는 방금 전 생성했던 `name` 을 입력해주세요.
 
-# Installing PostgreSQL package for Python
 
-First, install Heroku Toolbelt from https://toolbelt.heroku.com/ While we will need this mostly for deploying your site later on, it also includes Git, which might come in handy already.
+# PostgreSQL 파이썬 패키지 설치하기
 
-Next up, we need to install a package which lets Python talk to PostgreSQL - this is called `psycopg2`. The installation instructions differ slightly between Windows and Linux/OS X.
+먼저 https://toolbelt.heroku.com 에서 Heroku Toolbelt을 다운받아 설치해주세요. 이 Toolbelt에는 Git과 더불어 배포에 필요한 모든 유틸리티들이 들어있어요.
 
-## Windows
+다음으로 PostgreSQL 패키지를 설치해야합니다. 이 패키지 이름은 `psycopg2` 입니다. 설치방법은 윈도우와 리눅스/맥 마다 조금 달라요.
 
-For Windows, download the pre-built file from http://www.stickpeople.com/projects/python/win-psycopg/
 
-Make sure you get the one corresponding to your Python version (3.4 should be the last line) and to the correct architecture (32 bit in the left column or 64 bit in the right column).
 
-Rename the downloaded file and move it so that it's now available at `C:\psycopg2.exe`.
+## 윈도우
 
-Once that's done, enter the following command in the terminal (make sure your `virtualenv` is activated):
+윈도우에서는 http://www.stickpeople.com/projects/python/win-psycopg/ 에서 바이너리 패키지를 받으세요.
+
+현재 설치되어있는 파이썬 버전과 운영체제(왼쪽 칸 32비트, 오른쪽 칸 64비트)에 맞는 패키지를 다운로드합니다.
+
+다운받은 파일을 `C:\` 경로로 옮겨주세요. `C:\psycopg2.exe` 위치에 있어야 합니다.
+
+터미널에서 `virtualenv` 을 활성화하고, 아래 명령을 실행하세요.
 
     easy_install C:\psycopg2.exe
 
-## Linux and OS X
+## 리눅스 / 맥 OS X
 
-Run the following in your console:
+터미널에서 아래 명령을 실행하세요.
+
 
     (myvenv) ~/djangogirls$ pip install psycopg2
 
-If that goes well, you'll see something like this
+문제가 없다면 아래와 같은 메시지가 보일 거에요.
 
     Downloading/unpacking psycopg2
     Installing collected packages: psycopg2
@@ -132,18 +138,18 @@ If that goes well, you'll see something like this
 
 ---
 
-Once that's completed, run `python -c "import psycopg2"`. If you get no errors, everything's installed successfully.
+완료되면 python -c "import psycopg2"` 명령을 실행하세요. 모든 오류가 없다면 성공적으로 설치가 끝난 거에요.
 
-# Applying migrations and creating a superuser
+# 마이그레이션 적용과 슈퍼 유저 생성하기
 
-In order to use the newly created database in your website project, you need to apply all the migrations. In your virtual environment run the following code:
+웹사이트 프로젝트에서 새로 생성된 데이터베이스를 사용하려면 모든 마이그레이션을 적용해야해요. 가상 환경에서 다음 코드를 실행합니다.
 
     (myvenv) ~/djangogirls$ python manage.py migrate
 
-To add new posts to your blog, you also need to create a superuser by running the code:
+블로그에 새 게시물을 추가하려면 다음 코드를 실행하여 수퍼 유저를 만들어야해요.
 
     (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name 
     
-Remember to replace `name` with the username. You will be prompted for email and password.
+`name`을 사용자 이름으로 바꾸는 것을 잊지 마세요. 이메일과 비밀번호를 묻는 메시지가 나타날 거에요.
 
-Now you can run the server, log into your application with the superuser account and start adding posts to your new database.
+이제 다시 서버를 실행하고, 수퍼 유저 계정으로 애플리케이션에 로그인을 한 다음 새 데이터베이스에 게시물을 추가할 수 있어요.

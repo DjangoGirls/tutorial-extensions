@@ -1,4 +1,4 @@
-# 헤로쿠 배포하기 (PythonAnywhere)
+# 헤로쿠 배포하기
 
 It's always good for a developer to have a couple of different deployment options under their belt.   Why not try deploying your site to Heroku, as well as PythonAnywhere?
 
@@ -115,7 +115,7 @@ application = DjangoWhiteNoise(application)
 
 All right!
 
-## Heroku account
+## 헤로쿠 계정
 
 You need to install your Heroku toolbelt which you can find here (you can skip the installation if you've already installed it during setup): https://toolbelt.heroku.com/
 
