@@ -1,36 +1,37 @@
-# Homework: add more to your website!
+# 숙제: 블로그 개선하기!
 
-Our blog has come a long way but there's still room for improvement. Next, we will add features for post drafts and their publication. We will also add deletion of posts that we no longer want. Neat!
+이미 많은 것을 배웠어요. 하지만 아직 개선해 볼 것들이 남아있어요. 이제 게시글 미리 보기와 발행을 위한 기능을 추가해 볼 것입니다. 이제는 필요 없는 글을 삭제하는 것도 할거에요. 간단하게요!
 
-## Save new posts as drafts
+## 미리 보기로 블로그 글 저장하기
 
-Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
+*새 글* 폼을 사용하면 글이 작성될 때 바로 발행 될 거에요. 미리 보기로 글을 저장하려면 미리 보기 `blog/views.py`파일에서 `post_new`와 `post_edit`메소드의 다음 줄을 **삭제**하세요:
 
 ```python
 post.published_date = timezone.now()
 ```
 
-This way, new posts will be saved as drafts that we can review later on rather than being instantly published. All we need now is a way to list and publish drafts, let's get to it!
+이렇게 하면, 새로 작성한 글이 바로 게시되지 않고 미리 볼 수 있는 초안으로 저장이 됩니다. 지금 우리가 하려는 건 작성된 글과 목록을 미리 볼 수 있도록 할거에요. 이제 해보도록 하죠!
 
-## Page with list of unpublished posts
+## 게시되지 않은 블로그 글 목록 페이지 만들기
 
-Remember the chapter about querysets? We created a view `post_list` that displays only published blog posts (those with non-empty `published_date`).
+기본 튜토리얼에서 배웠던 QuerySet 내용 모두 기억하고 있죠? 기본 튜토리얼에서는 블로그 게시물만 보여주는 `post_list`를 만들었어요.
+(기본 값으로 채워진 `published_date`도 함께요)
 
-Time to do something similar, but for draft posts.
+이번에도 비슷한 것을 해볼 건데요. 하지만 이번에는 임시저장(draft) 기능을 구현해볼 거에요.
 
-Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
+새 글 추가하기 버튼 근처에 `blog/templates/blog/base.html` 링크를 추가하세요(`<h1><a href="/">Django Girls Blog</a></h1>`위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 새로운 글 추가하기 바로 아래에 `{% if user.is_authenticated %}`을 추가해 주세요.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 ```
 
-Next: urls! In `blog/urls.py` we add:
+다음: url입니다! `blog/urls.py`을 열고 아래 내용을 추가할 거에요:
 
 ```python
 url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
 ```
 
-Time to create a view in `blog/views.py`:
+`blog/views.py`에 view를 생성할 차례입니다:
 
 ```python
 def post_draft_list(request):
@@ -38,9 +39,9 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 ```
 
-The line `    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure that we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
+`posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` 코드를 뜯어 살펴봅시다. (`published_date__isnull=True`) 코드로 발행되지 않은 글 목록을 가져옵니다. (`order_by('created_date')`) 코드로 `created_date` 필드에 대해 오름차순 정렬을 수행합니다.).
 
-Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
+마지막으로 템플릿을 수정해 봅시다. 아래 내용으로 `blog/templates/blog/post_draft_list.html` 파일을 생성해주세요:
 
 ```django
 {% extends 'blog/base.html' %}
@@ -56,17 +57,17 @@ Ok, the last bit is of course a template! Create a file `blog/templates/blog/pos
 {% endblock %}
 ```
 
-It looks very similar to our `post_list.html`, right?
+`post_list.html` 템플릿과 코드가 많이 비슷해보이죠?
 
-Now when you go to `http://127.0.0.1:8000/drafts/` you will see the list of unpublished posts.
+브라우저로 `http://127.0.0.1:8000/draft/` 페이지를 열어보면, 미 게시된 글목록을 확인할 수 있어요.
 
-Yay! Your first task is done!
+야호! 첫 번째 일이 마쳤어요!
 
-## Add publish button
+## 게시 버튼 추가하기
 
-It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
+게시글 상세페이지에 블로그 글을 바로 게시할 수 있는 버튼을 만들면 좋겠죠?
 
-Let's open `blog/templates/blog/post_detail.html` and change these lines:
+`blog/templates/blog/post_detail.html` 를 열고, 아래 내용을 변경해봅시다:
 
 ```django
 {% if post.published_date %}
@@ -76,7 +77,7 @@ Let's open `blog/templates/blog/post_detail.html` and change these lines:
 {% endif %}
 ```
 
-into these:
+에서 아래와 같이 변경합니다.
 
 ```django
 {% if post.published_date %}
@@ -88,15 +89,15 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+보시는 대로 `{% else %}` 템플릿 태그를 추가했습니다. 이는 `{% if post.published_date %}` 조건이 만족하지 않을 때 (`published_date` 필드가 비어있을 때), `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>` 내용으로 렌더링됩니다. `{% url %}` 템플릿태그에 `pk` 인자를 넘겨줌에 유의하세요.
 
-Time to create a URL (in `blog/urls.py`):
+`blog/urls.py`에 URL 패턴을 추가해봅시다:
 
 ```python
 url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
 ```
 
-and finally, a *view* (as always, in `blog/views.py`):
+마지막으로 `post_publish` *뷰*를 `blog/views.py` 에 추가해봅시다:
 
 ```python
 def post_publish(request, pk):
@@ -105,7 +106,7 @@ def post_publish(request, pk):
     return redirect('post_detail', pk=pk)
 ```
 
-Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
+다음으로 `blog/models.py` 파일에서 `Post` 모델에 publish 멤버 함수를 추가해주세요:
 
 ```python
 def publish(self):
@@ -113,31 +114,31 @@ def publish(self):
     self.save()
 ```
 
-Now we can finally use this!
+자, 발행기능을 모두 구현했습니다!
 
-And once again after publishing the post we are immediately redirected to the `post_detail` page!
+글을 발행하면 바로 `post_detail` 페이지로 리다이렉션됩니다.
 
 ![Publish button](images/publish2.png)
 
-Congratulations! You are almost there. The last step is adding a delete button!
+축하해요! 거의 다 왔습니다. 마지막 단계는 삭제 버튼을 추가하는 것입니다.
 
-## Delete post
+## 블로그 글 삭제하기
 
-Let's open `blog/templates/blog/post_detail.html` once again and add this line:
+`blog/templates/blog/post_detail.html` 파일에 아래 코드를 추가해주세요:
 
 ```django
 <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 ```
 
-just under a line with the edit button.
+수정 버튼 바로 아래 줄에 추가해주세요.
 
-Now we need a URL (`blog/urls.py`):
+(`blog/urls.py`)에 URL 패턴을 추가해봅시다:
 
 ```python
 url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
 ```
 
-Now, time for a view! Open `blog/views.py` and add this code:
+이제 post_remove 뷰를 구현해봅시다. `blog/views.py` 에 아래 코드를 추가해주세요:
 
 ```python
 def post_remove(request, pk):
@@ -146,12 +147,12 @@ def post_remove(request, pk):
     return redirect('post_list')
 ```
 
-The only new thing is to actually delete a blog post. Every Django model can be deleted by `.delete()`. It is as simple as that!
+이제 블로그 글을 삭제할 수 있게 되었어요. Django 모델을 삭제할 때는 단순히`.delete()`를 호출하면 됩니다. 간단하게요!
 
-And this time, after deleting a post we want to go to the webpage with a list of posts, so we are using `redirect`.
+글을 삭제하고 나면 글 목록 화면으로 리다이렉션됩니다. 이때 `redirect` 함수를 썼어요.
 
-Let's test it! Go to the page with a post and try to delete it!
+이제 테스트해봅시다! 블로그 글 페이지로 가서 삭제해 보세요!
 
 ![Delete button](images/delete3.png)
 
-Yes, this is the last thing! You completed this tutorial! You are awesome!
+마지막까지 잘 해냈어요! 드디어 튜토리얼을 마쳤답니다! 정말 멋져요!
