@@ -18,7 +18,7 @@
 * [숙제: 댓글 모델 만들기](homework_create_more_models/README.md)
 * [옵션: PostgreSQL 설치하기](optional_postgresql_installation/README.md)
 * [옵션: 도메인 만들기](domain/README.md)
-* [Heroku 배포하기](heroku/README.md)
+* [헤로쿠(Heroku)에 배포하기](heroku/README.md)
 
 
 ## 튜토리얼 참여하기
