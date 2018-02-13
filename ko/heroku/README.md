@@ -170,18 +170,17 @@ application = DjangoWhiteNoise(application)
 
 헤로쿠가 우리를 위해 아무도 사용하고 있지 않은 이름을 골라줄 거예요(아마도 `enigmatic-cove-2527` 이런 형태의 이름으로).
 
-If you ever feel like changing the name of your Heroku application, you can do so at any time with this command (replace `the-new-name` with the new name you want to use):
-헤로쿠에서 만든 이름을 변경하고 싶다면 언제든지 아래 처럼 명령어를 실행해서 바꿔줄 수 있을 거예요(`the-new-name` 을 변경할 이름으로 바꿔주세요.):
+헤로쿠에서 만든 이름을 변경하고 싶다면 언제든지 아래처럼 명령어를 실행해서 바꿔줄 수 있을 거예요. (`the-new-name` 을 변경할 이름으로 바꿔주세요.)
 
     $ heroku apps:rename the-new-name
 
 > __Note__: 애플리케이션 명을 변경하면 꼭 `[the-new-name].herokuapp.com` 와 같이 변경된 이름으로 사이트를 방문해서 확인해 보세요.
 
-## 헤로쿠에 배포하기!
+## 헤로쿠에 배포하기! 
 
-설정과 설치과정이 조금 많았죠? 하지만 이 일은 한 번만 해주면 돼요! 이제 배포를 할 수 있어요!
+설정과 설치 과정이 조금 많았죠? 하지만 이 일은 한 번만 해주면 돼요! 이제 배포를 할 수 있어요! 
 
-`heroku create`을 실행했을 때 헤로쿠의 remote를 자동으로 설정했어요. git push 로 우리의 애플리케이션을 배포해 보세요.:
+`heroku create`을 실행했을 때 헤로쿠의 remote를 자동으로 설정했어요. git push로 우리의 애플리케이션을 배포해 보세요.
 
     $ git push heroku master
 
@@ -192,11 +191,11 @@ If you ever feel like changing the name of your Heroku application, you can do s
 헤로쿠에 코드를 배포하고 `Procfile`로 프로세스 유형을 지정했어요(`web` 프로세스로요).
 이제 헤로쿠에 `web process` 시작하라고 얘기해 줄 수 있어요.
 
-이 명령어를 실행하려면 다음과 같이 해보세요.:
+이 명령어를 실행하려면 다음과 같이 해보세요.
 
     $ heroku ps:scale web=1
 
-이건 헤로쿠에게 `web` 프로세스의 인스턴스 하나만 실행하도록 해요. 우리의 블로그 애플리케이션은 꽤 단순하기 때문에 많은 전력을 필요하지 않아요. 그래서 하나의 프로세스만으로도 충분할 거에요. 헤로쿠에게 더 많은 프로세스를 실행하도록 요청할 수도 있어요(단, 헤로쿠는 이 프로세스를 "Dynos"라고 불러요. 이 단어를 보게 된다면 놀라지 마세요.) 하지만 여러 프로세스를 실행하게 된다면 더 이상 무료가 아니에요.
+이건 헤로쿠에게 `web` 프로세스의 인스턴스 하나만 실행하도록 해요. 우리의 블로그 애플리케이션은 꽤 단순하기 때문에 많은 전력을 필요하지 않아요. 그래서 하나의 프로세스만으로도 충분할 거예요. 헤로쿠에게 더 많은 프로세스를 실행하도록 요청할 수도 있어요(단, 헤로쿠는 이 프로세스를 "Dynos"라고 불러요. 이 단어를 보게 된다면 놀라지 마세요.) 하지만 여러 프로세스를 실행하게 된다면 더 이상 무료가 아니에요.
 
 브라우저에서 `heroku open`을 통해 앱에 들어갈 수 있어요.
 
@@ -204,14 +203,14 @@ If you ever feel like changing the name of your Heroku application, you can do s
 
 > __Note__: 아마도 오류 페이지가 보일 거예요! 1분만 이것에 대해 얘기해 볼게요.
 
-브라우저에서 [https://djangogirlsblog.herokuapp.com/]() 우리의 블로그 애플리케이션 주소로 접속하면 아마도 오류 페이지가 나올 거에요.
+브라우저에서 우리 블로그 애플리케이션 주소인 https://djangogirlsblog.herokuapp.com/에 접속하면 아마도 오류 페이지가 나올 거예요.
 
-이 오류는 헤로쿠에 배포를 할 때 비어있는 새로운 데이터베이스를 만들어주었기 때문이에요. PythonAnywhere 에서 했던 것처럼 `migrate` 와 `createsuperuser` 명령어를 실행해주세요. 이번에는 헤로쿠를 위한 특별한 명령어를 실행할게요. 이렇게요. `heroku run`: 
+이 오류는 헤로쿠에 배포를 할 때 비어있는 새로운 데이터베이스를 만들어주었기 때문이에요. PythonAnywhere에서 했던 것처럼 `migrate` 와 `createsuperuser` 명령어를 실행해주세요. 이번에는 헤로쿠를 위한 특별한 명령어를 실행할게요. `heroku run` 이렇게요. 
 
     $ heroku run python manage.py migrate
 
     $ heroku run python manage.py createsuperuser
 
-이 명령 프롬프트는 사용자명과 비밀번호를 다시 물어볼 거예요. 웹사이트의 어드민 페이지에서 사용할 로그인 정보를 입력해주세요.
+이 명령 프롬프트는 사용자명과 비밀번호를 다시 물어볼 거예요. 웹사이트의 어드민 페이지에서 사용할 로그인 정보를 입력해주세요. 
 
-브라우저를 새로고침하고 다시 가보세요! 이제 다른 두 플랫폼에 어떻게 배포하는지 알게 되었어요. 마음에 드는 플랫폼을 선택하세요 :)
+브라우저를 새로고침 하고 다시 가보세요! 이제 다른 두 플랫폼에 어떻게 배포하는지 알게 되었어요. 마음에 드는 플랫폼을 선택하세요. :)

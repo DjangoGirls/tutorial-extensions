@@ -42,7 +42,7 @@ class Comment(models.Model):
         - Create model Comment
 ```
 
-`blog/migrations` 디렉토리에 새로 마이그레이션 파일이 생성되었어요. 이제 `python manage.py migrate blog` 명령어로 변경내역을 적용합니다. 다음과 같은 출력이 보일 거에요.
+`blog/migrations` 디렉터리에 새로 마이그레이션 파일이 생성되었어요. 이제 `python manage.py migrate blog` 명령어로 변경내역을 적용합니다. 다음과 같은 출력이 보일 거예요.
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
@@ -57,7 +57,7 @@ class Comment(models.Model):
 
 ## 관리자 패널에 Comment 모델 등록하기
 
-관리자 패널에 모델을 등록하기위해, `blog/admin.py`로 가서 아래 코드를 추가해주세요.
+관리자 패널에 모델을 등록하기 위해, `blog/admin.py`로 가서 아래 코드를 추가해주세요.
 
 
 ```python
@@ -70,7 +70,7 @@ admin.site.register(Comment)
 admin.site.register(Post)
 ```
 
-파일 맨 처음에 Comment 모델을 import 하는 것을 까먹지마세요. 소스파일은 아래와 같은 내용이여야 합니다.
+파일 맨 처음에 Comment 모델을 import 하는 것을 잊지 마세요. 소스파일은 아래와 같은 내용이어야 합니다.
 
 ```python
 from django.contrib import admin
@@ -80,7 +80,7 @@ admin.site.register(Post)
 admin.site.register(Comment)
 ```
 
-커맨드라인에서 `python manage.py runserver`를 입력하고 브라우저에서 [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)를 열어보세요. Comment 리스트가 보이고, 댓글을 추가 삭제할 수 있을 거에요. 주저하지 말고 댓글을 가지고 놀아보세요. 
+커맨드 라인에서 `python manage.py runserver`를 입력하고 브라우저에서 [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)를 열어보세요. Comment 리스트가 보이고, 댓글을 추가 삭제할 수 있을 거예요. 주저하지 말고 댓글을 가지고 놀아보세요.
 
 ## 댓글 보여주기
 
@@ -102,7 +102,7 @@ admin.site.register(Comment)
 자 이제 post_detail 페이지의 댓글을 읽을 수 있어요.
 
 
-좀 더 이쁘게 보여지면 좋겠어요. `static/css/blog.css`파일을 열어 `css` 코드를 추가해보세요.
+좀 더 이쁘게 보이면 좋겠어요. `static/css/blog.css`파일을 열어 `css` 코드를 추가해보세요.
 
 
 ```css
@@ -111,7 +111,7 @@ admin.site.register(Comment)
 }
 ```
 
-post_list 페이지에서 각 글마다 달린 댓글 갯수도 보여줍시다. `blog/templates/blog/post_list.html`에 아래 코드를 추가해주세요.
+post_list 페이지에서 각 글마다 달린 댓글 개수도 보여줍시다. `blog/templates/blog/post_list.html`에 아래 코드를 추가해주세요.
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
@@ -151,7 +151,7 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-파일 맨 처음에 Comment 모델을 import 하는 것을 까먹지 마세요. 
+파일 맨 처음에 Comment 모델을 import 하는 것을 잊지 마세요. 
 
 아래 코드를 찾아
   
@@ -207,11 +207,11 @@ def add_comment_to_post(request, pk):
 from .forms import PostForm, CommentForm
 ```
 
-이제 post_detail 페이지로 가보면, "Add comment" 버튼을 확인할 수 있을 겁니다.
+이제 post_detail 페이지로 가보면, "Add comment" 버튼을 확인할 수 있을 거에요.
 
 ![AddComment](images/add_comment_button.png)
 
-However, when you click that button, you'll see:
+하지만, 버튼을 끌릭하면 이런 게 보이겠죠.
 
 ![TemplateDoesNotExist](images/template_error.png)
 
@@ -233,7 +233,7 @@ However, when you click that button, you'll see:
 
 ## 댓글 관리하기
 
-현재 블로그에 남겨진 모든 댓글들이 post_detail 페이지에 보이네요. 블로그 관리자가 댓글을 승인하거나 삭제할 수 있는 기능이 필요하겠죠. 이제 만들어 봅시다.
+현재 블로그에 남겨진 모든 댓글들이 post_detail 페이지에 보이네요. 블로그 관리자가 댓글을 승인하거나 삭제할 수 있는 기능이 필요하겠죠. 이제 이 기능을 만들어 봅시다.
 
 `blog/templates/blog/post_detail.html` 파일에서 아래 코드를 찾아
 
@@ -302,7 +302,7 @@ def comment_remove(request, pk):
 from .models import Post, Comment
 ```
 
-모든 것이 잘 작동되네요! 하지만 마지막 한 가지가 남았어요. 현재 post_list 페이지에서는 등록된 모든 댓글의 갯수가 보이는데요. *승인된* 댓글의 갯수만 보이게 수정해봅시다.
+모든 것이 잘 작동되네요! 하지만 마지막 한 가지가 남았어요. 현재 post_list 페이지에서는 등록된 모든 댓글의 개수가 보이는데요. *승인된* 댓글의 개수만 보이게 수정해봅시다.
                    
 `blog/templates/blog/post_list.html`파일에서 아래 코드를
 
