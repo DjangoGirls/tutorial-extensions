@@ -1,3 +1,3 @@
 * [🇺🇸 English](en/)
 * [🇰🇷 Korean](ko/)
-* [🇺🇪🇸 Spanish](es/)
+* [🇪🇸 Spanish](es/)
