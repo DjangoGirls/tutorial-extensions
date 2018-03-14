@@ -4,6 +4,7 @@
         "heading-anchors",
         "richquotes@0.0.7",
         "github",
+        "codeblock-label",
         "sidebar-ad",
         "language-picker"
     ],
