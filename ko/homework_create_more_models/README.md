@@ -1,10 +1,10 @@
-# Homework: create comment model
+# 숙제 : 댓글 모델 만들기 
 
-Currently, we only have a Post model. What about receiving some feedback from your readers and letting them comment?
+지금까지 Post 모델만 있었죠. 독자들에게 피드백과 코멘트를 받을 수 있는 댓글을 만들어보면 어떨까요?
 
-## Creating comment blog model
+## Comment 모델 만들기
 
-Let's open `blog/models.py` and append this piece of code to the end of file:
+`blog/models.py` 파일을 열어, 파일의 맨 마지막에 아래 코드를 추가해주세요.
 
 ```python
 class Comment(models.Model):
@@ -22,23 +22,27 @@ class Comment(models.Model):
         return self.text
 ```
 
-You can go back to the **Django models** chapter in the tutorial if you need a refresher on what each of the field types mean.
 
-In this tutorial extension we have a new type of field:
-- `models.BooleanField` - this is true/false field.
+각 필드 타입들에 대한 설명은 장고걸스 튜토리얼의 **[Django 모델](https://tutorial.djangogirls.org/ko/django_models/)** 장에서 다뤘으니 다시 읽고 돌아와도 좋아요.
 
-The `related_name` option in `models.ForeignKey` allows us to have access to comments from within the Post model.
+이번 장에서는 새로운 필드 타입을 써볼게요.
 
-## Create tables for models in your database
+- models.BooleanField - 참/거짓(true/false) 필드랍니다.
 
-Now it's time to add our comment model to the database. To do this we have to tell Django that we made changes to our model. Type `python manage.py makemigrations blog` in your command line. You should see output like this:
+`models.ForeignKey`의 `related_name` 옵션은 Post 모델에서 댓글에 액서스할 수 있게 합니다.
 
+## 데이터베이스에 새 모델 테이블 생성하기
+
+자, 데이터베이스에 Comment 모델을 추가할 시간이에요. 그러려면 장고에게 모델 변경내용을 알려줘야 합니다. `python manage.py makemigrations blog` 명령어를 입력하세요.
+
+```
     (myvenv) ~/djangogirls$ python manage.py makemigrations blog
     Migrations for 'blog':
       0002_comment.py:
         - Create model Comment
+```
 
-You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the command line. The output should look like this:
+`blog/migrations` 디렉터리에 새로 마이그레이션 파일이 생성되었어요. 이제 `python manage.py migrate blog` 명령어로 변경내역을 적용합니다. 다음과 같은 출력이 보일 거예요.
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
@@ -49,23 +53,24 @@ You can see that this command created another migration file for us in the `blog
       Applying blog.0002_comment... OK
 ```
 
-Our Comment model exists in the database now! Wouldn't it be nice if we had access to it in our admin panel?
+이제 Comment 모델이 데이터베이스 안에 생겼네요! 관리자 패널(admin panel)에서 Commnet 모델에 접근할 수 있다면 멋지겠죠?
 
-## Register Comment model in admin panel
+## 관리자 패널에 Comment 모델 등록하기
 
-To register the Comment model in the admin panel, go to `blog/admin.py` and add this line:
+관리자 패널에 모델을 등록하기 위해, `blog/admin.py`로 가서 아래 코드를 추가해주세요.
+
 
 ```python
 admin.site.register(Comment)
 ```
 
-directly under this line:
+아래 코드 바로 밑에 추가하면 됩니다.
 
 ```python
 admin.site.register(Post)
 ```
 
-Remember to import the Comment model at the top of the file, too, like this:
+파일 맨 처음에 Comment 모델을 import 하는 것을 잊지 마세요. 소스파일은 아래와 같은 내용이어야 합니다.
 
 ```python
 from django.contrib import admin
@@ -75,11 +80,11 @@ admin.site.register(Post)
 admin.site.register(Comment)
 ```
 
-If you type `python manage.py runserver` on the command line and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to the list of comments, and also the capability to add and remove comments. Play around with the new comments feature!
+커맨드 라인에서 `python manage.py runserver`를 입력하고 브라우저에서 [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)를 열어보세요. Comment 리스트가 보이고, 댓글을 추가 삭제할 수 있을 거예요. 주저하지 말고 댓글을 가지고 놀아보세요.
 
-## Make our comments visible
+## 댓글 보여주기
 
-Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% endblock %}` tag:
+`blog/templates/blog/post_detail.html`로 가서 `{% endblock %}` 태그 바로 전에 아래 코드를 추가하세요.
 
 ```django
 <hr>
@@ -94,9 +99,11 @@ Go to the `blog/templates/blog/post_detail.html` file and add the following line
 {% endfor %}
 ```
 
-Now we can see the comments section on pages with post details.
+자 이제 post_detail 페이지의 댓글을 읽을 수 있어요.
 
-But it could look a little bit better, so let's add some CSS to the bottom of the `static/css/blog.css` file:
+
+좀 더 이쁘게 보이면 좋겠어요. `static/css/blog.css`파일을 열어 `css` 코드를 추가해보세요.
+
 
 ```css
 .comment {
@@ -104,13 +111,13 @@ But it could look a little bit better, so let's add some CSS to the bottom of th
 }
 ```
 
-We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add the line:
+post_list 페이지에서 각 글마다 달린 댓글 개수도 보여줍시다. `blog/templates/blog/post_list.html`에 아래 코드를 추가해주세요.
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-After that our template should look like this:
+이제 아래와 같은 코드가 될 거에요.
 
 ```django
 {% extends 'blog/base.html' %}
@@ -129,11 +136,12 @@ After that our template should look like this:
 {% endblock content %}
 ```
 
-## Let your readers write comments
+## 댓글 작성하기
 
-Right now we can see comments on our blog, but we can't add them. Let's change that!
+방문자는 댓글을 읽을 수 있지만, 직접 댓글을 남길 수는 없어요. 댓글을 작성할 수 있게 만들어 봅시다.
 
-Go to `blog/forms.py` and add the following lines to the end of the file:
+
+`blog/forms.py`파일의 맨 끝에 아래 코드를 추가하세요.
 
 ```python
 class CommentForm(forms.ModelForm):
@@ -143,39 +151,40 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-Remember to import the Comment model, changing the line:
+파일 맨 처음에 Comment 모델을 import 하는 것을 잊지 마세요. 
 
+아래 코드를 찾아
+  
 ```python
 from .models import Post
 ```
 
-into:
-
+이렇게 수정하세요.
 ```python
 from .models import Post, Comment
 ```
 
-Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for comment in post.comments.all %}`, add:
+다음으로 `blog/templates/blog/post_detail.html` 파일에서 `{% for comment in post.comments.all %}` 전에 아래 코드를 추가해주세요.
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
-If you go to the post detail page you should see this error:
+post_detail 페이지로 가면 에러가 뜰 거에요.
 
 ![NoReverseMatch](images/url_error.png)
 
-We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
+어떻게 고쳐야하는지 알고 있을 거에요! `blog/urls.py` 파일에서 `urlpatterns`에 새 패턴을 추가해야죠.
 
 ```python
 url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
-Refresh the page, and we get a different error!
+페이지를 새로고침하면 또 에러가 보일 거에요!
 
 ![AttributeError](images/views_error.png)
 
-To fix this error, add this view to `blog/views.py`:
+에러를 해결하려면 `blog/views.py` 파일에서 새로운 뷰를 추가해야해요.
 
 ```python
 def add_comment_to_post(request, pk):
@@ -192,23 +201,21 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-Remember to import `CommentForm` at the beginning of the file:
+이번에도 파일 맨 처음에  `CommentForm` 을 import 하는 것을 잊지 마세요.
 
 ```python
 from .forms import PostForm, CommentForm
 ```
 
-
-Now, on the post detail page, you should see the "Add Comment" button.
+이제 post_detail 페이지로 가보면, "Add comment" 버튼을 확인할 수 있을 거에요.
 
 ![AddComment](images/add_comment_button.png)
 
-However, when you click that button, you'll see:
+하지만, 버튼을 끌릭하면 이런 게 보이겠죠.
 
 ![TemplateDoesNotExist](images/template_error.png)
 
-
-Like the error tells us, the template doesn't exist yet. So, let's create a new one at `blog/templates/blog/add_comment_to_post.html` and add the following code:
+이 에러는 뷰에서 지정된 템플릿이 없다는 에러에요. `blog/templates/blog/` 경로에 `add_comment_to_post.html`이라는 새 파일을 만들고 아래 코드를 작성하세요.
 
 ```django
 {% extends 'blog/base.html' %}
@@ -222,13 +229,13 @@ Like the error tells us, the template doesn't exist yet. So, let's create a new 
 {% endblock %}
 ```
 
-Yay! Now your readers can let you know what they think of your blog posts!
+와! 이제 내 블로그 글을 읽은 사람들이 댓글을 남길 수 있게 되었네요!
 
-## Moderating your comments
+## 댓글 관리하기
 
-Not all of the comments should be displayed. As the blog owner, you probably want the option to approve or delete comments. Let's do something about it.
+현재 블로그에 남겨진 모든 댓글들이 post_detail 페이지에 보이네요. 블로그 관리자가 댓글을 승인하거나 삭제할 수 있는 기능이 필요하겠죠. 이제 이 기능을 만들어 봅시다.
 
-Go to `blog/templates/blog/post_detail.html` and change lines:
+`blog/templates/blog/post_detail.html` 파일에서 아래 코드를 찾아
 
 ```django
 {% for comment in post.comments.all %}
@@ -242,7 +249,7 @@ Go to `blog/templates/blog/post_detail.html` and change lines:
 {% endfor %}
 ```
 
-to:
+이렇게 바꾸세요.
 
 ```django
 {% for comment in post.comments.all %}
@@ -264,16 +271,16 @@ to:
 {% endfor %}
 ```
 
-You should see `NoReverseMatch`, because no URL matches the `comment_remove` and `comment_approve` patterns... yet!
+`NoReverseMatch` 예외가 뜰 텐데요. 이를 `comment_remove`와 `comment_approve` 패턴에 매칭되는 url이 없기 때문이에요.
 
-To fix the error, add these URL patterns to `blog/urls.py`:
+에러를 해결하려면 `blog/urls.py` 에 `url` 패턴을 추가해주세요.
 
 ```python
 url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
 url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
 ```
 
-Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
+이제 `AttributeError` 에러가 또 보일 거에요. 에러를 해결하기 위해, `blog/views.py` 에 뷰를 추가해주세요.
 
 ```python
 @login_required
@@ -285,42 +292,36 @@ def comment_approve(request, pk):
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
-    post_pk = comment.post.pk
     comment.delete()
-    return redirect('post_detail', pk=post_pk)
+    return redirect('post_detail', pk=comment.post.pk)
 ```
 
-You'll also need to import `login_required` at the beginning of the file:
-
-```python
-from django.contrib.auth.decorators import login_required
-```
-
-And of course, remember to import `Comment` at the top of the file:
+파일 맨 처음에 `Comment`를 import하는 것을 잊지 않았겠죠.
 
 ```python
 from .models import Post, Comment
 ```
 
-Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.
-
-To fix this, go to `blog/templates/blog/post_list.html` and change the line:
+모든 것이 잘 작동되네요! 하지만 마지막 한 가지가 남았어요. 현재 post_list 페이지에서는 등록된 모든 댓글의 개수가 보이는데요. *승인된* 댓글의 개수만 보이게 수정해봅시다.
+                   
+`blog/templates/blog/post_list.html`파일에서 아래 코드를
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-to:
+다음과 같이 수정해주세요.
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
 
-Finally, add this method to the Post model in `blog/models.py`:
+그리고 `blog/models.py` 파일에서 `Post` 모델에 아래 메서드를 추가해주세요.
 
 ```python
 def approved_comments(self):
     return self.comments.filter(approved_comment=True)
 ```
 
-Now your comment feature is finished! Congrats! :-)
+드디어 댓글 기능을 모두 만들었어요! 함께 축하해요. :-)
+

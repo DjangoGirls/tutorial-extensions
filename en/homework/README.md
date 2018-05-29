@@ -38,7 +38,7 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 ```
 
-This line `Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
+The line `    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure that we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
 
 Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
 
@@ -66,7 +66,7 @@ Yay! Your first task is done!
 
 It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
 
-Let's open `blog/template/blog/post_detail.html` and change these lines:
+Let's open `blog/templates/blog/post_detail.html` and change these lines:
 
 ```django
 {% if post.published_date %}
