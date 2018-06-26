@@ -98,6 +98,12 @@ DATABASES = {
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+# at the very end if the file add:
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 ```
 
 It'll do necessary configuration for Heroku.
