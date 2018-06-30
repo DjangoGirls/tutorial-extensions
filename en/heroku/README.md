@@ -99,7 +99,7 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-# at the very end if the file add:
+# at the very end of the file add:
 try:
     from .local_settings import *
 except ImportError:
