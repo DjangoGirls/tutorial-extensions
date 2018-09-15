@@ -1,10 +1,12 @@
-# Homework: create comment model
+# 課題:コメントモデルを作ります。
 
-Currently, we only have a Post model. What about receiving some feedback from your readers and letting them comment?
+現在、ポストモデルしかありません。 あなたの読者からいくつかのフィードバックを受け取り、彼らにコメントさせるのはどうでしょうか？
 
-## Creating comment blog model
+
+## コメントブログモデルを作りましょう！
 
 Let's open `blog/models.py` and append this piece of code to the end of file:
+`blog/models.py`を開き、このコードをファイルの最後に追加しましょう：
 
 ```python
 class Comment(models.Model):
@@ -22,23 +24,24 @@ class Comment(models.Model):
         return self.text
 ```
 
-You can go back to the **Django models** chapter in the tutorial if you need a refresher on what each of the field types mean.
+各フィールドタイプの意味を見直す必要がある場合は、チュートリアルの**Django models**の章に戻ることができます。
 
-In this tutorial extension we have a new type of field:
-- `models.BooleanField` - this is true/false field.
+このチュートリアルエクステンションの中に、新しいフィールドタイプがある：
+- `models.BooleanField` - こちらはture/falseのフィールドです。
 
-The `related_name` option in `models.ForeignKey` allows us to have access to comments from within the Post model.
+`models.ForeignKey`の`related_name`オプションは、ポストモデルの中のコメントにアクセスできるようにします。
 
-## Create tables for models in your database
+## データベース内のモデルのテーブルを作りましょう！
 
-Now it's time to add our comment model to the database. To do this we have to tell Django that we made changes to our model. Type `python manage.py makemigrations blog` in your command line. You should see output like this:
+今度は、コメントモデルをデータベースに追加します。 これを行うには、モデルを変更したことをDjangoに伝えなければなりません。 あなたのコマンドラインに `python manage.py makemigrations blog`と入力してください。 次のような出力が表示されます。
 
     (myvenv) ~/djangogirls$ python manage.py makemigrations blog
     Migrations for 'blog':
       0002_comment.py:
         - Create model Comment
 
-You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the command line. The output should look like this:
+このコマンドは、 `blog / migrations /`ディレクトリに別のマイグレーションファイルを作成したことがわかります。 コマンドラインで `python manage.py migrate blog`とタイプして変更を適用する必要があります。 出力は次のようになります。
+
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
@@ -49,23 +52,24 @@ You can see that this command created another migration file for us in the `blog
       Applying blog.0002_comment... OK
 ```
 
-Our Comment model exists in the database now! Wouldn't it be nice if we had access to it in our admin panel?
+コメントモデルは今データベースに存在します！ 管理パネルでアクセスできるといいですか？
 
-## Register Comment model in admin panel
+## アドミンパネルにコメントモデルを登録しましょう
 
-To register the Comment model in the admin panel, go to `blog/admin.py` and add this line:
+アドミンパネルにコメントモデルを登録するため、`blog/admin.py`に行って以下のラインを追加してください。
 
 ```python
 admin.site.register(Comment)
 ```
 
-directly under this line:
+この行の直下：
+
 
 ```python
 admin.site.register(Post)
 ```
 
-Remember to import the Comment model at the top of the file, too, like this:
+コメント・モデルをファイルの先頭にインポートすることも忘れないようにしてください。
 
 ```python
 from django.contrib import admin
@@ -75,11 +79,12 @@ admin.site.register(Post)
 admin.site.register(Comment)
 ```
 
-If you type `python manage.py runserver` on the command line and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to the list of comments, and also the capability to add and remove comments. Play around with the new comments feature!
+コマンドラインで`python manage.py runserver`を入力し、あなたのブラウザで
+ [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) に行くと、あなたのコメントリストにアクセスすることができ、コメントの追加と削除の機能が使えるようになります。新しいコメント機能で遊んでみましょう！
 
-## Make our comments visible
+## コメントを見えるようにしましょう！
 
-Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% endblock %}` tag:
+`blog/templates/blog/post_detail.html`というファイルに行き、`{% endblock %}`タグの前に、以下のラインを追加してください。
 
 ```django
 <hr>
@@ -94,9 +99,9 @@ Go to the `blog/templates/blog/post_detail.html` file and add the following line
 {% endfor %}
 ```
 
-Now we can see the comments section on pages with post details.
+ここで、投稿の詳細が記載されたページのコメントセクションを見ることができます。
 
-But it could look a little bit better, so let's add some CSS to the bottom of the `static/css/blog.css` file:
+しかしそれは少し良く見えるかもしれませんので、 `static / css / blog.css`ファイルの一番下にいくつかのCSSを追加しましょう：
 
 ```css
 .comment {
@@ -104,13 +109,14 @@ But it could look a little bit better, so let's add some CSS to the bottom of th
 }
 ```
 
-We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add the line:
+ポストリストページのコメントについては、訪問者に知らせることもできます。 `blog / templates / blog / post_list.html`ファイルに移動し、次の行を追加します：
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-After that our template should look like this:
+その後、テンプレートは次のようになります。
+
 
 ```django
 {% extends 'blog/base.html' %}
@@ -129,11 +135,13 @@ After that our template should look like this:
 {% endblock content %}
 ```
 
-## Let your readers write comments
+## あなたの読者がコメントを書くことができます
 
-Right now we can see comments on our blog, but we can't add them. Let's change that!
+今は私たちのブログでコメントを見ることができますが、追加することはできません。 それを変えましょう！
 
-Go to `blog/forms.py` and add the following lines to the end of the file:
+
+`blog/forms.py`に行き、以下のラインをファイルの最後に追加します。
+
 
 ```python
 class CommentForm(forms.ModelForm):
@@ -143,39 +151,40 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-Remember to import the Comment model, changing the line:
+行を変更して、Commentモデルをインポートすることを忘れないでください：
 
 ```python
 from .models import Post
 ```
 
-into:
+それに：
 
 ```python
 from .models import Post, Comment
 ```
 
-Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for comment in post.comments.all %}`, add:
+今、`blog/templates/blog/post_detail.html`に行き、`{% for comment in post.comments.all %}`の前に以下の行を追加します。
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
-If you go to the post detail page you should see this error:
+もし投稿詳細ページに行くと、以下のエラーが表示されます。
 
 ![NoReverseMatch](images/url_error.png)
 
-We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
+
+私たちはそれを修正する方法を知っています！ `blog / urls.py`に行き、このパターンを` urlpatterns`に追加してください：
 
 ```python
 url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
-Refresh the page, and we get a different error!
+ページを更新したら、また違うエラーが出てきます！
 
 ![AttributeError](images/views_error.png)
 
-To fix this error, add this view to `blog/views.py`:
+こちらのエラーを修正するために、以下のビューを追加してください：
 
 ```python
 def add_comment_to_post(request, pk):
@@ -192,23 +201,22 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-Remember to import `CommentForm` at the beginning of the file:
+`CommentForm`をファイルの先頭にインポートすることを忘れないでください：
 
 ```python
 from .forms import PostForm, CommentForm
 ```
 
-
-Now, on the post detail page, you should see the "Add Comment" button.
+今、詳細投稿ページで”コメント追加”というボタンが表示されます。
 
 ![AddComment](images/add_comment_button.png)
 
-However, when you click that button, you'll see:
+しかし、そのボタンをクリックしたら、次のように表示されます。
 
 ![TemplateDoesNotExist](images/template_error.png)
 
 
-Like the error tells us, the template doesn't exist yet. So, let's create a new one at `blog/templates/blog/add_comment_to_post.html` and add the following code:
+表示されたエラーのように、テンプレートは存在していないですので、`blog/templates/blog/add_comment_to_post.html`で新しいテンプレートを作り、以下のコードを追加してください：
 
 ```django
 {% extends 'blog/base.html' %}
@@ -222,13 +230,14 @@ Like the error tells us, the template doesn't exist yet. So, let's create a new 
 {% endblock %}
 ```
 
-Yay! Now your readers can let you know what they think of your blog posts!
+わーい！ 今あなたの読者は、彼らがあなたのブログ記事をどう思っているかを知らせることができます！
 
-## Moderating your comments
+## あなたのコメントをモデレートしましょう！
 
-Not all of the comments should be displayed. As the blog owner, you probably want the option to approve or delete comments. Let's do something about it.
+すべてのコメントを表示する必要はありません。 ブログの所有者は、コメントを承認または削除するオプションが必要な場合があります。 それについて何かしましょう。
 
-Go to `blog/templates/blog/post_detail.html` and change lines:
+
+`blog/templates/blog/post_detail.html`に行き、以下の行を変更してください。
 
 ```django
 {% for comment in post.comments.all %}
@@ -242,7 +251,7 @@ Go to `blog/templates/blog/post_detail.html` and change lines:
 {% endfor %}
 ```
 
-to:
+以下に変更してね。
 
 ```django
 {% for comment in post.comments.all %}
@@ -264,16 +273,19 @@ to:
 {% endfor %}
 ```
 
-You should see `NoReverseMatch`, because no URL matches the `comment_remove` and `comment_approve` patterns... yet!
 
-To fix the error, add these URL patterns to `blog/urls.py`:
+`comment_remove`と` comment_approve`パターンに一致するURLがないので、 `NoReverseMatch`が表示されます。まだ終わってないです！
+
+
+こちらのエラーを修正するため、以下URLパターンを`blog/urls.py`に追加してください。
 
 ```python
 url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
 url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
 ```
 
-Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
+さて、あなたは`AttributeError`が見えます。このエラーを修正し、以下のビューを
+`blog/views.py`に追加してください。
 
 ```python
 @login_required
@@ -289,32 +301,32 @@ def comment_remove(request, pk):
     return redirect('post_detail', pk=comment.post.pk)
 ```
 
-
-You'll need to import `Comment` at the top of the file:
+ファイルの先頭に `Comment`をインポートする必要があります：
 
 ```python
 from .models import Post, Comment
 ```
 
-Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.
+すべて動作します！私たちが作ることができる小さな微調整があります。投稿リストページ（投稿の下）には、現在、ブログ投稿が受け取ったすべてのコメントの数が表示されます。※承認されたコメントの数を表示するように変更しましょう。
 
-To fix this, go to `blog/templates/blog/post_list.html` and change the line:
+これを修正するには、 `blog / templates / blog / post_list.html`に行き、行を変更してください：
+
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-to:
+下記行に変更してくださいね。
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
-
-Finally, add this method to the `Post` model in `blog/models.py`:
+最後に、このメソッドを `blog / models.py`の` Post`モデルに追加してください：
 
 ```python
 def approved_comments(self):
     return self.comments.filter(approved_comment=True)
 ```
 
-Now your comment feature is finished! Congrats! :-)
+これであなたのコメント機能は終了です！ おめでとう！ :-)
+
