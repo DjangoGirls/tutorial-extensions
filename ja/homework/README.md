@@ -1,36 +1,36 @@
-# Homework: add more to your website!
+# 宿題: ウェブサイトにもっと機能を追加しよう!
 
-Our blog has come a long way but there's still room for improvement. Next, we will add features for post drafts and their publication. We will also add deletion of posts that we no longer want. Neat!
+ここまでは長い道のりでしたが、まだまだ私たちのブログには改善の余地があります。つづいて、記事の草稿を作成して、それを投稿する機能を作ります。長らく追加したかった、投稿を削除する機能もつけましょう。すごい!
 
-## Save new posts as drafts
+## あたらしい記事を草稿として保存する
 
-Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
+いまのところ、*New Post* フォームから記事を作成すると、そのままブログに記事が掲載されます。書いた記事をブログに表示せず、草稿として保存するには、`blog/views.py` の `post_new` 関数と `post_edit` 関数にある下の行を**削除**してください。
 
 ```python
 post.published_date = timezone.now()
 ```
 
-This way, new posts will be saved as drafts that we can review later on rather than being instantly published. All we need now is a way to list and publish drafts, let's get to it!
+こうすると新しい記事は草稿として保存されます。記事はいきなり掲載されず、あとで見直すことができるようになりました。今必要なのは保存された草稿をリストアップする機能と、草稿をブログ上に掲載する機能です。それではやってみましょう!
 
-## Page with list of unpublished posts
+## 草稿の一覧ページを作る
 
-Remember the chapter about querysets? We created a view `post_list` that displays only published blog posts (those with non-empty `published_date`).
+DjangoのQuerySetsを勉強した章を覚えていますか? `post_list` のビューを作って、ブログに掲載されている記事( `published_date` がカラではない記事)だけを表示するようにしました。
 
-Time to do something similar, but for draft posts.
+ここでは、それと同じようなことをして、草稿が表示されるようにしましょう。
 
-Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
+`blog/templates/blog/base.html` のヘッダーにリンクを追加しましょう。草稿の一覧は誰でも見れるようにはしません。なので、新しい投稿を追加するボタンのすぐ後にある、 `{% if user.is_authenticated %}` の条件文の中にリンクを書いてください。
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 ```
 
-Next: urls! In `blog/urls.py` we add:
+次は `blog/urls.py` に、urlを追加しましょう!
 
 ```python
 url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
 ```
 
-Time to create a view in `blog/views.py`:
+続いて `blog/views.py` にビューを作ります。
 
 ```python
 def post_draft_list(request):
@@ -38,9 +38,9 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 ```
 
-The line `    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure that we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
+`posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` の行では `filter(published_date__isnull=True)` で、草稿だけを集めています。そうして、`order_by('created_date')` で `created_date` 順に並べています。
 
-Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
+最後にやるのはもちろんテンプレートの作成です! `blog/templates/blog/post_draft_list.html` を作成して、下の記述を加えます。
 
 ```django
 {% extends 'blog/base.html' %}
@@ -56,17 +56,17 @@ Ok, the last bit is of course a template! Create a file `blog/templates/blog/pos
 {% endblock %}
 ```
 
-It looks very similar to our `post_list.html`, right?
+これって `post_list.html` の内容と似ていませんか?
 
-Now when you go to `http://127.0.0.1:8000/drafts/` you will see the list of unpublished posts.
+それでは `http://127.0.0.1:8000/drafts/` を開いてみましょう。草稿のリストが表示されるはずです。
 
-Yay! Your first task is done!
+やった! これで1つ完了です!
 
-## Add publish button
+## 掲載ボタンをつける
 
-It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
+投稿の詳細ページに、押したらすぐに記事が掲載できるようなボタンがあるといいと思いませんか?
 
-Let's open `blog/templates/blog/post_detail.html` and change these lines:
+`blog/templates/blog/post_detail.html` を開いて、下の行を・・・
 
 ```django
 {% if post.published_date %}
@@ -76,7 +76,7 @@ Let's open `blog/templates/blog/post_detail.html` and change these lines:
 {% endif %}
 ```
 
-into these:
+下のように変更してください。
 
 ```django
 {% if post.published_date %}
@@ -88,15 +88,15 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+ご覧の通り、`{% else %}` を追加しました。これは、記事が `{% if post.published_date %}` の条件に当てはまらない(記事に `published_date` が無い)ときに、 `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>` を表示する、と言う意味です。  `{% url %}` のキーワード引数である `pk` に値を渡しています。
 
-Time to create a URL (in `blog/urls.py`):
+それでは  `blog/urls.py` に新しいURLを追加しましょう。
 
 ```python
 url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
 ```
 
-and finally, a *view* (as always, in `blog/views.py`):
+最後にいつものように `blog/views.py` に *ビュー* を追加します。
 
 ```python
 def post_publish(request, pk):
@@ -105,7 +105,7 @@ def post_publish(request, pk):
     return redirect('post_detail', pk=pk)
 ```
 
-Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
+`Post` モデルを作ったときに、`publish` 関数も作りました。こんな感じでしたね・・・
 
 ```python
 def publish(self):
@@ -113,31 +113,30 @@ def publish(self):
     self.save()
 ```
 
-Now we can finally use this!
+いよいよこの関数の出番です!
 
-And once again after publishing the post we are immediately redirected to the `post_detail` page!
+記事が掲載されるとすぐに `post_detail` ページにリダイレクトされます。
 
 ![Publish button](images/publish2.png)
 
-Congratulations! You are almost there. The last step is adding a delete button!
+おめでとうございます! もうすぐ完成です。最後のステップとして削除ボタンを作りましょう。
 
-## Delete post
+## 記事の削除
 
-Let's open `blog/templates/blog/post_detail.html` once again and add this line:
+`blog/templates/blog/post_detail.html` をもう一度開いてください。
+下の行を編集ボタンのすぐ下の行に追加します
 
 ```django
 <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 ```
 
-just under a line with the edit button.
-
-Now we need a URL (`blog/urls.py`):
+`blog/urls.py` にURLも必要ですね。
 
 ```python
 url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
 ```
 
-Now, time for a view! Open `blog/views.py` and add this code:
+次はビューも作りましょう。 `blog/views.py` を開いて下のコードを追加してください。
 
 ```python
 def post_remove(request, pk):
@@ -146,12 +145,12 @@ def post_remove(request, pk):
     return redirect('post_list')
 ```
 
-The only new thing is to actually delete a blog post. Every Django model can be deleted by `.delete()`. It is as simple as that!
+ここで新しく覚えてほしいのは記事を消す方法です。全てのDjangoのモデルは `.delete()` で削除できます。簡単ですね!
 
-And this time, after deleting a post we want to go to the webpage with a list of posts, so we are using `redirect`.
+さっき草稿を消したあとは草稿の一覧ページに飛ぶようにしました。ここでは、記事を消したあとは、記事の一覧ページに飛びたいです。なので `redirect` を使っています。
 
-Let's test it! Go to the page with a post and try to delete it!
+テストしてみましょう! 投稿を表示して削除してみてください!
 
 ![Delete button](images/delete3.png)
 
-Yes, this is the last thing! You completed this tutorial! You are awesome!
+このチュートリアルはこれでおわりです! よく頑張りましたね!
