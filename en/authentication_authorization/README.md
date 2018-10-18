@@ -35,7 +35,7 @@ Hooray, we've reached part of our goal!! Now other people can't create posts on 
 
 We could now try to do lots of magical stuff to implement users and passwords and authentication, but doing this correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication tools provided.
 
-In your `mysite/urls.py` add a path `re_path(r'^accounts/login/$', views.LoginView.as_view(template_name='registration/login.html'), name='login')`. So the file should now look similar to this:
+In your `mysite/urls.py` add a path `path('accounts/login/', views.LoginView.as_view(template_name='registration/login.html'), name='login')`. So the file should now look similar to this:
 
 ```python
 from django.urls import include, path
