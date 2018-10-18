@@ -93,7 +93,7 @@ As you noticed, we added `{% else %}` line here. That means, that if the conditi
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-path(post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
