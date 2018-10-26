@@ -15,4 +15,4 @@ Los tutoriales actuales son:
 
 ## Contribuir
 
-Este tutorial es mantenido por [DjangoGirls](http://djangogirls.org). Si encuentras algunos errores o quieres actualizar el tutorial, por favor [Sigue la guía de contribución](https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md).
+Este tutorial es mantenido por [DjangoGirls](http://djangogirls.org). Si encuentras algunos errores o quieres actualizar el tutorial, por favor [Sigue la guía de contribución](https://github.com/DjangoGirls/tutorial/blob/master/README.md).
