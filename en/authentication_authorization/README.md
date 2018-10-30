@@ -24,6 +24,7 @@ Or if you have a class based view:
 
 ```python
 from django.views import View
+from django.utils.decorators import method_decorator
 
 class MyView(View):
     
