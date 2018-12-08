@@ -10,49 +10,53 @@ is copyrighted by Markus Zapke-Gründemann et al.
 
 ## Windows
 
-The easiest way to install Postgres on Windows is using a program you can find here: http://www.enterprisedb.com/products-services-training/pgdownload#windows
+PostgresをWindowsにインストールする一番簡単な方法は、次のリンクから入手できるプログラムを使うことです： http://www.enterprisedb.com/products-services-training/pgdownload#windows
 
-Choose the newest version available for your operating system. Download the installer, run it and then follow the instructions available here: http://www.postgresqltutorial.com/install-postgresql/. Take note of the installation directory as you will need it in the next step (typically, it's `C:\Program Files\PostgreSQL\9.3`).
+お使いのOSで利用できる最新のバージョンを選んでください。インストーラをダウンロードし、実行し、次のリンクの指示に従ってください：http://www.postgresqltutorial.com/install-postgresql/
+インストール先のディレクトリは次のステップで必要ですので、控えておいてください。（通常は `C:\Program Files\PostgreSQL\9.3` のようになります）
 
 ## Mac OS X
 
-The easiest way is to download the free [Postgres.app](http://postgresapp.com/) and install it like any other application on your operating system.
+一番簡単な方法は、Mac OSの他のアプリケーションと同様に、無料の [Postgres.app](http://postgresapp.com/) をダウンロードし、インストールすることです。
 
-Download it, drag to the Applications directory and run by double clicking. That's it!
+ダウンロードし、「アプリケーション」ディレクトリにドラッグし、ダブルクリックで実行してください。これでおしまいです！
 
-You'll also have to add the Postgres command line tools to your `PATH` variable, what is described [here](http://postgresapp.com/documentation/cli-tools.html).
+[ここ](http://postgresapp.com/documentation/cli-tools.html)に書かれているように、`PATH` 変数にPostgresのコマンドラインツールを追加する必要があります。
 
 ## Linux
 
-Installation steps vary from distribution to distribution. Below are the commands for Ubuntu and Fedora, but if you're using a different distro [take a look at the PostgreSQL documentation](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux).
+インストール手順はディストリビューションごとに異なります。以下にあるのは、UbuntuとFedora向けのコマンドです。これら以外のディストリビューションをお使いの場合は、[PostgreSQLのドキュメント
+を参照してください](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux)。
 
 ### Ubuntu
 
-Run the following command:
+次のコマンドを実行してください：
 
     sudo apt-get install postgresql postgresql-contrib
 
 ### Fedora
 
-Run the following command:
+次のコマンドを実行してください：
 
     sudo yum install postgresql93-server
 
 # Create database
 
-Next up, we need to create our first database, and a user that can access that database. PostgreSQL lets you create as many databases and users as you like, so if you're running more than one site you should create a database for each one.
+次に、最初のデータベースと、それにアクセスできるユーザを作ります。PostgreSQLでは好きなだけデータベースとユーザを作成できるので、複数のサイトを稼働させる場合は、サイトごとにデータベースを作ることになるでしょう。
 
 ## Windows
 
-If you're using Windows, there's a couple more steps we need to complete. For now it's not important for you to understand the configuration we're doing here, but feel free to ask your coach if you're curious as to what's going on.
+Windowsをお使いの場合は、完了する必要のあるいくつかの追加のステップがあります。今の時点では、ここで行う設定を理解することは重要ではありませんが、何が行われているか興味がある方はお気軽にコーチに質問してください。
 
-1. Open the Command Prompt (Start menu → All Programs → Accessories → Command Prompt)
-2. Run the following by typing it in and hitting return: `setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`. You can paste things into the Command Prompt by right clicking and selecting `Paste`. Make sure that the path is the same one you noted during installation with `\bin` added at the end. You should see the message `SUCCESS: Specified value was saved.`.
-3. Close and then reopen the Command Prompt.
+1. コマンドプロンプトを開きます（「スタートメニュー」→「アクセサリ」→「コマンドプロンプト」）
+2. 次のように入力して、Enterキーを押して実行します：`setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`。コマンドプロンプトを右クリックして `ペースト` を選択することで、コピー&ペーストもできます。`"%PATH%;"` に続く部分が、インストール時に控えたパスに `\bin` をつけ足したものと同じか確認してくださいね。`SUCCESS: Specified value was saved.` というメッセージが現れるでしょう。
+3. コマンドプロンプトを閉じて、再度開きます。
 
 ## Create the database
 
-First, let's launch the Postgres console by running `psql`. Remember how to launch the console?
+ますは、`psql` コマンドを実行して、Postgresコンソールを起動しましょう。コンソールの起動の仕方は覚えていますか？
+>Mac OS Xでは、`ターミナル`アプリケーションを起動して行います（「アプリケーション」→「ユーティリティ」の中にあります）。Linuxでは、おそらく「アプリケーション」→「アクセサリ」→「ターミナル」となるでしょう。Windowsでは、「スタートメニュー」→「すべてのプログラム」→「アクセサリ」→「コマンドプロンプト」となります。さらに言うと、Windowsでは、インストール時に
+
 >On Mac OS X you can do this by launching the `Terminal` application (it's in Applications → Utilities). On Linux, it's probably under Applications → Accessories → Terminal. On Windows you need to go to Start menu → All Programs → Accessories → Command Prompt. Furthermore, on Windows, `psql` might require logging in using the username and password you chose during installation. If `psql` is asking you for a password and doesn't seem to work, try `psql -U <username> -W` first and enter the password later.
 
     $ psql
@@ -147,8 +151,8 @@ In order to use the newly created database in your website project, you need to 
 
 To add new posts to your blog, you also need to create a superuser by running the code:
 
-    (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name 
-    
+    (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name
+
 Remember to replace `name` with the username. You will be prompted for email and password.
 
 Now you can run the server, log into your application with the superuser account and start adding posts to your new database.
