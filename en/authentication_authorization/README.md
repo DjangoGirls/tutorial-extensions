@@ -38,15 +38,15 @@ We could now try to do lots of magical stuff to implement users and passwords an
 In your `mysite/urls.py` add a url `url(r'^accounts/login/$', views.login, name='login')`. So the file should now look similar to this:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('', include('blog.urls')),
 ]
 ```
 
@@ -149,16 +149,16 @@ We decided to rely on Django to handle login, so let's see if Django can also ha
 Done reading? By now you may be thinking about adding a URL in `mysite/urls.py` pointing to Django's logout view (i.e. `django.contrib.auth.views.logout`), like this:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('', include('blog.urls')),
 ]
 ```
 
