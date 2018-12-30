@@ -4,7 +4,7 @@
 
 ## あたらしい記事を草稿として保存する
 
-いまのところ、*New Post* フォームから記事を作成すると、そのままブログに記事が掲載されます。書いた記事をブログに表示せず、草稿として保存するには、`blog/views.py` の `post_new` 関数と `post_edit` 関数にある下の行を**削除**してください。
+いまのところ、*New Post* フォームから記事を作成すると、そのままブログに記事が掲載されます。書いた記事をブログに表示せず、草稿として保存するには、`blog/views.py` の `post_new` 関数と `post_edit` 関数にある下の行を **削除** してください。
 
 ```python
 post.published_date = timezone.now()
@@ -38,7 +38,7 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 ```
 
-`posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` の行では `filter(published_date__isnull=True)` で、草稿だけを集めています。そうして、`order_by('created_date')` で `created_date` 順に並べています。
+`posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` の行では、草稿( `published_date__isnull=True` となる記事)だけを集めています。そうして、`order_by('created_date')` で `created_date` 順に並べています。
 
 最後にやるのはもちろんテンプレートの作成です! `blog/templates/blog/post_draft_list.html` を作成して、下の記述を加えます。
 
@@ -90,13 +90,13 @@ def post_draft_list(request):
 
 お気づきのように、`{% else %}` を追加しました。これは、 `{% if post.published_date %}` という条件が満たされない(記事に `published_date` が無い)ときに、 `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>` を表示する、という意味です。 `{% url %}` のキーワード引数である `pk` に値を渡していることに注意してください。
 
-それでは  `blog/urls.py` に新しいURLを追加しましょう。
+それでは新しいURLを追加しましょう。( `blog/urls.py` に)
 
 ```python
 url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
 ```
 
-最後にいつものように `blog/views.py` に *ビュー* を追加します。
+最後に *ビュー* を追加します。(いつものように `blog/views.py` に)
 
 ```python
 def post_publish(request, pk):
@@ -119,9 +119,9 @@ def publish(self):
 
 ![Publish button](images/publish2.png)
 
-おめでとうございます! もうすぐ完成です。最後のステップとして削除ボタンを作りましょう。
+おめでとうございます! もうすぐ完成です。最後のステップとして削除ボタンを作りましょう!
 
-## 記事の削除
+## 記事を削除する
 
 `blog/templates/blog/post_detail.html` をもう一度開いてください。
 下の行を編集ボタンの行の直後に追加します:
@@ -130,7 +130,7 @@ def publish(self):
 <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 ```
 
-`blog/urls.py` にURLも必要ですね。
+URLも必要ですね。( `blog/urls.py` に)
 
 ```python
 url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
