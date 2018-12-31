@@ -12,7 +12,7 @@
 from django.contrib.auth.decorators import login_required
 ```
 
-次に`post_new`, `post_edit`, `post_draft_list`, `post_remove`、 `post_publish`のそれぞれのビューの前に、以下のように１行追加して（ビューをデコレートして）ください：
+次に`post_new`, `post_edit`, `post_draft_list`, `post_remove`, `post_publish`のそれぞれのビューの前に、以下のように１行追加して（ビューをデコレートして）ください：
 
 ```python
 @login_required
@@ -26,7 +26,7 @@ def post_new(request):
 
 大切なエラーの一つが見えましたね。実際、これはとても興味深いです。追加したデコレータはログインページにリダイレクトするように動きますが、ログインページがまだ利用できないので、「Page not found (404)」が表示されています。
 
-`post_edit`, `post_remove`, `post_draft_list`、 `post_publish`にもデコレータを追加することを忘れないでくださいね。
+`post_edit`, `post_remove`, `post_draft_list`, `post_publish`にもデコレータを追加することを忘れないでくださいね。
 
 やった！目標に一歩近づきました！！もう、他の人が私たちのブログに投稿することはできません。しかし残念ながら、私たちも投稿することができなくなってしまいました。次はそれを修正しましょう。
 
