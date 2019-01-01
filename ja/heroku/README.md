@@ -178,7 +178,7 @@ Herokuアプリケーションの名前を変更したい場合は、いつで�
 
 > __注__: Herokuがpsycopgをコンパイルしてインストールするので、これを最初に実行したときはおそらく*大量*のログが出力されます。ログの最後のほうで、 `https://yourapplicationname.herokuapp.com/ deployed to Heroku` にような記述を見つけたら、デプロイに成功したと思っていいでしょう。
 
-## Visit your application
+## アプリケーションにアクセス
 
 あなたのソースコードをHerokuにデプロイし、そしてプロセスタイプを `Procfile`で指定しました（以前に `web` プロセスタイプを選んでいます）。Herokuにこの `web process` を開始するように指示できます。
 
