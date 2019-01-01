@@ -12,7 +12,7 @@
 from django.contrib.auth.decorators import login_required
 ```
 
-次に`post_new`, `post_edit`, `post_draft_list`, `post_remove`, `post_publish`のそれぞれのビューの前に、以下のように１行追加して（ビューをデコレートして）ください：
+次に`post_new`, `post_edit`, `post_draft_list`, `post_remove`, `post_publish`のそれぞれのビューの前に、以下のように１行追加してください（ビューにデコレータをつけています）：
 
 ```python
 @login_required
