@@ -119,12 +119,6 @@ application = DjangoWhiteNoise(application)
 
 Heroku CLI（旧Heroku toolbelt）をインストールする必要があります（セットアップ中に既にインストールしている場合は、このステップをスキップしましょう）。: https://devcenter.heroku.com/articles/heroku-cli
 
-> WindowsでHeroku CLIのインストーラを実行する場合は、どのコンポーネントをインストールするかを尋ねられたときに、必ず「Custom Installation」を選択してください。その後表示されるコンポーネントの一覧で、"Git and SSH"のチェックボックスにチェックを入れてください。
-
-> Windowsでは、コマンドプロンプトの `PATH` にGitとSSHを追加するために以下のコマンドを実行しなければなりません： `setx PATH "％PATH％; C：\ Program Files \ Git \ bin"` その後、コマンドプロンプトを再起動して変更を有効にします。
-
-> コマンドプロンプトを再起動した後は、 `djangogirls` のフォルダに戻って仮想環境を起動するのを忘れないでください！（[「Djangoのインストール」の章をチェック](https://tutorial.djangogirls.org/ja/django_installation/#%E4%BB%AE%E6%83%B3%E7%92%B0%E5%A2%83%E3%81%AE%E6%93%8D%E4%BD%9C)）
-
 こちらでHerokuのフリーアカウントを作成しましょう：https://signup.heroku.com/www-home-top
 
 次にこのコマンドを実行して、あなたのコンピュータでHerokuアカウントを認証します：
