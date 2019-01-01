@@ -4,7 +4,7 @@
 
 ## 投稿の追加／編集の承認
 
-まずはセキュアにしてみましょう。`post_new`, `post_edit`, `post_draft_list`, `post_remove`、 `post_publish`のビューを保護し、ログインしているユーザだけがアクセスできるようにします。そうするために、Djangoには、_デコレータ_ と呼ばれる素敵なヘルパーが同梱されています。今は技術的なことは気にしないでください。あとでフォローします。使いたいデコレータは、Djangoの`django.contrib.auth.decorators`モジュールに同梱された、`login_required`というものです。
+まずはセキュアにしてみましょう。`post_new`, `post_edit`, `post_draft_list`, `post_remove`, `post_publish`のビューを保護し、ログインしているユーザだけがアクセスできるようにします。そうするために、Djangoには、_デコレータ_ と呼ばれる素敵なヘルパーが同梱されています。今は技術的なことは気にしないでください。あとでフォローします。使いたいデコレータは、Djangoの`django.contrib.auth.decorators`モジュールに同梱された、`login_required`というものです。
 
 それでは、`blog/views.py`を編集し、一番上に次のimport文を追加してください：
 
