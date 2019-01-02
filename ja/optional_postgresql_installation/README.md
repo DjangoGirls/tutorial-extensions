@@ -1,12 +1,8 @@
-# PostgreSQL installation
+# PostgreSQLのインストール
 
-> Part of this chapter is based on tutorials by Geek Girls Carrots (http://django.carrots.pl/).
+> このチャプターの一部はGeek Girls Carrotsのチュートリアルをもとにしています。(http://django.carrots.pl/).
 
-> Parts of this chapter is based on the [django-marcador
-tutorial](http://django-marcador.keimlink.de/) licensed under Creative Commons
-Attribution-ShareAlike 4.0 International License. The django-marcador tutorial
-is copyrighted by Markus Zapke-Gründemann et al.
-
+> このチャプターの一部は、Creative Commons Attribution-ShareAlike 4.0 International Licenseの下で提供される[django-marcador tutorial](http://django-marcador.keimlink.de/)をもとにしています。django-marcador tutorialは、Markus Zapke-Gründemannらに著作権が帰属します。
 
 ## Windows
 
@@ -25,8 +21,7 @@ PostgresをWindowsにインストールする一番簡単な方法は、次の�
 
 ## Linux
 
-インストール手順はディストリビューションごとに異なります。以下にあるのは、UbuntuとFedora向けのコマンドです。これら以外のディストリビューションをお使いの場合は、[PostgreSQLのドキュメント
-を参照してください](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux)。
+インストール手順はディストリビューションごとに異なります。以下にあるのは、UbuntuとFedora向けのコマンドです。これら以外のディストリビューションをお使いの場合は、[PostgreSQLのドキュメントを参照してください](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux)。
 
 ### Ubuntu
 
@@ -40,7 +35,7 @@ PostgresをWindowsにインストールする一番簡単な方法は、次の�
 
     sudo yum install postgresql93-server
 
-# Create database
+# データベースを作成する
 
 次に、最初のデータベースと、それにアクセスできるユーザを作ります。PostgreSQLでは好きなだけデータベースとユーザを作成できるので、複数のサイトを稼働させる場合は、サイトごとにデータベースを作ることになるでしょう。
 
@@ -52,35 +47,33 @@ Windowsをお使いの場合は、完了する必要のあるいくつかの追�
 2. 次のように入力して、Enterキーを押して実行します：`setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`。コマンドプロンプトを右クリックして `ペースト` を選択することで、コピー&ペーストもできます。`"%PATH%;"` に続く部分が、インストール時に控えたパスに `\bin` をつけ足したものと同じか確認してくださいね。`SUCCESS: Specified value was saved.` というメッセージが現れるでしょう。
 3. コマンドプロンプトを閉じて、再度開きます。
 
-## Create the database
+## データベース作成
 
-ますは、`psql` コマンドを実行して、Postgresコンソールを起動しましょう。コンソールの起動の仕方は覚えていますか？
->Mac OS Xでは、`ターミナル`アプリケーションを起動して行います（「アプリケーション」→「ユーティリティ」の中にあります）。Linuxでは、おそらく「アプリケーション」→「アクセサリ」→「ターミナル」となるでしょう。Windowsでは、「スタートメニュー」→「すべてのプログラム」→「アクセサリ」→「コマンドプロンプト」となります。さらに言うと、Windowsでは、インストール時に
-
->On Mac OS X you can do this by launching the `Terminal` application (it's in Applications → Utilities). On Linux, it's probably under Applications → Accessories → Terminal. On Windows you need to go to Start menu → All Programs → Accessories → Command Prompt. Furthermore, on Windows, `psql` might require logging in using the username and password you chose during installation. If `psql` is asking you for a password and doesn't seem to work, try `psql -U <username> -W` first and enter the password later.
+まずは、`psql` コマンドを実行して、Postgresコンソールを起動しましょう。コンソールの起動の仕方は覚えていますか？
+>Mac OS Xでは、`ターミナル`アプリケーションを起動して行います（「アプリケーション」→「ユーティリティ」の中にあります）。Linuxでは、おそらく「アプリケーション」→「アクセサリ」→「ターミナル」となるでしょう。Windowsでは、「スタートメニュー」→「すべてのプログラム」→「アクセサリ」→「コマンドプロンプト」となります。さらに言うと、Windowsでは、インストール時に設定したユーザ名とパスワードを使ってログインすることを `psql` コマンドが求めてくるかもしれません。`psql` コマンドがパスワードの入力を求めていて、入力してもうまくいかない場合は、`psql -U <username> -W` コマンドをまず実行し、パスワードを後で入力してください。
 
     $ psql
     psql (9.3.4)
     Type "help" for help.
     #
 
-Our `$` now changed into `#`, which means that we're now sending commands to PostgreSQL. Let's create a user with `CREATE USER name;` (remember to use the semicolon):
+先頭の `$` が `#` に変わりました。これから入力するコマンドはPostgreSQLに送られることを意味します。`CREATE USER name;` コマンドでユーザを作りましょう。（最後にセミコロン(;)を使うことを覚えておいてくださいね）：
 
     # CREATE USER name;
 
-Replace `name` with your own name. You shouldn't use accented letters or whitespace (e.g. `bożena maria` is invalid - you need to convert it into `bozena_maria`). If it goes well, you should get `CREATE ROLE` response from the console.
+`name` の部分はご自分のお名前に書き換えてくださいね。アクセント文字や空白文字は使うべきではありません。（例えば `bożena maria` はうまくいきません。`bozena_maria` のように書き換える必要があります。）うまくいくと、コンソールから `CREATE ROLE` という応答が返ってきます。
 
-Now it's time to create a database for your Django project:
+いよいよあなたのDjangoプロジェクトのデータベースを作るときです：
 
     # CREATE DATABASE djangogirls OWNER name;
 
-Remember to replace `name` with the name you've chosen (e.g. `bozena_maria`).  This creates an empty database that you can now use in your project. If it goes well, you should get `CREATE DATABASE` response from the console.
+`name` は先ほど設定した名前（例 `bozena_maria`）に置き換えてくださいね。このコマンドは、あなたのプロジェクトで今から使える空っぽのデータベースを作ります。うまくいくと、コンソールから `CREATE DATABASE` という応答が返ってきます。
 
-Great - that's databases all sorted!
+素晴らしい！データベース全部が並んで表示されています。
 
-# Updating settings
+# 設定の更新
 
-Find this part in your `mysite/settings.py` file:
+`mysite/settings.py` ファイルの中から、以下の部分を見つけてください：
 
 ```python
 DATABASES = {
@@ -91,7 +84,7 @@ DATABASES = {
 }
 ```
 
-And replace it with this:
+その部分を以下のように書き換えます：
 
 ```python
 DATABASES = {
@@ -106,33 +99,33 @@ DATABASES = {
 }
 ```
 
-Remember to change `name` to the user name that you created earlier in this chapter.
+`name` をこのチャプターで作ったユーザの名前に書き換えてくださいね。
 
-# Installing PostgreSQL package for Python
+# PythonのPostgreSQL用パッケージのインストール
 
-First, install Heroku Toolbelt from https://toolbelt.heroku.com/ While we will need this mostly for deploying your site later on, it also includes Git, which might come in handy already.
+まず、Heroku Toolbelt を https://toolbelt.heroku.com/ からインストールします。これは後であなたのサイトをデプロイするときに主に必要になりますが、Gitも含んでいます。Gitはもう重宝しているかもしれませんね。
 
-Next up, we need to install a package which lets Python talk to PostgreSQL - this is called `psycopg2`. The installation instructions differ slightly between Windows and Linux/OS X.
+次は、PythonがPostgreSQLとやりとりできるようにするためのパッケージをインストールします。`psycopg2` という名前のパッケージです。Windowsの場合と、LinuxまたはOS Xの場合とで、インストール手順はわずかに異なります。
 
 ## Windows
 
-For Windows, download the pre-built file from http://www.stickpeople.com/projects/python/win-psycopg/
+Windowsでは、ビルド前のファイルを http://www.stickpeople.com/projects/python/win-psycopg/ からダウンロードしてください。
 
-Make sure you get the one corresponding to your Python version (3.4 should be the last line) and to the correct architecture (32 bit in the left column or 64 bit in the right column).
+あなたの使っているPythonのバージョンに対応するものであること（Python 3.4 対応版は最後の行にあります）と、アーキテクチャに対応するものであること（32ビット版は左の列、64ビット版は右の列です）を確認してください。
 
-Rename the downloaded file and move it so that it's now available at `C:\psycopg2.exe`.
+ダウンロードしたファイルの名前を変更してから移動し、`C:\psycopg2.exe` とします。
 
-Once that's done, enter the following command in the terminal (make sure your `virtualenv` is activated):
+ここまで終わったら、コマンドラインに以下のコマンドを入力します（`virtualenv` が有効になっていることを確認して実行してください）：
 
     easy_install C:\psycopg2.exe
 
 ## Linux and OS X
 
-Run the following in your console:
+コマンドラインで以下を実行します：
 
     (myvenv) ~/djangogirls$ pip install psycopg2
 
-If that goes well, you'll see something like this
+うまくいくと、以下のような出力が表示されるでしょう：
 
     Downloading/unpacking psycopg2
     Installing collected packages: psycopg2
@@ -141,18 +134,18 @@ If that goes well, you'll see something like this
 
 ---
 
-Once that's completed, run `python -c "import psycopg2"`. If you get no errors, everything's installed successfully.
+完了したら、`python -c "import psycopg2"` というコマンドを実行します。エラーが表示されなければ、インストールは全て成功しました。
 
-# Applying migrations and creating a superuser
+# マイグレーションの適用とsuperuserの作成
 
-In order to use the newly created database in your website project, you need to apply all the migrations. In your virtual environment run the following code:
+新しく作成したデータベースをあなたのウェブサイトのプロジェクトで使うために、全てのマイグレーションを適用する必要があります。仮想環境の中で以下のコマンドを実行してください：
 
     (myvenv) ~/djangogirls$ python manage.py migrate
 
-To add new posts to your blog, you also need to create a superuser by running the code:
+ブログに記事を追加するために、以下のコマンドを実行して、superuserを作ります：
 
     (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name
 
-Remember to replace `name` with the username. You will be prompted for email and password.
+これまでのように、コマンドの `name` はこのチャプターで作ったユーザ名に置き換えてください。メールアドレスとパスワードを入力するように指示されます。
 
-Now you can run the server, log into your application with the superuser account and start adding posts to your new database.
+以上で、サーバを起動し、superuserのアカウントでアプリケーションにログインし、新しいデータベースに記事を追加することができるようになりました。
