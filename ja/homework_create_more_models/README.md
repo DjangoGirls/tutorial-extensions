@@ -31,14 +31,14 @@ class Comment(models.Model):
 
 ## データベースにモデルのテーブルを作りましょう！
 
-今度は、コメントモデルをデータベースに追加します。 これを行うには、モデルを変更したことをDjangoに伝えなければなりません。 コマンドラインに `python manage.py makemigrations blog`と入力してください。 次のような出力が表示されます。
+今度は、コメントモデルをデータベースに追加します。 これを行うには、モデルを変更したことをDjangoに伝えなければなりません。 コマンドラインに `python manage.py makemigrations blog`と入力してください。 次のような出力が表示されます：
 
     (myvenv) ~/djangogirls$ python manage.py makemigrations blog
     Migrations for 'blog':
       0002_comment.py:
         - Create model Comment
 
-このコマンドが`blog/migrations/`ディレクトリに別のマイグレーションファイルを作成したことがわかります。 コマンドラインで `python manage.py migrate blog`とタイプして変更を適用する必要があります。 出力は次のようになります。
+このコマンドが`blog/migrations/`ディレクトリに別のマイグレーションファイルを作成したことがわかります。 コマンドラインで `python manage.py migrate blog`とタイプして変更を適用する必要があります。 出力は次のようになります：
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
@@ -53,7 +53,7 @@ class Comment(models.Model):
 
 ## 管理画面にコメントモデルを登録しましょう
 
-管理画面にコメントモデルを登録するため、`blog/admin.py`ファイルに以下の行を追加してください。
+管理画面にコメントモデルを登録するため、`blog/admin.py`ファイルに以下の行を追加してください：
 
 ```python
 admin.site.register(Comment)
@@ -65,7 +65,7 @@ admin.site.register(Comment)
 admin.site.register(Post)
 ```
 
-コメントモデルをファイルの先頭でインポートすることも忘れないようにしてください。
+コメントモデルをファイルの先頭でインポートすることも忘れないようにしてください：
 
 ```python
 from django.contrib import admin
@@ -79,7 +79,7 @@ admin.site.register(Comment)
 
 ## コメントを見えるようにしましょう！
 
-`blog/templates/blog/post_detail.html`というファイルを開き、`{% endblock %}`タグの前に、以下の行を追加してください。
+`blog/templates/blog/post_detail.html`というファイルを開き、`{% endblock %}`タグの前に、以下の行を追加してください：
 
 ```django
 <hr>
@@ -110,7 +110,7 @@ admin.site.register(Comment)
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-追加したら、テンプレートは次のようになります。
+追加したら、テンプレートは次のようになります：
 
 ```django
 {% extends 'blog/base.html' %}
@@ -133,7 +133,7 @@ admin.site.register(Comment)
 
 今は私たちのブログでコメントを見ることができますが、追加することはできません。 それを変えましょう！
 
-`blog/forms.py`を開き、以下の行をファイルの最後に追加します。
+`blog/forms.py`を開き、以下の行をファイルの最後に追加します：
 
 ```python
 class CommentForm(forms.ModelForm):
@@ -155,13 +155,13 @@ from .models import Post
 from .models import Post, Comment
 ```
 
-今度は、`blog/templates/blog/post_detail.html`を開き、`{% for comment in post.comments.all %}`の前に以下の行を追加します。
+今度は、`blog/templates/blog/post_detail.html`を開き、`{% for comment in post.comments.all %}`の前に以下の行を追加します：
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
-もし投稿詳細ページに行くと、以下のエラーが表示されます。
+もし投稿詳細ページに行くと、以下のエラーが表示されます：
 
 ![NoReverseMatch](images/url_error.png)
 
@@ -202,7 +202,7 @@ from .forms import PostForm, CommentForm
 
 ![AddComment](images/add_comment_button.png)
 
-しかし、そのボタンをクリックしたら、次のように表示されます。
+しかし、そのボタンをクリックしたら、次のように表示されます：
 
 ![TemplateDoesNotExist](images/template_error.png)
 
@@ -265,14 +265,14 @@ from .forms import PostForm, CommentForm
 
 `comment_remove`と` comment_approve`パターンに一致するURLがまだないので、 `NoReverseMatch`が表示されます。
 
-こちらのエラーを修正するため、以下のURLパターンを`blog/urls.py`に追加してください。
+こちらのエラーを修正するため、以下のURLパターンを`blog/urls.py`に追加してください：
 
 ```python
 url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
 url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
 ```
 
-さて、あなたには`AttributeError`が見えています。このエラーを修正するために、以下のビューを`blog/views.py`に追加してください。
+さて、あなたには`AttributeError`が見えています。このエラーを修正するために、以下のビューを`blog/views.py`に追加してください：
 
 ```python
 @login_required
