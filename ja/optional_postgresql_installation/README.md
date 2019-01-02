@@ -144,7 +144,7 @@ Windowsでは、ビルド前のファイルを http://www.stickpeople.com/projec
 
 ブログに記事を追加するために、以下のコマンドを実行して、superuserを作ります：
 
-    (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name
+    (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name 
 
 これまでのように、コマンドの `name` はこのチャプターで作ったユーザ名に置き換えてください。メールアドレスとパスワードを入力するように指示されます。
 
