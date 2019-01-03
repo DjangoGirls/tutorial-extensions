@@ -143,7 +143,7 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-Commentモデルをインポートすることを忘れないでください。以下の行を変更して：
+コメントモデルをインポートすることを忘れないでください。以下の行を変更して：
 
 ```python
 from .models import Post
