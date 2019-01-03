@@ -15,15 +15,15 @@ Django Girlsのお気に入りは[I want my name](https://iwantmyname.com/)で�
 
 ## PythonAnywhereに取得したドメインを向ける
 
- *iwantmyname.com* をひらいたら、メニューの `Domains` をクリックして、新しく買ったドメインを選んでください。それから `manage DNS records` のリンクを探してクリックします。
+ *iwantmyname.com* をひらいたら、メニューの `Domains` をクリックして、新しく買ったドメインを選んでください。それから `manage DNS records` のリンクを探してクリックします：
 
 ![](images/4.png)
 
-それから、下の画像のフォームを探してください。
+それから、下の画像のフォームを探してください：
 
 ![](images/5.png)
 
-見つかったら、下のとおりに入力してください。
+見つかったら、下のとおりに入力してください：
 - Hostname: www
 - Type: CNAME
 - Value: PythonAnywhereのドメイン (例えば、djangogirls.pythonanywhere.com)
@@ -43,12 +43,12 @@ PythonAnywhereにも取得したカスタムドメインを使うための設定
 
 [PythonAnywhere Accounts page](https://www.pythonanywhere.com/account/)を開いて、アカウントをアップグレードしましょう。一番安い「Hacker」プランで大丈夫です。プランの変更はいつでもできます。変更するのはサイトがものすごく有名になってヒット数が数百万になったらでよいでしょう。
 
-さて、次に[Web tab](https://www.pythonanywhere.com/web_app_setup/)を開いて、いくつか書き留めます。
+さて、次に[Web tab](https://www.pythonanywhere.com/web_app_setup/)を開いて、いくつか書き留めます：
 
 *  **virtualenvのパス** をコピーし、どこかにペーストして、保管しておいてください。
 *  **wsgi config file** をクリックしてください。出てきた内容をコピーし、どこかにペーストし、保管しておいてください。
 
-続いて、 古いウェブアプリを**Delete**を押して、削除します。削除と言っても、コードが消えることはありませんので安心してください。*yourusername.pythonanywhere.com* のドメインが無効になるだけです。消したら新しいウェブアプリを作りましょう。下のとおりにしてください。
+続いて、 古いウェブアプリを**Delete**を押して、削除します。削除と言っても、コードが消えることはありませんので安心してください。*yourusername.pythonanywhere.com* のドメインが無効になるだけです。消したら新しいウェブアプリを作りましょう。下のとおりにしてください：
 
 * 新しいドメイン名を入力する
 * 「manual configuration」を選ぶ
