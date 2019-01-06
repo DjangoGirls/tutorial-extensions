@@ -115,7 +115,7 @@ Windowsでは、ビルド前のファイルを http://www.stickpeople.com/projec
 
 ダウンロードしたファイルの名前を変更してから移動し、`C:\psycopg2.exe` とします。
 
-ここまで終わったら、コマンドラインに以下のコマンドを入力します（`virtualenv` が起動していることを確認して実行してください）：
+ここまで終わったら、コマンドラインに以下のコマンドを入力します（`virtualenv` が有効になっていることを確認して実行してください）：
 
     easy_install C:\psycopg2.exe
 
