@@ -31,9 +31,9 @@ Django Girlsのお気に入りは[I want my name](https://iwantmyname.com/)で�
 
 ![](images/6.png)
 
-「Add」ボタンを押してから、下の方にある「Save changes」を押してください
+「Add」ボタンを押してから、下の方にある「Save」ボタンを押して変更を保存してください
 
-> **注意** *iwantymyname.com* 以外のドメイン業者を使った場合、DNSやCNAMEの設定を検索する画面のUIが上の画像とは違います。でもやることは同じです。新しいドメインが`yourusername.pythonanywhere.com` というドメインに向くようにCNAMEを設定してください。
+> **注意** *iwantmyname.com* 以外のドメイン業者を使った場合、DNSやCNAMEの設定を検索する画面のUIが上の画像とは違います。でもやることは同じです。新しいドメインが`yourusername.pythonanywhere.com` というドメインに向くようにCNAMEを設定してください。
 
 ドメインが実際に動き始めるまで数分かかります。あせらず待ちましょう!
 
