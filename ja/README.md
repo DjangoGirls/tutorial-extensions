@@ -6,16 +6,16 @@
 
 これは [Django Girls Tutorial](https://tutorial.djangogirls.org/ja/) を終えた後にできる追加のチュートリアルです。
 
-現在のこのチュートリアルは以下の章になります：
+現在の追加チュートリアルには以下の章があります：
 
-- [宿題: ウェブサイトにもっと機能を追加しよう!](/ja/homework)
-- [宿題: ウェブサイトをセキュアにする](/ja/authentication_authorization)
-- [宿題: コメントモデルを作ろう](/ja/homework_create_more_models)
-- [オプション: PostgreSQLのインストール](/ja/optional_postgresql_installation)
-- [オプション: ドメイン](/ja/domain)
-- [Herokuにデプロイしよう](/ja/heroku)
+- [宿題: ウェブサイトにもっと機能を追加しよう!](/ja/homework/README.md)
+- [宿題: ウェブサイトをセキュアにする](/ja/authentication_authorization/README.md)
+- [宿題: コメントモデルを作ろう](/ja/homework_create_more_models/README.md)
+- [オプション: PostgreSQLのインストール](/ja/optional_postgresql_installation/README.md)
+- [オプション: ドメイン](/ja/domain/README.md)
+- [Herokuにデプロイしよう](/ja/heroku/README.md)
 
 ## コントリビューションについて
 
-このチュートリアルは、 [DjangoGirls](http://djangogirls.org/) がメンテナンスしています。 ミスを見つけたりチュートリアルを更新したくなった時は、 [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial#how-to-contribute) を読んでください。
+このチュートリアルは、 [DjangoGirls](http://djangogirls.org/) がメンテナンスしています。 ミスを見つけたりチュートリアルを更新したりしたくなった時は、 [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial#how-to-contribute) を読んでください。
 
