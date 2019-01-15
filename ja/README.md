@@ -17,5 +17,5 @@
 
 ## コントリビューションについて
 
-このチュートリアルは、 [DjangoGirls](http://djangogirls.org/) がメンテナンスしています。 ミスを見つけたりチュートリアルを更新したりしたくなった時は、 [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial#how-to-contribute) を読んでください。
+このチュートリアルは、 [DjangoGirls](http://djangogirls.org/) がメンテナンスしています。 ミスを見つけたりチュートリアルを更新したくなったりした時は、 [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial#how-to-contribute) を読んでください。
 
