@@ -1,19 +1,21 @@
 # Django Girls Tutorial: Extensions
 
-> **Info** This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
-International License. To view a copy of this license, visit
-http://creativecommons.org/licenses/by-sa/4.0/
+> **Info** これは、Creative Commons Attribution-ShareAlike 4.0 International License のライセンスの下で提供しています。ライセンスについてはこちらをご確認ください。 https://creativecommons.org/licenses/by-sa/4.0/
 
-## Introduction
+## イントロダクション
 
-This book contains additional tutorials you can do after you're finished with [Django Girls Tutorial](http://tutorial.djangogirls.org/).
+これは [Django Girls Tutorial](https://tutorial.djangogirls.org/ja/) を終えた後にできる追加のチュートリアルです。
 
-Current tutorials are:
-* [Homework: add more to your website!](homework/README.md)
-* [Homework: secure your website](authentication_authorization/README.md)
-* [Homework: create comment model](homework_create_more_models/README.md)
-* [Optional: PostgreSQL installation](optional_postgresql_installation/README.md)
+現在の追加チュートリアルには以下の章があります：
 
-## Contributing
+- [宿題: ウェブサイトにもっと機能を追加しよう!](/ja/homework/README.md)
+- [宿題: ウェブサイトをセキュアにする](/ja/authentication_authorization/README.md)
+- [宿題: コメントモデルを作ろう](/ja/homework_create_more_models/README.md)
+- [オプション: PostgreSQLのインストール](/ja/optional_postgresql_installation/README.md)
+- [オプション: ドメイン](/ja/domain/README.md)
+- [Herokuにデプロイしよう](/ja/heroku/README.md)
 
-This tutorial is maintained by [DjangoGirls](http://djangogirls.org/). If you find any mistakes or want to update the tutorial please [follow the contributing guidelines](https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md).
+## コントリビューションについて
+
+このチュートリアルは、 [DjangoGirls](http://djangogirls.org/) がメンテナンスしています。 ミスを見つけたりチュートリアルを更新したくなったりした時は、 [コントリビューションガイドライン](https://github.com/DjangoGirls/tutorial#how-to-contribute) を読んでください。
+
