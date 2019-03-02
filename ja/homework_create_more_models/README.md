@@ -168,7 +168,7 @@ from .models import Post, Comment
 私たちはそれを修正する方法を知っています！ `blog/urls.py`を開き、このパターンを`urlpatterns`に追加してください：
 
 ```python
-url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
 ページを更新したら、また違うエラーが出てきます！
@@ -268,8 +268,8 @@ from .forms import PostForm, CommentForm
 こちらのエラーを修正するため、以下のURLパターンを`blog/urls.py`に追加してください：
 
 ```python
-url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
-url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
+path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
+path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ```
 
 さて、あなたには`AttributeError`が見えています。このエラーを修正するために、以下のビューを`blog/views.py`に追加してください：
