@@ -27,7 +27,7 @@ Vamos a añadir un enlace en `blog/templates/blog/base.html` en el encabezado. N
 Siguiente: ¡urls! en `blog/urls.py` vamos a agregar:
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 Tiempo de crear una nueva vista en `blog/views.py`
@@ -93,7 +93,7 @@ Como puedes ver, hemos agregado la línea `{% else %}`. Esto significa, que la c
 Tiempo de crear una URL (en `blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 Y finalmente una *vista* (como siempre, en `blog/views.py`):
@@ -134,7 +134,7 @@ Justo debajo de la línea co el botón editar.
 Ahora necesitamos una URL (`blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Ahora, ¡Tiempo para la vista! Abre `blog/views.py` y agrega este código:
