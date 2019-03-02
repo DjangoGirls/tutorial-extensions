@@ -168,7 +168,7 @@ If you go to the post detail page you should see this error:
 We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
 ```python
-url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
 Refresh the page, and we get a different error!
@@ -269,8 +269,8 @@ You should see `NoReverseMatch`, because no URL matches the `comment_remove` and
 To fix the error, add these URL patterns to `blog/urls.py`:
 
 ```python
-url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
-url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
+path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
+path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ```
 
 Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
