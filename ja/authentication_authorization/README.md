@@ -34,18 +34,18 @@ def post_new(request):
 
 ユーザーとパスワードと認証を実装するために多くの素敵なものを使ってみることもできますが、正しく使うのはやや複雑になります。Djangoは「電池同梱販売」（訳注：すべて揃っていることを表す）なので、ユーザーとパスワードと認証の実装という困難な仕事を誰かが成し遂げています。そこで、Djangoで提供されている認証ツールをさらに活用します。
 
-`mysite/urls.py`の中に、`url(r'^accounts/login/$', views.login, name='login')`というurlを追加します。ファイルは次のようになるでしょう：
+`mysite/urls.py`の中に、`path('accounts/login/', views.LoginView.as_view(), name='login')`というurlを追加します。ファイルは次のようになるでしょう：
 
 ```python
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('', include('blog.urls')),
 ]
 ```
 
@@ -143,21 +143,21 @@ LOGIN_REDIRECT_URL = '/'
 
 この追加によって、"Hello _&lt;username&gt;_" というふうに、何のユーザーでログインしているか、認証されているかがわかるようになります。また、ブログからログアウトするリンクを追加していますが、お気づきのとおり動いていません。次はそれを修正しましょう！
 
-ログイン処理をDjangoに頼ったように、ログアウト処理も頼れるかどうか見てみましょう。https://docs.djangoproject.com/en/1.10/topics/auth/default/ をチェックしてみてください。
+ログイン処理をDjangoに頼ったように、ログアウト処理も頼れるかどうか見てみましょう。https://docs.djangoproject.com/en/2.0/topics/auth/default/ をチェックしてみてください。
 
 読みました？Djangoのログアウトビュー（例えば`django.contrib.auth.views.logout`）を示すurlを次のように`mysite/urls.py`に追加することを思いついたんではないでしょうか：
 
 ```python
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('', include('blog.urls')),
 ]
 ```
 
