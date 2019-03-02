@@ -27,7 +27,7 @@ Djangoのクエリセットを勉強した章を覚えていますか? `post_lis
 次は `blog/urls.py` に、urlを追加しましょう!
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 続いて `blog/views.py` にビューを作ります。
@@ -93,7 +93,7 @@ def post_draft_list(request):
 それでは新しいURLを追加しましょう。( `blog/urls.py` に)
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 最後に *ビュー* を追加します。(いつものように `blog/views.py` に)
@@ -133,7 +133,7 @@ def publish(self):
 URLも必要ですね。( `blog/urls.py` に)
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 次はビューも作りましょう。 `blog/views.py` を開いて下のコードを追加してください。
