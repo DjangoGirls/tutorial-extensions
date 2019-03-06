@@ -80,7 +80,7 @@ Luego necesitamos agregar una plantilla para la página de ingreso, así que cre
 
 Verás  que también hace uso de la plantilla _base_ para mantener el estilo de tu blog.
 
-La cosa buena quí es que funciona. No necesitamos lidiar con con el manejo del for o las contraseñas y asegurarlas. Solamente una cosa mas para hacer. Entonces vamos a la configuración en `mysite/settings.py`:
+La cosa buena quí es que funciona. No necesitamos lidiar con el manejo del for o las contraseñas y asegurarlas. Solamente una cosa mas para hacer. Entonces vamos a agregar esta configuración en `mysite/settings.py`:
 
 ```python
 LOGIN_REDIRECT_URL = '/'
