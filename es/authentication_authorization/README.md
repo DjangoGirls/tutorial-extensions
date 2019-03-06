@@ -34,18 +34,18 @@ No te olvides del decorador encima de `post_edit`, `post_remove`, `post_draft_li
 
 Ahora podemos intentar hacer muchas cosas mágicas para implementar usuarios y contraseñas y autenticación, pero hacer esto correctamente es complicado. Como django viene con "baterías incluidas", alguien ya ha hecho el trabajo duro por nosotros, así que vamos a utilizarlas.
 
-En `mysite/urls.py` agrega una url `url(r'^accounts/login/$', views.login, name='login')`. Así el archivo debería verse similar a este:
+En `mysite/urls.py` agrega una url `path('accounts/login/', views.login, name='login')`. Así el archivo debería verse similar a este:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.login, name='login'),
+    path('', include('blog.urls')),
 ]
 ```
 
@@ -148,16 +148,16 @@ Decidimos apoyarnos en Django para manejar el ingreso, así que vamos a dejar qu
 ¿Terminaste de leer? Por ahora vamos a pensar en agregar una URL en `mysite/urls.py` apuntando a la vista de salida (`django.contrib.auth.views.logout`) así:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.login, name='login'),
+    path('accounts/logout/', views.logout, name='logout', kwargs={'next_page': '/'}),
+    path('', include('blog.urls')),
 ]
 ```
 
