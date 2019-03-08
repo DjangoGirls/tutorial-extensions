@@ -37,7 +37,7 @@ Ahora podemos intentar hacer muchas cosas mágicas para implementar usuarios y c
 En `mysite/urls.py` agrega una url `path('accounts/login/', views.login, name='login')`. Así el archivo debería verse similar a este:
 
 ```python
-from django.urls import include, path
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
@@ -148,7 +148,7 @@ Decidimos apoyarnos en Django para manejar el ingreso, así que vamos a dejar qu
 ¿Terminaste de leer? Por ahora vamos a pensar en agregar una URL en `mysite/urls.py` apuntando a la vista de salida (`django.contrib.auth.views.logout`) así:
 
 ```python
-from django.urls import include, path
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
