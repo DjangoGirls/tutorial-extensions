@@ -143,7 +143,7 @@ Vamos a agregarle algo de dulce a nuestras plantillas mientras estamos ahí. Pri
 
 Esto agrega un lindo "Hello _&lt;username&gt;_" para recordarle al usuario como ingresó, y que está autenticado. También agrega un enlace de salida del blog -- como puedes ver, aún no funciona. ¡Vamos a arreglarlo!
 
-Decidimos apoyarnos en Django para manejar el ingreso, así que vamos a dejar que Django se encargue de la salida. Mira https://docs.djangoproject.com/en/2.1/topics/auth/default/ y ve si encuentras algo.
+Decidimos apoyarnos en Django para manejar el ingreso, así que vamos a dejar que Django se encargue de la salida. Mira https://docs.djangoproject.com/en/2.0/topics/auth/default/ y ve si encuentras algo.
 
 ¿Terminaste de leer? Por ahora vamos a pensar en agregar una URL en `mysite/urls.py` apuntando a la vista de salida (`django.contrib.auth.views.logout`) así:
 
