@@ -34,18 +34,18 @@ No te olvides del decorador encima de `post_edit`, `post_remove`, `post_draft_li
 
 Ahora podemos intentar hacer muchas cosas mágicas para implementar usuarios y contraseñas y autenticación, pero hacer esto correctamente es complicado. Como django viene con "baterías incluidas", alguien ya ha hecho el trabajo duro por nosotros, así que vamos a utilizarlas.
 
-En `mysite/urls.py` agrega una url `url(r'^accounts/login/$', views.login, name='login')`. Así el archivo debería verse similar a este:
+En `mysite/urls.py` agrega una nueva entrada `path('accounts/login/', views.login, name='login')`. El contenido del archivo debería verse similar a:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.login, name='login'),
+    path('', include('blog.urls')),
 ]
 ```
 
@@ -80,7 +80,7 @@ Luego necesitamos agregar una plantilla para la página de ingreso, así que cre
 
 Verás  que también hace uso de la plantilla _base_ para mantener el estilo de tu blog.
 
-La cosa buena quí es que funciona. No necesitamos lidiar con con el manejo del for o las contraseñas y asegurarlas. Solamente una cosa mas para hacer. Entonces vamos a la configuración en `mysite/settings.py`:
+La cosa buena quí es que funciona. No necesitamos lidiar con el manejo del for o las contraseñas y asegurarlas. Solamente una cosa mas para hacer. Entonces vamos a agregar esta configuración en `mysite/settings.py`:
 
 ```python
 LOGIN_REDIRECT_URL = '/'
@@ -143,21 +143,21 @@ Vamos a agregarle algo de dulce a nuestras plantillas mientras estamos ahí. Pri
 
 Esto agrega un lindo "Hello _&lt;username&gt;_" para recordarle al usuario como ingresó, y que está autenticado. También agrega un enlace de salida del blog -- como puedes ver, aún no funciona. ¡Vamos a arreglarlo!
 
-Decidimos apoyarnos en Django para manejar el ingreso, así que vamos a dejar que Django se encargue de la salida. Mira https://docs.djangoproject.com/en/1.10/topics/auth/default/ y ve si encuentras algo.
+Decidimos apoyarnos en Django para manejar el inicio de sesión, así que vamos ver si Django nos permite manejar el cierre de la sesión. Mira https://docs.djangoproject.com/en/2.0/topics/auth/default/ y ve si encuentras algo.
 
 ¿Terminaste de leer? Por ahora vamos a pensar en agregar una URL en `mysite/urls.py` apuntando a la vista de salida (`django.contrib.auth.views.logout`) así:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('', include('blog.urls')),
 ]
 ```
 
