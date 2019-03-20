@@ -34,7 +34,7 @@ No te olvides del decorador encima de `post_edit`, `post_remove`, `post_draft_li
 
 Ahora podemos intentar hacer muchas cosas mágicas para implementar usuarios y contraseñas y autenticación, pero hacer esto correctamente es complicado. Como django viene con "baterías incluidas", alguien ya ha hecho el trabajo duro por nosotros, así que vamos a utilizarlas.
 
-En `mysite/urls.py` agrega una url `path('accounts/login/', views.login, name='login')`. Así el archivo debería verse similar a este:
+En `mysite/urls.py` agrega una nueva entrada `path('accounts/login/', views.login, name='login')`. El contenido del archivo debería verse similar a:
 
 ```python
 from django.urls import path, include
