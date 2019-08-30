@@ -98,7 +98,7 @@ def post_draft_list(request):
 `blog/urls.py`에 URL 패턴을 추가해봅시다.
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 마지막으로 `post_publish` *뷰*를 `blog/views.py` 에 추가해봅시다.
@@ -139,7 +139,7 @@ def publish(self):
 (`blog/urls.py`)에 URL 패턴을 추가해봅시다:
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 이제 post_remove 뷰를 구현해봅시다. `blog/views.py` 에 아래 코드를 추가해주세요.
