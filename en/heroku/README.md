@@ -46,6 +46,18 @@ We also need to tell Heroku which Python version we want to use. This is done by
 
     python-3.6.8
 
+# `mysite/settings.py`
+
+In settings.py in `MIDDLEWARE` list, add `whitenoise.middleware.WhiteNoiseMiddleware` just under the `django.middleware.security.SecurityMiddleware` so that the end result of `MIDDLEWARE` will look like this:
+
+```python
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    ...
+]
+```
+ 
 ## `mysite/local_settings.py`
 
 Because it's more restrictive than PythonAnywhere, Heroku wants to use different settings from the ones we use on our locally (on our computer). Heroku wants to use Postgres while we use SQLite for example. That's why we need to create a separate file for settings that will only be available for our local environment.
