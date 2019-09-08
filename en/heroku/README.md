@@ -44,7 +44,7 @@ Then save it. Done!
 
 We also need to tell Heroku which Python version we want to use. This is done by creating a `runtime.txt` in the `djangogirls` directory using your editor's "new file" command, and putting the following text (and nothing else!) inside:
 
-    python-3.6.4
+    python-3.6.8
 
 ## `mysite/local_settings.py`
 
@@ -103,17 +103,6 @@ DATABASES['default'].update(db_from_env)
 It'll do necessary configuration for Heroku.
 
 Then save the file.
-
-## mysite/wsgi.py
-
-Open the `mysite/wsgi.py` file and add these lines at the end:
-
-```python
-from whitenoise.django import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
-```
-
-All right!
 
 ## Heroku account
 
