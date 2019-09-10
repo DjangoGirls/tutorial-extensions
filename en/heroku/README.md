@@ -83,6 +83,14 @@ ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 ...
 
+MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'whitenoise.middleware.WhiteNoiseMiddleware',
+  # ...
+]
+
+...
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -98,20 +106,14 @@ DATABASES = {
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 ```
 
 It'll do necessary configuration for Heroku.
 
 Then save the file.
-
-## mysite/wsgi.py
-
-Open the `mysite/wsgi.py` file and add these lines at the end:
-
-```python
-from whitenoise.django import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
-```
 
 All right!
 
