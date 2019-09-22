@@ -104,7 +104,7 @@ DATABASES = {
 
 # PostgreSQL 파이썬 패키지 설치하기
 
-먼저 https://toolbelt.heroku.com에서 Heroku Toolbelt을 다운로드하여 설치해주세요. 이 Toolbelt에는 Git과 더불어 배포에 필요한 모든 유틸리티들이 들어있어요. 
+먼저 https://toolbelt.heroku.com 에서 Heroku Toolbelt을 다운로드하여 설치해주세요. 이 Toolbelt에는 Git과 더불어 배포에 필요한 모든 유틸리티들이 들어있어요. 
 
 다음으로 PostgreSQL 패키지를 설치해야 합니다. 이 패키지 이름은 `psycopg2`입니다. 설치방법은 윈도우와 리눅스/맥 마다 조금 달라요.
 
