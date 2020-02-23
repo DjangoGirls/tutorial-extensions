@@ -20,9 +20,9 @@ def post_new(request):
     [...]
 ```
 
-That's it! Now try to access `http://localhost:8000/post/new/`. Notice the difference?
+That's it! Now try to access `http://127.0.0.1:8000/post/new/`. Notice the difference?
 
-> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://localhost:8000/admin/logout/` to log out, then go to `http://localhost:8000/post/new` again.
+> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://127.0.0.1:8000/admin/logout/` to log out, then go to `http://127.0.0.1:8000/post/new` again.
 
 You should get one of our beloved errors. This one is quite interesting, actually: the decorator we added will redirect you to the login page, but since that's not yet available, it raises a "Page not found (404)".
 
