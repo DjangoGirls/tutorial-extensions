@@ -20,9 +20,9 @@ def post_new(request):
     [...]
 ```
 
-¡Eso es todo! Ahora intenta acceder a `http://localhost:8000/post/new/. ¿Notas la diferencia?
+¡Eso es todo! Ahora intenta acceder a `http://127.0.0.1:8000/post/new/. ¿Notas la diferencia?
 
-> Si obtienes un formulario vacío, posiblemente sigues logeado desde el capítulo en la interfaz de administrador. Ve a `http://localhost:8000/admin/logout/` para salir, y luego `http://localhost:8000/post/new` de nuevo.
+> Si obtienes un formulario vacío, posiblemente sigues logeado desde el capítulo en la interfaz de administrador. Ve a `http://127.0.0.1:8000/admin/logout/` para salir, y luego `http://127.0.0.1:8000/post/new` de nuevo.
 
 Puedes obtener uno de nuestros amados errores. Esto es muy interesante: El decoradr que añadimos nos redireccionará a la página de ingreso, pero como no está disponible, retorna un "Page not found (404)".
 
