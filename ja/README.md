@@ -1,6 +1,6 @@
 # Django Girls Tutorial: Extensions
 
-> **Info** これは、Creative Commons Attribution-ShareAlike 4.0 International License のライセンスの下で提供しています。ライセンスについてはこちらをご確認ください。 https://creativecommons.org/licenses/by-sa/4.0/
+> **Info** これは、Creative Commons Attribution-ShareAlike 4.0 International License のライセンスの下で提供しています。ライセンスについてはこちらをご確認ください。 https://creativecommons.org/licenses/by-sa/4.0/deed.ja
 
 ## イントロダクション
 
