@@ -100,20 +100,38 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 ```
 
-It'll do necessary configuration for Heroku.
-
-Then save the file.
-
-## mysite/wsgi.py
-
-Open the `mysite/wsgi.py` file and add these lines at the end:
+It'll do necessary configuration for Heroku. We still need to add one more thing to your `settings.py` file, otherwise when you run `python manage.py runserver` locally it will use the production settings you've just added (e.g. trying to use a postgresql database instead of your local sqlite3 database). Add this to the very bottom of `mysite/settings.py`:
 
 ```python
-from whitenoise.django import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
+# Override with local_settings if it exists
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 ```
 
-All right!
+This checks to see if `local_settings.py` exists (we'll be adding it to your `.gitignore` file in a moment so it will _only_ exist locally) and overrides anything in `settings.py` with what's contained in `local_settings.py`.
+
+Next, we need to add a couple lines so [Django can serve your static files whilst running on Heroku](https://devcenter.heroku.com/articles/django-assets#whitenoise). Staying in `mysite/settings.py`, add WhiteNoise to the MIDDLEWARE list as follows. It should go directly after the Django SecurityMiddleware and before all other middleware.
+
+```python
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # ...
+]
+```
+
+Also add the `STATICFILES_STORAGE` line near the end, under the section on static files, like this:
+
+```python
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+```
+
+When you're ready, save the file. All right!
+
 
 ## Heroku account
 
