@@ -155,7 +155,7 @@ Una vez esto esté completo, ejecuta `python -c "import psycopg2"`. Si no tienes
 
 # Aplicando las migraciones y creando un super usuario
 
-En orden de usar la base de datos recién creada en nuestro proyecto, necesitarás aplicar las migraciones en tu ambiente virtual ejecutando el siguiente código:
+Para poder usar la base de datos recién creada en nuestro proyecto, necesitarás aplicar las migraciones en tu ambiente virtual ejecutando el siguiente código:
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate
