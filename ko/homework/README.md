@@ -19,16 +19,20 @@ post.published_date = timezone.now()
 
 이번에도 비슷한 것을 해볼 건데요. 하지만 이번에는 임시저장(draft) 기능을 구현해볼 거에요.
 
-새 글 추가하기 버튼 근처에 `blog/templates/blog/base.html` 링크를 추가하세요(`<h1><a href="/">Django Girls Blog</a></h1>`위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 새로운 글 추가하기 바로 아래에 `{% if user.is_authenticated %}`을 추가해 주세요.
-
+`blog/templates/blog/base.html` 파일의 새 글 추가하기 버튼 근처에 링크를 추가해봅시다. (`<h1><a href="/">Django Girls Blog</a></h1>`위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 ```
 
+그리고 새로운 글 추가하기 바로 아래에 `{% if user.is_authenticated %}`을 추가해 주세요.
+
+`blog/templates/blog/base.html` 파일의 새 글 추가하기 버튼 근처에 링크를 추가해봅시다. (`<h1><a href="/">Django Girls Blog</a></h1>`위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 새로운 글 추가하기 바로 아래에 `{% if user.is_authenticated %}`을 추가해 주세요.
+
+
 다음: url입니다! `blog/urls.py`을 열고 아래 내용을 추가할 거에요.
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 `blog/views.py`에 view를 생성할 차례입니다.
@@ -94,7 +98,7 @@ def post_draft_list(request):
 `blog/urls.py`에 URL 패턴을 추가해봅시다.
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 마지막으로 `post_publish` *뷰*를 `blog/views.py` 에 추가해봅시다.
@@ -135,7 +139,7 @@ def publish(self):
 (`blog/urls.py`)에 URL 패턴을 추가해봅시다:
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 이제 post_remove 뷰를 구현해봅시다. `blog/views.py` 에 아래 코드를 추가해주세요.
