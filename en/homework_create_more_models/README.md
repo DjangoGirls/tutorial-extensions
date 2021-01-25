@@ -79,7 +79,7 @@ If you type `python manage.py runserver` on the command line and go to [http://1
 
 ## Make our comments visible
 
-Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% endblock %}` tag:
+Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% raw %}{% endblock %}{% endraw %}` tag:
 
 ```django
 <hr>
@@ -155,7 +155,7 @@ into:
 from .models import Post, Comment
 ```
 
-Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for comment in post.comments.all %}`, add:
+Now, go to `blog/templates/blog/post_detail.html` and before the line `{% raw %}{% for comment in post.comments.all %}{% endraw %}`, add:
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>

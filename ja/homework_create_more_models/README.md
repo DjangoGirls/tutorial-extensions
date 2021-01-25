@@ -79,7 +79,7 @@ admin.site.register(Comment)
 
 ## コメントを見えるようにする
 
-`blog/templates/blog/post_detail.html`というファイルを開き、`{% endblock %}`タグの前に、以下の行を追加してください：
+`blog/templates/blog/post_detail.html`というファイルを開き、`{% raw %}{% endblock %}{% endraw %}`タグの前に、以下の行を追加してください：
 
 ```django
 <hr>
@@ -155,7 +155,7 @@ from .models import Post
 from .models import Post, Comment
 ```
 
-今度は、`blog/templates/blog/post_detail.html`を開き、`{% for comment in post.comments.all %}`の前に以下の行を追加します：
+今度は、`blog/templates/blog/post_detail.html`を開き、`{% raw %}{% for comment in post.comments.all %}{% endraw %}`の前に以下の行を追加します：
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
