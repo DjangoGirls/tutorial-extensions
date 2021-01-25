@@ -18,7 +18,7 @@ Remember the chapter about querysets? We created a view `post_list` that display
 
 Time to do something similar, but for draft posts.
 
-Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
+Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% raw %}{% if user.is_authenticated %}{% endraw %}` check, right after the button for adding new posts.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
@@ -88,7 +88,7 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+As you noticed, we added `{% raw %}{% else %}{% endraw %}` line here. That means, that if the condition from `{% raw %}{% if post.published_date %}{% endraw %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}`. Note that we are passing a `pk` variable in the `{% raw %}{% url %}{% endraw %}`.
 
 Time to create a URL (in `blog/urls.py`):
 
