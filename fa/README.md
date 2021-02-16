@@ -8,7 +8,7 @@ http://creativecommons.org/licenses/by-sa/4.0/
 
 این آموزش شامل موارد زیر است:
 * [کار در خانه: چیزهای بیشتری به وب‌سایت اضافه کنیم!](homework/README.md)
-* [کار در خانه: امن کردن وب‌سایت](authentication_authorization/README.md)
+* [کار در خانه: وب‌سایت خود را امن‌تر کنید](authentication_authorization/README.md)
 * [کار در خانه: ساختن مدل کامنت](homework_create_more_models/README.md)
 * [فعالیت اختیاری: نصب PostgreSQL](optional_postgresql_installation/README.md)
 
