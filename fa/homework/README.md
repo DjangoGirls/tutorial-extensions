@@ -1,22 +1,22 @@
 # Homework: add more to your website!
 
-Our blog has come a long way but there's still room for improvement. Next, we will add features for post drafts and their publication. We will also add deletion of posts that we no longer want. Neat!
+وبلاگ ما راه درازی را آمده است اما هنوز جا برای توسعه بیشتر، هست. در ادامه ما ویژگی‌هایی‌هایی مانند پیشونویس برای یک پست وبلاگی و نحوه انتشار آن‌ها، اضافه خواهیم کرد. علاوه بر این امکان پاک کردن پست‌هایی که لازم نداریم را هم ایجاد خواهیم کرد. بسیارعالی!
 
-## Save new posts as drafts
+## ذخیره کردن پست‌های جدید به صورت پیش‌نویس 
 
-Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
+در حال حاضر وقتی ما به کمک فرم *New post* یک پست وبلاگی جدید می‌سازیم، این پست مستقیما منتشر می‌شود. برای آنکه این پست به صورت پیش نویس ذخیره شود عبارت زیر را در متدهای `post_new` و `post_edit` در فایل `blog/views.py` **حذف** کنید:
 
 ```python
 post.published_date = timezone.now()
 ```
 
-This way, new posts will be saved as drafts that we can review later on rather than being instantly published. All we need now is a way to list and publish drafts, let's get to it!
+با این روش، پست‌های جدید به جای آنکه بلافاصله منتشر شوند، به عنوان پیش‌نویس ذخیره می‌شوند و بعدا می‌توانیم آن‌ها را بازبینی کنیم. چیزی که الان لازم داریم راهی است پست های پیش‌نویس شده را لیست کنیم و انتشار دهیم، برویم سراغش! 
 
-## Page with list of unpublished posts
+## صفحه‌ای با لیستی از پست‌های منتشر نشده 
 
-Remember the chapter about querysets? We created a view `post_list` that displays only published blog posts (those with non-empty `published_date`).
+بخش مربوط به کوئری ست‌ها را به یاد میآورید؟ ما ویویی به نام `post_list` ساخته‌ایم که فقط پست‌های منتشر شده را نمایش می‌دهد نمایش می‌دهد (پست‌هایی که مقدار `published_date` برای آن‌ها خالی نیست).
 
-Time to do something similar, but for draft posts.
+حالا زمان آن است که کار مشابهی را برای برای پست‌های پیش‌نویس انجام دهیم.
 
 Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
 
