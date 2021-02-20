@@ -1,36 +1,36 @@
-# Homework: add more to your website!
+# کار در خانه: چیزهای بیشتری به وب‌سایت اضافه کنیم!
 
-وبلاگ ما راه درازی را آمده است اما هنوز جا برای توسعه بیشتر، هست. در ادامه ما ویژگی‌هایی‌هایی مانند پیشونویس برای یک پست وبلاگی و نحوه انتشار آن‌ها، اضافه خواهیم کرد. علاوه بر این امکان پاک کردن پست‌هایی که لازم نداریم را هم ایجاد خواهیم کرد. بسیارعالی!
+وبلاگ ما راه درازی را آمده است اما هنوز جا برای توسعه بیشتر، هست. در ادامه ما ویژگی‌هایی‌هایی را مانند ایجاد پیش‌نویس برای یک پست وبلاگی و نحوه انتشار آن‌ها، اضافه خواهیم کرد. علاوه بر این امکان پاک کردن پست‌هایی که لازم نداریم را هم ایجاد خواهیم کرد. بسیارعالی!
 
 ## ذخیره کردن پست‌های جدید به صورت پیش‌نویس 
 
-در حال حاضر وقتی ما به کمک فرم *New post* یک پست وبلاگی جدید می‌سازیم، این پست مستقیما منتشر می‌شود. برای آنکه این پست به صورت پیش نویس ذخیره شود عبارت زیر را در متدهای `post_new` و `post_edit` در فایل `blog/views.py` **حذف** کنید:
+در حال حاضر وقتی ما به کمک فرم *New post* یک پست وبلاگی جدید می‌سازیم، این پست مستقیما منتشر می‌شود. برای آنکه این پست به صورت پیش‌نویس ذخیره شود عبارت زیر را در متدهای `post_new` و `post_edit` در فایل `blog/views.py` **حذف** کنید:
 
 ```python
 post.published_date = timezone.now()
 ```
 
-با این روش، پست‌های جدید به جای آنکه بلافاصله منتشر شوند، به عنوان پیش‌نویس ذخیره می‌شوند و بعدا می‌توانیم آن‌ها را بازبینی کنیم. چیزی که الان لازم داریم راهی است پست های پیش‌نویس شده را لیست کنیم و انتشار دهیم، برویم سراغش! 
+با این روش، پست‌های جدید به جای آنکه بلافاصله منتشر شوند، به عنوان پیش‌نویس ذخیره می‌شوند و بعداً می‌توانیم آن‌ها را بازبینی کنیم. چیزی که الان لازم داریم راهی است که پست‌های پیش‌نویس شده را لیست کنیم و انتشار دهیم، برویم سراغش! 
 
 ## صفحه‌ای با لیستی از پست‌های منتشر نشده 
 
-بخش مربوط به کوئری ست‌ها را به یاد میآورید؟ ما ویویی به نام `post_list` ساخته‌ایم که فقط پست‌های منتشر شده را نمایش می‌دهد نمایش می‌دهد (پست‌هایی که مقدار `published_date` برای آن‌ها خالی نیست).
+بخش مربوط به کوئری ست‌ها را به یاد می‌آورید؟ ما ویویی به نام `post_list` ساخته‌ایم که فقط پست‌های منتشر شده را نمایش می‌دهد (پست‌هایی که مقدار `published_date` برای آن‌ها خالی نیست).
 
-حالا زمان آن است که کار مشابهی را برای برای پست‌های پیش‌نویس انجام دهیم.
+حالا زمان آن است که کار مشابهی را برای پست‌های پیش‌نویس انجام دهیم.
 
-Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
+حالا می‌خواهیم در هدر فایل `blog/templates/blog/base.html` یک لینک اضافه کنیم. از آنجا که  نمی‌خواهیم لیست پست‌های پیش‌نویس را به همه نشان بدهیم، پس این لینک رادر عبارت کنترلی {% if user.is_authenticated %} و دقیقاً بعد از دکمه مربوط به اضافه کردن پست جدید، اضافه می‌کنیم.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 ```
 
-Next: urls! In `blog/urls.py` we add:
+حالا وقت اصلاح urlها در فایل `blog/urls.py` است:
 
 ```python
 path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
-Time to create a view in `blog/views.py`:
+وقت ساختن یک ویو در فایل `blog/views.py` است:
 
 ```python
 def post_draft_list(request):
@@ -38,9 +38,9 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 ```
 
-The line `    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure that we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
+خط `    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')`  کنترل می‌کند که ما فقط پست‌های منتشر نشده (`published_date__isnull=True`) را گرفته باشیم و آن‌ها را به ترتیب تاریخ ساخت (`order_by('created_date')`) دریافت کرده باشیم.
 
-Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
+بسیار عالی، آخرین بخش کار، ساختن یک تمپلیت است! فایل `blog/templates/blog/post_draft_list.html` را بسازید و خطوط زیر را به آن اضافه کنید:
 
 ```django
 {% extends 'blog/base.html' %}
@@ -56,17 +56,17 @@ Ok, the last bit is of course a template! Create a file `blog/templates/blog/pos
 {% endblock %}
 ```
 
-It looks very similar to our `post_list.html`, right?
+این فایل بسیار شبیه فایل `post_list.html` است، اینطور نیست؟
 
-Now when you go to `http://127.0.0.1:8000/drafts/` you will see the list of unpublished posts.
+حالا وقتی به آدرس `http://127.0.0.1:8000/drafts/` بروید لیستی از پست‌های منتشر نشده را خواهید دید.
 
-Yay! Your first task is done!
+وای!‌ اولین تمرین شما انجام شد!
 
-## Add publish button
+## اضافه کردن دکمه انتشار 
 
-It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
+بسیار جذاب خواهد بود که دکمه‌ای در صفحه جزییات پست داشته باشیم که با زدن آن بلافاصله یک پست پیش‌نویس، منتشر شود، درست است؟
 
-Let's open `blog/templates/blog/post_detail.html` and change these lines:
+فایل `blog/templates/blog/post_detail.html` را باز کنید و خط‌های زیر را:
 
 ```django
 {% if post.published_date %}
@@ -76,7 +76,7 @@ Let's open `blog/templates/blog/post_detail.html` and change these lines:
 {% endif %}
 ```
 
-into these:
+به این شکل تغییر دهید:
 
 ```django
 {% if post.published_date %}
@@ -88,15 +88,15 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+همانطور که توجه کرده‌اید ما خط `{% else %}` را اضافه کرده‌ایم. این خط به این معنی است که اگر شرایط موجود در عبارت `{% if post.published_date %}` برآورده نشد (یعنی اگر هیچ تاریخ انتشار یا `published_date` وجود نداشت) می‌خواهیم که خط `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>` اجرا شود. توجه کنید که ما یک متغیر `pk` را به عبارت `{% url %}` ارجاع داده‌ایم.
 
-Time to create a URL (in `blog/urls.py`):
+زمان ساختن یک URL (در فایل `blog/urls.py`) است:
 
 ```python
 path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
-and finally, a *view* (as always, in `blog/views.py`):
+و در نهایت یک *ویو* (مانند همیشه در فایل `blog/views.py`) می‌سازیم:
 
 ```python
 def post_publish(request, pk):
@@ -105,7 +105,7 @@ def post_publish(request, pk):
     return redirect('post_detail', pk=pk)
 ```
 
-Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
+به یاد داشته باشید، وقتی ما یک مدل `Post` ساختیم یک متد `publish` هم نوشتیم که شبیه به این بود:
 
 ```python
 def publish(self):
@@ -113,31 +113,31 @@ def publish(self):
     self.save()
 ```
 
-Now we can finally use this!
+حالا بالاخره می‌توانیم از آن استفاده کنیم!
 
-And once again after publishing the post we are immediately redirected to the `post_detail` page!
+و یک بار دیگر بعد از انتشار پست ما بلافاصله به صفحه جزییات پست یا `post_detail` هدایت خواهیم شد!  
 
 ![Publish button](images/publish2.png)
 
-Congratulations! You are almost there. The last step is adding a delete button!
+تبریک! تقریبا به نتیجه رسیده‌اید. آخرین مرحله اضافه کردن یک کلید حذف پست است.
 
-## Delete post
+## حذف پست
 
-Let's open `blog/templates/blog/post_detail.html` once again and add this line:
+بیایید یک بار دیگر فایل `blog/templates/blog/post_detail.html` را باز کنید و این خط را به آن اضافه کنید:
 
 ```django
 <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 ```
 
-just under a line with the edit button.
+دقیقاً زیر خطی که دکمه اصلاح یا Edit button قرار دارد.
 
-Now we need a URL (`blog/urls.py`):
+حالا یک URL لازم داریم (`blog/urls.py`):
 
 ```python
 path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
-Now, time for a view! Open `blog/views.py` and add this code:
+و الان زمان اضافه کردن یک ویو است! فایل `blog/views.py` را باز کنید و این کد را به آن اضافه کنید:
 
 ```python
 def post_remove(request, pk):
@@ -146,12 +146,12 @@ def post_remove(request, pk):
     return redirect('post_list')
 ```
 
-The only new thing is to actually delete a blog post. Every Django model can be deleted by `.delete()`. It is as simple as that!
+تنها کار باقی مانده آن است که به صورت واقعی پست وبلاگی مورد نظر را پاک کنیم. هر مدل جنگو می‌تواند با دستور `.delete()` حذف شود. واقعاً به همین سادگی است!
 
-And this time, after deleting a post we want to go to the webpage with a list of posts, so we are using `redirect`.
+و این بار، بعد از پاک کردن یک پست، ما می‌خواهیم به صفحه‌ای شامل لیست همه پست‌ها برویم، بنابراین ما از `redirect` استفاده خواهیم کرد.
 
-Let's test it! Go to the page with a post and try to delete it!
+حالا بیایید آن را امتحان کنیم! به یک صفحه که در آن پستی هست بروید و آن را پاک کنید!
 
 ![Delete button](images/delete3.png)
 
-Yes, this is the last thing! You completed this tutorial! You are awesome!
+بله این آخرین مرحله بود! شما این آموزش را تمام کردید! فوق العاده هستید!
