@@ -1,18 +1,18 @@
-# Homework: Adding security to your website
+# کار در خانه: وبسایت خود را امن‌تر کنید
 
-You might have noticed that you didn't have to use your password, apart from back when we used the admin interface. You might also have noticed that this means that anyone can add or edit posts in your blog. I don't know about you, but I don't want just anyone to post on my blog. So let's do something about it.
+ممکن است توجه کرده باشید که شما، برعکس مواقعی که وارد پنل ادمین می‌شوید، برای کار با وبلاگ از پسورد استفاده نمی‌کنید. احتمالاً توجه کرده‌اید که این به معنی آن است که هر کسی می‌تواند پست‌های وبلاگ شما را اصلاح کند یا پستی به آن اضافه کند. در مورد شما نمی‌دانم ولی من دوست ندارم هرکسی بتواند به جای من پست در وبلاگم بگذارد. پس بیایید برای این موضوع کاری بکنیم.
 
-## Authorizing add/edit of posts
+## مجوز‌دار کردن اضافه/اصلاح کردن پست‌ها
 
-First let's make things secure. We will protect our `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views so that only logged-in users can access them. Django ships with some nice helpers for doing that, called _decorators_. Don't worry about the technicalities now; you can read up on these later. The decorator we want to use is shipped in Django in the module `django.contrib.auth.decorators` and is called `login_required`.
+اول بیایید کمی امنیت بیشتر ایجاد کنیم. ما می‌خواهیم ویوهای `post_new`، `post_edit`، `post_draft_list`، `post_remove` و `post_publish` را فقط برای افرادی که در سایت لاگین کرده باشند قابل دسترس کنیم. جنگو با ابزارهای خوبی برای این کار تجهیز شده است که به آن _دکوراتور_ می‌گوییم. نگران توضیحات فنی آن نباشید بعداً می‌توانید در مورد دکوراتورها بخوانید. دکوراتوری که ما می‌خواهیم از آن استفاده کنیم در ماژول `django.contrib.auth.decorators` قرار داده شده و نام آن `login_required` است.
 
-So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
+پس فایل را اصلاح کنید و این خط را به بالای فایل و در کنار سایر import ها قرار دهید:
 
 ```python
 from django.contrib.auth.decorators import login_required
 ```
 
-Then add a line before each of the `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorating them) like the following:
+سپس دقیقاً بالای هرکدام از تابع‌های `post_new`, `post_edit`, `post_draft_list`, `post_remove` و `post_publish`، یک خط مانند زیر اضافه کنید. انگار که به آن تزیینی (decorator) اضافه کرده‌اید.
 
 ```python
 @login_required
@@ -20,22 +20,22 @@ def post_new(request):
     [...]
 ```
 
-That's it! Now try to access `http://localhost:8000/post/new/`. Notice the difference?
+همین بود! حالا سعی کنید آدرس `http://localhost:8000/post/new/` را باز کنید. تفاوت‌ها را  متوجه شدید؟
 
-> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://localhost:8000/admin/logout/` to log out, then go to `http://localhost:8000/post/new` again.
+> اگر یک فرم خالی می‌بینید احتمالاً هنوز به واسطه ورود به بخش ادمین، شما در وب‌سایت لاگین هستید برای لاگ‌اوت کردن به آدرس `http://localhost:8000/admin/logout/` بروید سپس دوباره آدرس `http://localhost:8000/post/new` را باز کنید. 
 
-You should get one of our beloved errors. This one is quite interesting, actually: the decorator we added will redirect you to the login page, but since that's not yet available, it raises a "Page not found (404)".
+شما یکی از خطاهای مورد علاقه ما را دریافت خواهید کرد. در واقع این خطا نمونه جالبی است: دکوراتوری که ما اضافه کردیم شما را به صفحه لاگین هدایت می‌کند، اما چون این صفحه هنوز وجود ندارد خطای "Page not found (404)" را نشان می‌دهد.
 
-Don't forget to add the decorator from above to `post_edit`, `post_remove`, `post_draft_list` and `post_publish` too.
+فراموش نکنید که این دکوراتور را به توابع `post_edit`, `post_remove`, `post_draft_list` و `post_publish` نیز اضافه کنید.
 
-Hooray, we've reached part of our goal!! Now other people can't create posts on our blog anymore. Unfortunately we can't create posts anymore too. So let's fix that next.
+هورا، ما به بخشی از اهدافمان رسیدیم! حالا کسی غیر از ما نمی‌تواند در وبلاگ ما پست منتشر کند. اما متأسفانه خودمان هم دیگر نمی‌توانیم پستی منتشر کنیم، پس بیایید این موضوع را حل کنیم.
 
 
-## Log in users
+## ورود کاربران
 
-We could now try to do lots of magical stuff to implement users and passwords and authentication, but doing this correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication tools provided.
+الان ما می‌توانیم کارهای جادویی زیادی برای کاربران، پسوردهایشان و سیستم کنترل اعتبار آن‌ها انجام دهیم اما انجام دادن درست این‌ها، کاری نسبتاً پیجیده است. از آنجا که جنگو از قبل مجهز شده و افرادی کارهای سخت آن را برای ما انجام داده‌اند، ما از این ابزارهای اعتبارسنجی استفاده بیشتری خواهیم کرد.
 
-In your `mysite/urls.py` add a url `path('accounts/login/', views.LoginView.as_view(), name='login')`. So the file should now look similar to this:
+در فایل `mysite/urls.py` یک urlبه این شکل `path('accounts/login/', views.LoginView.as_view(), name='login')` اضافه کنید، بنابراین فایل شما شبیه به این خواهد شد:
 
 ```python
 from django.urls import path, include
@@ -50,7 +50,7 @@ urlpatterns = [
 ]
 ```
 
-Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
+حالا یک تمپلیت برای صفحه ورود کاربر نیاز داریم، پس یک دایرکتوری به نام `blog/templates/registration`درست کنید و فایلی به نام `login.html` درون آن بسازید و این خطوط را به آن اضافه کنید:
 
 ```django
 {% extends "blog/base.html" %}
@@ -79,27 +79,27 @@ Then we need a template for the login page, so create a directory `blog/template
 {% endblock %}
 ```
 
-You will see that this also makes use of our _base_ template for the overall look and feel of your blog.
+می‌بنید که این فایل هم از تمپلیت  _base_  به عنوان شکل دهنده کلی صفحه و برای شبیه کردن این صفحه به بقیه وبلاگ، استفاده می‌کند.
 
-The nice thing here is that this _just works<sup>TM</sup>_. We don't have to deal with handling of the form submission nor with passwords and securing them. Only more thing is left to do. We should add a setting to `mysite/settings.py`:
+نکته بسیار حالب آن این است که کاملاً  _کار_ می‌کند. لازم نیست که برا یثبت فرم‌ها یا پسورد یا امن کردن آن‌ها هیچ کاری انجام بدهیم. تنها کاری که باقی مانده است آن است که برخی تنظیمات را به فایل `mysite/settings.py` اضافه کنیم:
 
 ```python
 LOGIN_REDIRECT_URL = '/'
 ```
 
-so that when the login page is accessed directly, it will redirect a successful login to the top-level index (the homepage of our blog).
+بنابراین وقتی صفحه لاگین به طور مستقیم در دسترس قرار می‌گیرد، هر لاگین موفق را به بالاترین سطح ایندکس وب‌سایت (یعنی صفحه اصلی وبلاگ ما)، هدایت خواهد کرد.
 
-## Improving the layout
+## بهبود صفحه‌بندی
 
-We already set things up so that only authorized users (i.e. us) see the buttons for adding and editing posts. Now we want to make sure a login button appears for everybody else.
+ما الان همه چیز را مرتب کرده‌ایم که فقط کاربران تأیید شده (مانند خودمان) کلیدهای اضافه کردن یا اصلاح هر پست را ببینند. حالا می‌خواهیم مطمئن شویم که یک دکمه لاگین کردن برای سایر افراد نمایش داده می‌شود.
 
-We will add a login button that looks like this:
+ما یک کلید لاگین کردن مانند زیر اضافه خواهیم کرد: 
 
 ```django
     <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
 ```
 
-For this we need to edit the templates, so let's open up `blog/templates/blog/base.html` and change it so the part between the `<body>` tags looks like this:
+برای این کار نیاز است که تمپلیت را اصلاح کنیم، پس فایل `blog/templates/blog/base.html` را باز کنید و آن را به شکلی تغییر دهید که بخش بین تگ‌های `<body>` مانند زیر باشد:
 
 ```django
 <body>
@@ -123,11 +123,11 @@ For this we need to edit the templates, so let's open up `blog/templates/blog/ba
 </body>
 ```
 
-You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. Otherwise it shows a login button.
+احتمالاً الگوی آن را متوجه شده‌اید. یک عبارت شرطی یا if-condition در تمپلیت وجود دارد که معتبر بودن کاربران را بررسی می‌کند تا در صورت معتبر بودن کلید اضافه کردن یا اصلاح کردن پست را نمایش دهد، در صورتی که کاربر تأیید شده نباشد کلید لاگین را نمایش می‌دهد.
 
-## More on authenticated users
+## چیزهای بیشتری برای کاربر تأیید اعتبار شده 
 
-Let's add some sugar to our templates while we're at it. First we will add some details to show when we are logged in. Edit `blog/templates/blog/base.html` like this:
+بیایید حالا که در این تمپلیت هستیم دستی به سر و گوش آن بکشیم. اول از همه کاری می‌کنیم که نشان دهد ما کی لاگین کرده ایم. فایل `blog/templates/blog/base.html` را مانند زیر اصلاح کنید:
 
 ```django
 <div class="page-header">
@@ -142,11 +142,11 @@ Let's add some sugar to our templates while we're at it. First we will add some 
 </div>
 ```
 
-This adds a nice "Hello _&lt;username&gt;_" to remind us who we are logged in as, and that we are authenticated. Also, this adds a link to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
+این کار یک عبارت "Hello _&lt;username&gt;_"  زیبا را اضافه می‌کند که به ما یادآوری کند با چه نام کاربری لاگین کرده‌ایم. همچنین یک لینک به صفحه لاگ اوت را نیز نمایش می‌دهد، اما احتمالاً متوجه شده‌اید که این کلید هنوز کارنمی‌کند پس بیایید درستش کنیم!
 
-We decided to rely on Django to handle login, so let's see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/2.0/topics/auth/default/ and see if you find something.
+ما تصمیم گرفتیم برای مدیریت لاگین، به جنگو تکیه کنیم، بیایید ببینیم آیا جنگو لاگ اوت را هم مدیریت می‌کند. آدرس https://docs.djangoproject.com/en/2.0/topics/auth/default/ را نگاهی بیندازید و ببینید آیا چیزی می‌فهمید.
 
-Done reading? By now you may be thinking about adding a URL in `mysite/urls.py` pointing to Django's logout view (i.e. `django.contrib.auth.views.logout`), like this:
+مطالعه کردید؟ ممکن است تا الان به این نتیجه رسیده باشید که لازم است یک URL به فایل `mysite/urls.py` اضافه کنید که به صفحه لاگ اوت جنگو (مثلاً `django.contrib.auth.views.logout`) ارجاع دهد. چیزی شبیه به این:
 
 ```python
 from django.urls import path, include
@@ -162,8 +162,8 @@ urlpatterns = [
 ]
 ```
 
-That's it! If you followed all of the above up to this point (and did the homework), you now have a blog where you
+همین بود! اگر همه مراحل بالا تا اینجا (و همچنین کارهای در خانه) را انجام داده باشید، وبلاگی دارید که
 
- - need a username and password to log in,
- - need to be logged in to add, edit, publish or delete posts,
- - and can log out again.
+ - یک نام کاربری و یک پسورد برای ورود لازم دارد،
+ - لازم است که لاگین کنید تا بتوانید پست‌های وبلاگ را اضافه، حذف، اصلاح و یا منتشر کنید،
+ - و می‌توانید از وبلاگ لاگ اوت کنید.
