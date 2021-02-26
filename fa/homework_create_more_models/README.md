@@ -1,10 +1,10 @@
-# Homework: create comment model
+#  کار در خانه: ساختن مدل کامنت‌ها
 
-Currently, we only have a Post model. What about receiving some feedback from your readers and letting them comment?
+در حال حاضر ما فقط یک مدل برای پست‌ها داریم. چطور است که بتوانیم بازخوردی از خوانندگان وبلاگ بگیریم و اجازه بدهیم برای پست‌ها کامنت بگذارند؟
 
-## Creating comment blog model
+## ساختن مدل برای کامنت‌های وبلاگ
 
-Let's open `blog/models.py` and append this piece of code to the end of file:
+فایل `blog/models.py` را باز کنید و این قطعه کد را به آن اضافه کنید:
 
 ```python
 class Comment(models.Model):
@@ -22,23 +22,23 @@ class Comment(models.Model):
         return self.text
 ```
 
-You can go back to the **Django models** chapter in the tutorial if you need a refresher on what each of the field types mean.
+شما می‌توانید به بخش **مدل‌ها در جنگو** در آموزش اصلی جنگوگرلز برگردید و اگر نیاز دارید ویژگی‌های هر نوع فیلد را دوره کنید.
 
-In this tutorial extension we have a new type of field:
-- `models.BooleanField` - this is true/false field.
+در این تمرین ما یک نوع فیلد جدید داریم: 
+- `models.BooleanField` - این فیلد یک نوع فیلد درست/غلط است.
 
-The `related_name` option in `models.ForeignKey` allows us to have access to comments from within the Post model.
+گزینه `related_name` در `models.ForeignKey` به ما اجازه می‌دهد که از طریق مدل پست، به کامنت‌ها دسترسی داشته باشیم.
 
-## Create tables for models in your database
+## ساختن جدول برای مدل‌ها در دیتابیس
 
-Now it's time to add our comment model to the database. To do this we have to tell Django that we made changes to our model. Type `python manage.py makemigrations blog` in your command line. You should see output like this:
+الان زمان آن است که مدل کامنت‌ را به دیتابیس اضافه کنیم. برای این کار باید به جنگو بگوییم که ما چه تغییراتی در مدل ایجاد کرده‌ایم. دستور `python manage.py makemigrations blog` را در خط فرمان بنویسید. باید چیزی شبیه به این ببینید:
 
     (myvenv) ~/djangogirls$ python manage.py makemigrations blog
     Migrations for 'blog':
       0002_comment.py:
         - Create model Comment
 
-You can see that this command created another migration file for us in the `blog/migrations/` directory. Now we need to apply those changes by typing `python manage.py migrate blog` in the command line. The output should look like this:
+می‌بینید که این دستور یک فایل مایگریشن دیگر برای ما در پوشه `blog/migrations/` می‌سازد. حالا نیاز داریم تا این تغییرات را با نوشتن دستور `python manage.py migrate blog`در خط فرمان، ثبت کنیم. نتیجه شبیه به این خواهد بود: 
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
@@ -49,23 +49,22 @@ You can see that this command created another migration file for us in the `blog
       Applying blog.0002_comment... OK
 ```
 
-Our Comment model exists in the database now! Wouldn't it be nice if we had access to it in our admin panel?
+مدل کامنت ما حالا در دیتابیس وجود دارد! جالب نیست که ما از طریق پنل ادمین به آن دسترسی داشته باشیم؟
 
-## Register Comment model in admin panel
+## ثبت مدل کامنت در پنل ادمین
 
-To register the Comment model in the admin panel, go to `blog/admin.py` and add this line:
+برای ثبت مدل کامنت در پنل ادمین به فایل `blog/admin.py` بروید و خط زیر را پیدا کنید:
+
+```python
+admin.site.register(Post)
+```
+و دقیقاً در پایین آن، خط زیر اضافه کنید:
 
 ```python
 admin.site.register(Comment)
 ```
 
-directly under this line:
-
-```python
-admin.site.register(Post)
-```
-
-Remember to import the Comment model at the top of the file, too, like this:
+به یاد داشته باشید که مدل کامنت را در بالای فایل به شکل زیر فراخوانی یا import کنید:
 
 ```python
 from django.contrib import admin
@@ -75,11 +74,11 @@ admin.site.register(Post)
 admin.site.register(Comment)
 ```
 
-If you type `python manage.py runserver` on the command line and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) in your browser, you should have access to the list of comments, and also the capability to add and remove comments. Play around with the new comments feature!
+اگر عبارت `python manage.py runserver` را در خط فرمان بنویسید و به آدرس [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) در مرورگر خود سر بزنید، به لیستی از کامنت‌ها دسترسی خواهید داشت و همچنین امکان آن را دارید که کامنتی اضافه یا کم کنید. کمی با این قابلیت کامنت‌ها بازی کنید! 
 
-## Make our comments visible
+## کامنت‌هایمان را نمایش دهیم
 
-Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% endblock %}` tag:
+به فایل `blog/templates/blog/post_detail.html` بروید و خطوط زیر را قبل از تگ `{% endblock %}` اضافه کنید:
 
 ```django
 <hr>
@@ -94,9 +93,9 @@ Go to the `blog/templates/blog/post_detail.html` file and add the following line
 {% endfor %}
 ```
 
-Now we can see the comments section on pages with post details.
+حالا می‌توانیم بخش کامنت‌ها را در صفحه جزییات پست ببینیم.
 
-But it could look a little bit better, so let's add some CSS to the bottom of the `static/css/blog.css` file:
+اما این بخش می‌تواند کمی جذاب‌تر هم باشد، پس بیایید کمی CSS به آن اضافه کنیم، در انتهای فایل `static/css/blog.css`، خطوط زیر را اضافه کنید:
 
 ```css
 .comment {
@@ -104,13 +103,13 @@ But it could look a little bit better, so let's add some CSS to the bottom of th
 }
 ```
 
-We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add the line:
+همچنین می‌توانیم به خوانندگان در مورد کامنت‌های هر پست در صفحه لیست پست‌ها نیز اطلاع بدهیم. به فایل `blog/templates/blog/post_list.html`بروید و خط زیر را اضافه کنید:
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-After that our template should look like this:
+حالا تمپلیت ما شبیه به این خواهد بود:
 
 ```django
 {% extends 'blog/base.html' %}
@@ -129,11 +128,11 @@ After that our template should look like this:
 {% endblock content %}
 ```
 
-## Let your readers write comments
+## به کاربر اجازه نوشتن کامنت بدهیم
 
-Right now we can see comments on our blog, but we can't add them. Let's change that!
+خب حالا می‌توانیم کامنت‌ها را در وبلاگ خود ببینیم، اما نمی‌توانیم کامنتی اضافه کنیم، بیایید این مشکل را حل کنیم!
 
-Go to `blog/forms.py` and add the following lines to the end of the file:
+به فایل `blog/forms.py` بروید و خطوط زیر را به انتهای فایل اضافه کنید:
 
 ```python
 class CommentForm(forms.ModelForm):
@@ -143,39 +142,39 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
 ```
 
-Remember to import the Comment model, changing the line:
+به یاد داشته باشید که مدل کامنت را فراخوانی کنید، خط زیر را پیدا کنید:
 
 ```python
 from .models import Post
 ```
 
-into:
+و به این شکل تغییر دهید:
 
 ```python
 from .models import Post, Comment
 ```
 
-Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for comment in post.comments.all %}`, add:
+حالا به فایل `blog/templates/blog/post_detail.html` بروید و قبل از عبارت `{% for comment in post.comments.all %}`، این خط را اضافه کنید:
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
-If you go to the post detail page you should see this error:
+اگر به صفحه جزییات پست بروید احتمالاً این خطا را خواهید دید:
 
 ![NoReverseMatch](images/url_error.png)
 
-We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
+ما می‌دانیم که چطور این مشکل را حل کنیم! به فایل `blog/urls.py` بروید و این الگو را به `urlpatterns` اضافه کنید:
 
 ```python
 path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
-Refresh the page, and we get a different error!
+صفحه را دوباره بارگذاری کنید، حالا یک خطای جدید داریم:
 
 ![AttributeError](images/views_error.png)
 
-To fix this error, add this view to `blog/views.py`:
+برای حل این مشکل به فایل `blog/views.py` بروید و ویو زیر را به آن اضافه کنید:
 
 ```python
 def add_comment_to_post(request, pk):
@@ -192,23 +191,22 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-Remember to import `CommentForm` at the beginning of the file:
+به یاد داشته باشید که `CommentForm` را در ابتدای فایل فراخوانی کنید:
 
 ```python
 from .forms import PostForm, CommentForm
 ```
 
-
-Now, on the post detail page, you should see the "Add Comment" button.
+حالا در صفحه جزییات پست، باید کلید "Add Comment" را ببینید.
 
 ![AddComment](images/add_comment_button.png)
 
-However, when you click that button, you'll see:
+با اینحال وقتی روی آن کلیک کنید خطای زیر را خواهید دید: 
 
 ![TemplateDoesNotExist](images/template_error.png)
 
 
-Like the error tells us, the template doesn't exist yet. So, let's create a new one at `blog/templates/blog/add_comment_to_post.html` and add the following code:
+همان طور که این خطا نشان می‌دهد، تمپلیتی وجود ندارد بنابراین بیایید یک تمپلیت جدید در `blog/templates/blog/add_comment_to_post.html` بسازیم و کد زیر را به آن اضافه کنیم: 
 
 ```django
 {% extends 'blog/base.html' %}
@@ -222,13 +220,13 @@ Like the error tells us, the template doesn't exist yet. So, let's create a new 
 {% endblock %}
 ```
 
-Yay! Now your readers can let you know what they think of your blog posts!
+وای! حالا خوانندگان شما می‌توانند نظرشان را در مورد پست‌های وبلاگ شما بنویسند!
 
-## Moderating your comments
+## مدیریت کامنت‌ها
 
-Not all of the comments should be displayed. As the blog owner, you probably want the option to approve or delete comments. Let's do something about it.
+همه کامنت‌ها نباید نمایش داده شوند. صاحب وبلاگ، مثلاً شما، احتمالاً امکان تأیید یا پاک کردن یک کامنت را لازم دارد. پس بیایید کاری برای این موضوع انجام دهیم:
 
-Go to `blog/templates/blog/post_detail.html` and change lines:
+به فایل `blog/templates/blog/post_detail.html` بروید و خطوط زیر را پیدا کنید:
 
 ```django
 {% for comment in post.comments.all %}
@@ -242,7 +240,7 @@ Go to `blog/templates/blog/post_detail.html` and change lines:
 {% endfor %}
 ```
 
-to:
+و آن‌ها را به این شکل تغییر دهید:
 
 ```django
 {% for comment in post.comments.all %}
@@ -264,16 +262,16 @@ to:
 {% endfor %}
 ```
 
-You should see `NoReverseMatch`, because no URL matches the `comment_remove` and `comment_approve` patterns... yet!
+الان احتمالاً خطای `NoReverseMatch` را خواهید دید، چرا که هنوز هیچ URL با الگوی `comment_approve` و `comment_remove` مطابقت نمی‌کند.
 
-To fix the error, add these URL patterns to `blog/urls.py`:
+برای اصلاح این خطا، این الگوها را به فایل `blog/urls.py` اضافه کنید:‌
 
 ```python
 path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
 path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ```
 
-Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
+حالا احتمالاً خطای `AttributeError` را خواهید دید. برای اصلاح آن، ویوهای زیر را به فایل `blog/views.py` اضافه کنید: 
 
 ```python
 @login_required
@@ -290,31 +288,31 @@ def comment_remove(request, pk):
 ```
 
 
-You'll need to import `Comment` at the top of the file:
+لازم است که مدل `Comment` را در ابتدای فایل فراخوانی کنید:
 
 ```python
 from .models import Post, Comment
 ```
 
-Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.
+همه چیز کار می‌کند! فقط یک تغییر کوچک باقی مانده که انجام بدهیم. در صفحه لیست پست‌ها، ما تعداد همه کامنت‌هایی که هر پست دریافت کرده را می‌بینیم. بیایید آن را به تعداد کامنت‌های *تأییدشده* تغییر بدهیم.
 
-To fix this, go to `blog/templates/blog/post_list.html` and change the line:
+برای اصلاح این مورد به فایل `blog/templates/blog/post_list.html` بروید و خط زیر را پیدا کنید:
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
-to:
+و آن را به این شکل تغییر دهید:
 
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
 
-Finally, add this method to the `Post` model in `blog/models.py`:
+حالا این متد را به مدل `Post` در فایل `blog/models.py` اضافه کنید:
 
 ```python
 def approved_comments(self):
     return self.comments.filter(approved_comment=True)
 ```
 
-Now your comment feature is finished! Congrats! :-)
+حالا ویژگی‌های بخش کامنت کامل شد! تبریک! :-)
