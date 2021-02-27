@@ -1,82 +1,81 @@
-# PostgreSQL installation
+# نصب  PostgreSQL
 
-> Part of this chapter is based on tutorials by Geek Girls Carrots (http://django.carrots.pl/).
+> قسمت‌هایی از این بخش بر اساس دوره آموزشی Geek Girls Carrots است (http://django.carrots.pl/).
 
-> Parts of this chapter is based on the [django-marcador
-tutorial](http://django-marcador.keimlink.de/) licensed under Creative Commons
-Attribution-ShareAlike 4.0 International License. The django-marcador tutorial
-is copyrighted by Markus Zapke-Gründemann et al.
-
+> بخش‌هایی از این دوره بر اساس دوره آموزشی [django-marcador
+tutorial](http://django-marcador.keimlink.de/) و بر اساس مدرک بین‌المللی Creative Commons
+Attribution-ShareAlike 4.0 و توسط Markus Zapke-Gründemann و همکاران ثبت شده است.
 
 ## Windows
 
-The easiest way to install Postgres on Windows is using a program you can find here: http://www.enterprisedb.com/products-services-training/pgdownload#windows
+ساده‌ترین راه برای نصب Postgres در ویندوز، استفاده از برنامه‌ای است که می‌توانید در این آدرس پیدا کنید: http://www.enterprisedb.com/products-services-training/pgdownload#windows
 
-Choose the newest version available for your operating system. Download the installer, run it and then follow the instructions available here: http://www.postgresqltutorial.com/install-postgresql/. Take note of the installation directory as you will need it in the next step (typically, it's `C:\Program Files\PostgreSQL\9.3`).
+جدید‌ترین نسخه‌ای که برای ویندوز شما وجود دارد را انتخاب کنید. نصب کننده را دانلود کنید و دستورالعمل‌هایی که در این آدرس http://www.postgresqltutorial.com/install-postgresql/، وجود دارد را دنبال کنید. آدرس دایرکتوری نصب را جایی یادداشت کنید چون در مراحل بعد به آن نیاز دارید (معمولاً چیزی شبیه به `C:\Program Files\PostgreSQL\9.3` است).
 
 ## Mac OS X
 
-The easiest way is to download the free [Postgres.app](http://postgresapp.com/) and install it like any other application on your operating system.
+ساده‌ترین راه این است که نرم‌افزار رایگان [Postgres.app](http://postgresapp.com/) را دانلود و مانند سایر اپلیکیشن‌ها بر روی سیستم عامل خود نصب کنید.
 
-Download it, drag to the Applications directory and run by double clicking. That's it!
+نرم‌افزار را دانلود کنید فایل آن را در پوشه Applications بیندازید و با دوبار کلیک، آن را اجرا کنید. به همین سادگی!
 
-You'll also have to add the Postgres command line tools to your `PATH` variable, what is described [here](http://postgresapp.com/documentation/cli-tools.html).
+همچنین نیاز است که ابزار خط فرمان Postgres را در متغیر `PATH` قرار دهید که در [اینجا](http://postgresapp.com/documentation/cli-tools.html) توضیح داده شده است.
 
 ## Linux
 
-Installation steps vary from distribution to distribution. Below are the commands for Ubuntu and Fedora, but if you're using a different distro [take a look at the PostgreSQL documentation](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux).
+مراحل نصب بین توزیع‌های مختلف متفاوت است. در زیر دستورهای نصب برای Ubuntu و Fedora آمده است. اگر از توزیع دیگری استفاده می‌کنید به [مستندات Postgres](https://wiki.postgresql.org/wiki/Detailed_installation_guides#General_Linux)
+ نگاهی بیندازید.
 
 ### Ubuntu
 
-Run the following command:
+برای نصب پستگرس بر روی اوبونتو، دستور زیر را اجرا کنید:
 
     sudo apt-get install postgresql postgresql-contrib
 
 ### Fedora
 
-Run the following command:
+برای نصب پستگرس روی فدورا از دستور زیر استفاده کنید:
 
     sudo yum install postgresql93-server
 
-# Create database
+# ساختن دیتابیس
 
-Next up, we need to create our first database, and a user that can access that database. PostgreSQL lets you create as many databases and users as you like, so if you're running more than one site you should create a database for each one.
+حالا وقت آن است که اولین دیتابیس و کاربری را که بتواند به آن دسترسی داشته باشد، بسازیم. PostgreSQL به شما اجازه می‌دهد به هر تعداد که می‌خواهید دیتابیس‌ و کاربر بسازید، پس اگر بر روی وب‌سایت‌های مختلف کار می‌کنید باید برای هرکدام یک دیتابیس بسازید.
 
 ## Windows
 
-If you're using Windows, there's a couple more steps we need to complete. For now it's not important for you to understand the configuration we're doing here, but feel free to ask your coach if you're curious as to what's going on.
+اگر از ویندوز استفاده می‌کنید، چند مرحله دیگر هست که باید انجام بدهیم. الان نیازی نیست که شما مفاهیم تنظیماتی را که انجام می‌دهیم، بدانید، اما اگر دوست دارید که بیشتر کنجکاوی کنید می‌توانید از مربی خود سؤال کنید.
 
-1. Open the Command Prompt (Start menu → All Programs → Accessories → Command Prompt)
-2. Run the following by typing it in and hitting return: `setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`. You can paste things into the Command Prompt by right clicking and selecting `Paste`. Make sure that the path is the same one you noted during installation with `\bin` added at the end. You should see the message `SUCCESS: Specified value was saved.`.
-3. Close and then reopen the Command Prompt.
+1. خط فرمان را باز کنید (Start menu → All Programs → Accessories → Command Prompt)
+2. این دستور را بنویسید و اجرا کنید: `setx PATH "%PATH%;C:\Program Files\PostgreSQL\9.3\bin"`. می‌توانید دستورات را کپی کنید و با رایت کلیک و انتخاب `Paste`، آن‌ها را در خط فرمان اضافه کنید. مطمئن شوید که آدرس موجود در این دستور، ترکیبی باشد از  آدرسی که در مراحل نصب یادداشت کرده بودید به اضافه یک عبارت `\bin` در انتهای آن. باید بعد از اجرای این دستور عبارت `SUCCESS: Specified value was saved.` را ببینید.
+3. خط فرمان را ببندید و دوباره آن را باز کنید.
 
-## Create the database
+## ساختن دیتابیس
 
-First, let's launch the Postgres console by running `psql`. Remember how to launch the console?
->On Mac OS X you can do this by launching the `Terminal` application (it's in Applications → Utilities). On Linux, it's probably under Applications → Accessories → Terminal. On Windows you need to go to Start menu → All Programs → Accessories → Command Prompt. Furthermore, on Windows, `psql` might require logging in using the username and password you chose during installation. If `psql` is asking you for a password and doesn't seem to work, try `psql -U <username> -W` first and enter the password later.
+اول از همه کنسول پستگرس را با اجرای دستور `psql`، فعال کنید. به یاد دارید که چطور کنسول را باز می‌کردید؟ 
+> بر روی مک‌ او اس ایکس می‌توانید با اجرای اپلیکیشن `Terminal`، کنسول را باز کنید (در این آدرس Applications → Utilities). روی لینوکس، احتمالاً در مسیر Applications → Accessories → Terminal است. در ویندوز نیاز است که از این مسیر Start menu → All Programs → Accessories → Command Prompt، کنسول خط فرمان را پیدا کنید. علاوه بر این در ویندوز ممکن است اجرای دستور `psql` نیاز به نام کاربری و پسوردی داشته باشد که درمراحل نصب تعریف کرده‌اید اما با اینحال باز هم کار نکند، برای فعال کردن کنسول پستگرس از دستور `psql -U <username> -W` استفاده کنید و بعد از اجرای آن پسورد خود را بزنید.
 
     $ psql
     psql (9.3.4)
     Type "help" for help.
     #
 
-Our `$` now changed into `#`, which means that we're now sending commands to PostgreSQL. Let's create a user with `CREATE USER name;` (remember to use the semicolon):
+علامت `$`، به `#` تغییر کرده است که به این معنی است که حالا ما دستورات را به PostgreSQL می‌فرستیم. بیایید یک کاربر به کمک دستور `CREATE USER name;` بسازیم (گذاشتن ویرگول نقطه در انتهای دستور را فراموش نکنید): 
 
     # CREATE USER name;
 
-Replace `name` with your own name. You shouldn't use accented letters or whitespace (e.g. `bożena maria` is invalid - you need to convert it into `bozena_maria`). If it goes well, you should get `CREATE ROLE` response from the console.
+به جای عبارت `name`، نام خودتان را بنویسید. نباید از کاراکترهای خاص (مثلاً فارسی) و اسپیس استفاده کنید (مثلاً نام کاربری `bożena maria`، نامعتبر است و باید به صورت `bozena_maria` نوشته شود). اگر همه چیز خوب پیش برود، باید عبارت `CREATE ROLE` را در کنسول ببینید.
 
-Now it's time to create a database for your Django project:
+حالا وقت آن است که یک دیتابیس برای پروژه جنگو خود بسازید:
 
     # CREATE DATABASE djangogirls OWNER name;
 
-Remember to replace `name` with the name you've chosen (e.g. `bozena_maria`).  This creates an empty database that you can now use in your project. If it goes well, you should get `CREATE DATABASE` response from the console.
+یادتان باشد که عبارت `name` را با نامی که در دستور قبل ساختید (مثلاً `bozena_maria`) جابجا کنید. این کار یک دیتابیس خالی می‌سازد که شما می‌توانید در پروژه خود از آن استفاده کنید. اگر همه چیز درست پیش رفته باشد باید عبارت `CREATE DATABASE` را در کنسول ببینید.
 
-Great - that's databases all sorted!
+فوق‌العاده است، دیتابیس آماده شد! 
 
-# Updating settings
+# به‌روزرسانی تنظیمات
 
-Find this part in your `mysite/settings.py` file:
+این بخش را در فایل `mysite/settings.py` پیدا کنید:
 
 ```python
 DATABASES = {
@@ -87,7 +86,7 @@ DATABASES = {
 }
 ```
 
-And replace it with this:
+و به این شکل تغییر دهید:
 
 ```python
 DATABASES = {
@@ -102,33 +101,33 @@ DATABASES = {
 }
 ```
 
-Remember to change `name` to the user name that you created earlier in this chapter.
+به یاد داشته باشید که عبارت `name` را با نامی که کمی قبل‌تر، موقع ساختن دیتابیس تعریف کرده‌اید، جابجا کنید.
 
-# Installing PostgreSQL package for Python
+# نصب پکیج PostgreSQL برای پایتون
 
-First, install Heroku Toolbelt from https://toolbelt.heroku.com/ While we will need this mostly for deploying your site later on, it also includes Git, which might come in handy already.
+ابتدا Heroku Toolbelt را از آدرس https://toolbelt.heroku.com/ نصب کنید. هرچند که از این ابزار بعدها بیشتر برای انتشار وب‌سایت استفاده خواهیم کرد اما این پکیج شامل Git هم هست که بسیار کارآمد است. 
 
-Next up, we need to install a package which lets Python talk to PostgreSQL - this is called `psycopg2`. The installation instructions differ slightly between Windows and Linux/OS X.
+در ادامه، نیاز داریم پکیجی را نصب کنیم که اجازه می‌دهد پایتون با پستگرس صحبت کند؛ نام این پکیج `psycopg2` است. دستورالعمل نصب بین ویندوز و لینوکس/مک کمی متفاوت است. 
 
 ## Windows
 
-For Windows, download the pre-built file from http://www.stickpeople.com/projects/python/win-psycopg/
+برای ویندوز، فایل پیش‌ساخته را از http://www.stickpeople.com/projects/python/win-psycopg/ دانلود کنید. 
 
-Make sure you get the one corresponding to your Python version (3.4 should be the last line) and to the correct architecture (32 bit in the left column or 64 bit in the right column).
+مطمئن شوید فایل متناسب با نسخه پایتون نصب شده روی سیستم خود را گرفته‌اید (3.6 باید آخرین ردیف باشد). علاوه بر این، فایل باید متناسب با معماری سیستم عامل شما باشد(۳۲ بیتی در ستون چپ و ۶۴ بیتی در ستون راست).
 
-Rename the downloaded file and move it so that it's now available at `C:\psycopg2.exe`.
+نام فایل دانلود شده را تغییر دهید تا به این نام و آدرس قابل دسترس باشد `C:\psycopg2.exe`.
 
-Once that's done, enter the following command in the terminal (make sure your `virtualenv` is activated):
+وقتی این کار انجام شد دستور زیر را در خط فرمان اجرا کنید (مطمئن باشید که `virtualenv`فعال باشد):
 
     easy_install C:\psycopg2.exe
 
 ## Linux and OS X
 
-Run the following in your console:
+دستور زیر را در کنسول اجرا کنید:‌ 
 
     (myvenv) ~/djangogirls$ pip install psycopg2
 
-If that goes well, you'll see something like this
+اگر همه چیز خوب پیش برود، چیزی شبیه به این را خواهید دید:
 
     Downloading/unpacking psycopg2
     Installing collected packages: psycopg2
@@ -137,18 +136,18 @@ If that goes well, you'll see something like this
 
 ---
 
-Once that's completed, run `python -c "import psycopg2"`. If you get no errors, everything's installed successfully.
+وقتی این مرحله کامل شد، عبارت `python -c "import psycopg2"` را اجرا کنید. اگر خطایی دریافت نکردید، یعنی همه چیز با موفقیت نصب شده است.
 
-# Applying migrations and creating a superuser
+# ثبت تغییرات و ساختن کاربر اصلی 
 
-In order to use the newly created database in your website project, you need to apply all the migrations. In your virtual environment run the following code:
+برای استفاده از دیتابیس تازه ساخته شده، نیاز است که migration یا مهاجرت را انجام دهید. این کار تغییرات ایجاد شده را در دیتابیس ثبت می‌کند. در محیط مجازی (virtual environment) دستور زیر را اجرا کنید:
 
     (myvenv) ~/djangogirls$ python manage.py migrate
 
-To add new posts to your blog, you also need to create a superuser by running the code:
+برای اضافه کردن پست‌های جدید، نیاز است که superuser یا کاربر اصلی را به کمک دستور زیر بسازید:
 
     (myvenv) ~/djangogirls$ python manage.py createsuperuser --username name 
     
-Remember to replace `name` with the username. You will be prompted for email and password.
+به یاد داشته باشید که عبارت `name` را با نام کاربری که برای ادمین وب‌سایت در نظر دارید، جابجا کنید. ایمیل و پسورد این کاربر اصلی نیز از شما پرسیده می‌شود.
 
-Now you can run the server, log into your application with the superuser account and start adding posts to your new database.
+حالا می‌توانید سرور را اجرا کنید، با کاربر اصلی وارد سایت شوید و پست‌های جدید به دیتابیس تازه ساخته شده اضافه کنید.
