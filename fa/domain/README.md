@@ -1,30 +1,28 @@
-# Domain
+# دامین
 
-PythonAnywhere gave you a free domain, but maybe you don't want to have ".pythonanywhere.com" at the end of your blog URL. Maybe you want your blog to just live at "www.infinite-kitten-pictures.org" or "www.3d-printed-steam-engine-parts.com" or "www.antique-buttons.com" or "www.mutant-unicornz.net", or whatever it'll be.
+PythonAnywhere به شما یک دامین رایگان می‌دهد اما ممکن است شما دوست نداشته باشید ".pythonanywhere.com" را در ادامه نام دامین وبلاگ خود داشته باشید. شاید بخواهید دامین شما در آدرسی مشخص مانند "www.infinite-kitten-pictures.org"  یا "www.3d-printed-steam-engine-parts.com" یا "www.antique-buttons.com" یا هر چیز دیگری منتشر شود.
 
-Here we'll talk a bit about where to get a domain, and how to hook it up to your web app on PythonAnywhere. However, you should know that most domains cost money, and PythonAnywere also charges a monthly fee to use your own domain name -- it's not much money in total, but this is probably something you only want to do if you're really committed!
+در اینجا کمی در مورد این صحبت می‌کنیم که چطور می‌توانیم یک دامین بگیریم و چطور می‌توانیم آن را به وب‌سایت خود در PythonAnywhere متصل کنیم. با اینحال احتمالاً می‌دانید که دامین اختصاصی هزینه دارد و علاوه بر آن PythonAnywhere بابت استفاده از دامین اختصاصی، از شما هزینه اندکی را به صورت ماهانه دریافت می‌کند، هر چند این هزینه زیاد نیست اما احتمالاً شما باید وقتی سراغ آن بروید که واقعاً در مورد استفاده از این خدمات، جدی باشید. 
 
+## کجا یک دامین ثبت کنیم؟
 
-## Where to register a domain?
+یک دامین معمولی در حدود سالی ۱۵ دلار هزینه دارد. البته بسته به ارائه دهنده، گزینه‌های ارزان‌تر و گران‌تر هم وجود دارد. شرکت‌های زیادی وجود دارند که شما می‌توانید از آن‌ها دامین تهیه کنید: یک [جستجو در گوگل](https://www.google.com/search?q=register%20domain) صدها گزینه به شما نشان می‌دهد.
 
-A typical domain costs around $15 a year. There are cheaper and more expensive options, depending on the provider. There are a lot of companies that you can buy a domain from: a simple [google search](https://www.google.com/search?q=register%20domain) will give hundreds of options.
+گزینه مورد علاقه ما [I want my name](https://iwantmyname.com/) است. مدیریت دامین در این سایت، دقیقاً مانند شعارشان، "مدیریت بدون درد دامین"، واقعاً بدون درد است.
 
-Our favourite one is [I want my name](https://iwantmyname.com/). They advertise as "painless domain management" and it really is painless.
+علاوه بر این شما می‌توانید از سایت‌هایی مانند [dot.tk](http://www.dot.tk)، دامین رایگان هم بگیرید، اما باید در نظر داشته باشید که دامین رایگان بعضی مواقع ممکن است برای کسب‌ و کارهای حرفه‌ای، کم ارزش به نظر بیاید. برای چنین شرایطی بهتر است که به فکر تهیه دامین مناسبی با پسوند `.com` باشید. 
 
-You can also get domains for free. [dot.tk](http://www.dot.tk) is one place to get one, but you should be aware that free domains sometimes feel a bit cheap -- if your site is going to be for a professional business, you might want to think about paying for a "proper" domain that ends in `.com`.
+## چطور دامین را به PythonAnywhere متصل کنیم
 
-
-## How to point your domain at PythonAnywhere
-
-If you went through *iwantmyname.com*, click `Domains` in the menu and choose your newly purchased domain. Then locate and click on the `manage DNS records` link:
+اگر شما از *iwantmyname.com* استفاده می‌کنید در منو بر روی `Domains` کلیک کنید و دامین تازه خریده خود را انتخاب کنید. سپس گزینه `manage DNS records` را پیدا کنید و بر روی آن کلیک کنید.
 
 ![](images/4.png)
 
-Now you need to locate this form:
+حالا لازم است که این فرم را پیدا کنید: 
 
 ![](images/5.png)
 
-And fill it in with the following details:
+و با اطلاعات زیر آن را پر کنید: 
 - Hostname: www
 - Type: CNAME
 - Value: your domain from PythonAnywhere (for example djangogirls.pythonanywhere.com)
@@ -32,38 +30,36 @@ And fill it in with the following details:
 
 ![](images/6.png)
 
-Click the Add button and Save changes at the bottom.
+دکمه Add را برنید و در نهایت تغییرات را ذخیره کنید.
+
+> **نکته** اگر دامین را از جای دیگری تهیه کرده‌اید، ممکن است منو‌ها و صفحه‌های تظیمات DNS / CNAME با آنچه در بالا نشان داده شد متفاوت باشد، اما هدف کاملاً مشخص و یکسان است: شما باید یک CNAME تنظیم کنید که دامین جدید شما را به `yourusername.pythonanywhere.com` وصل کند.
+
+ممکن است چندین دقیقه طول بکشد تا دامین شما شروع به کار کند، پس صبور باشید!
 
 
-> **Note** If you used a different domain provider, the exact UI for finding your DNS / CNAME settings will be different, but your objective is the same: to set up a CNAME that points your new domain at `yourusername.pythonanywhere.com`.
+## تنظیم دامین از طریق یک وب اپلیکیشن در PythonAnywhere
 
-It can take a few minutes for your domain to start working, so be patient!
+شما همچنان نیاز دارید که به PythonAnywhere اعلام کنید که از دامین اختصاصی خود استفاده می‌کنید. 
 
+به [PythonAnywhere Accounts page](https://www.pythonanywhere.com/account/) بروید و اکانت خود را ارتقا دهید. ارزان‌ترین گزینه (طرح "Hacker") برای شروع خوب است، در آینده که معروف شدید و میلیون‌ها کلیک داشتید می‌توانید طرح میزبانی خود را ارتقا دهید.
 
-## Configure the domain via a web app on PythonAnywhere.
+حالا به [Web tab](https://www.pythonanywhere.com/web_app_setup/) بروید و چند مورد را بررسی کنید:
 
-You also need to tell PythonAnywhere that you want to use your custom domain.
+* عبارت **path to your virtualenv** را کپی کنید و در جای امنی نگه دارید.
+* بر روی **wsgi config file** کلیک کنید و محتوای آن را نیز در جایی ذخیره کنید.
 
-Go to the [PythonAnywhere Accounts page](https://www.pythonanywhere.com/account/) and upgrade your account. The cheapest option (a "Hacker" plan) is fine to start with, you can always upgrade it later when you get super-famous and have millions of hits.
+حالا وقت آن است که وب اپلیکیشن قبلی خود را **Delete** کنید، نگران نباشید، این کار هیچ بخشی از کد شما را پاک نمی‌کند فقط دامین *yourusername.pythonanywhere.com* را خاموش می‌کند. در ادامه، یک وب اپلیکیشن جدید بسازید و مراحل زیر را انجام دهید:
 
-Next, go over to the [Web tab](https://www.pythonanywhere.com/web_app_setup/) and note down a couple of things:
+* نام دامین جدید خود را وارد کنید
+* "manual configuration" را انتخاب کنید
+* Python 3.4 را انتخاب کنید 
+* تمام شد!
 
-* Copy the **path to your virtualenv** and put it somewhere safe
-* Click through to your **wsgi config file**, copy the contents, and paste them somewhere safe.
+وقتی که به تب web برگردانده شدید:
 
-Next, **Delete** your old web app. Don't worry, this doesn't delete any of your code, it just switches off the domain at *yourusername.pythonanywhere.com*. Next, create a new web app, and follow these steps:
+* آدرس محیط مجازی که قبلاً ذخیره کرده بودید را پیست (paste) کنید
+*  محتویات فعلی فایل تنظیمات wsgi را پاک کنید و محتویات جدید را که کمی بالاتر درجایی ذخیره کرده بودید دراین فایل قرار دهید.
 
-* Enter your new domain name
-* Choose "manual configuration"
-* Pick Python 3.4
-* And we're done!
+کلید بارگذاری دوباره یا reload وب اپ را بزنید، الان باید سایت شما در دامین جدید منتشر شده باشد!
 
-When you get taken back to the web tab.
-
-* Paste in the virtualenv path you saved earlier
-* Click through to the wsgi configuration file, and paste in the contents from your old config file
-
-Hit reload web app, and you should find your site is live on its new domain!
-
-If you run into any problems, hit the "Send feedback" link on the PythonAnywhere site, and one of their friendly admins will be there to help you in no time.
-
+چنانچه هر مشکلی پیدا کردید کلید "Send feedback" را در وب‌سایت PythonAnywhere بزنید تا ادمین‌های خوش‌برخوردشان در کمترین زمانی پاسخ شما را بدهند.
