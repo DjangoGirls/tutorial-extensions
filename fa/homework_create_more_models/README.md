@@ -206,7 +206,7 @@ from .forms import PostForm, CommentForm
 ![TemplateDoesNotExist](images/template_error.png)
 
 
-همان طور که این خطا نشان می‌دهد، تمپلیتی وجود ندارد بنابراین بیایید یک تمپلیت جدید در `blog/templates/blog/add_comment_to_post.html` بسازیم و کد زیر را به آن اضافه کنیم: 
+همان‌طور که این خطا نشان می‌دهد، تمپلیتی وجود ندارد بنابراین بیایید یک تمپلیت جدید در `blog/templates/blog/add_comment_to_post.html` بسازیم و کد زیر را به آن اضافه کنیم: 
 
 ```django
 {% extends 'blog/base.html' %}

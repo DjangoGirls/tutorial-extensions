@@ -14,4 +14,4 @@ http://creativecommons.org/licenses/by-sa/4.0/
 
 ## مشارکت 
 
-این آموزش توسط [جنگوگرلز](http://djangogirls.org/) نگهداری می‌شود. اگر مشکلی را در این آموزش شناسایی کردید و علاقمند به مشارکت برای اصلاح آن بودید لطفا [چهارچوب‌های مشارکت](https://github.com/DjangoGirls/tutorial/blob/master/README.md) را دنبال کنید.
+این آموزش توسط [جنگوگرلز](http://djangogirls.org/) نگهداری می‌شود. اگر مشکلی را در این آموزش شناسایی کردید و علاقمند به مشارکت برای اصلاح آن بودید لطفاً [قالب‌های مشارکت](https://github.com/DjangoGirls/tutorial/blob/master/README.md) را دنبال کنید.
