@@ -24,7 +24,7 @@ class Comment(models.Model):
 
 شما می‌توانید به بخش **مدل‌ها در جنگو** در آموزش اصلی جنگوگرلز برگردید و اگر نیاز دارید ویژگی‌های هر نوع فیلد را دوره کنید.
 
-در این تمرین ما یک نوع فیلد جدید داریم: 
+در این تمرین ما یک نوع فیلد جدید داریم:
 - `models.BooleanField` - این فیلد یک نوع فیلد درست/غلط است.
 
 گزینه `related_name` در `models.ForeignKey` به ما اجازه می‌دهد که از طریق مدل پست، به کامنت‌ها دسترسی داشته باشیم.
@@ -38,7 +38,7 @@ class Comment(models.Model):
       0002_comment.py:
         - Create model Comment
 
-می‌بینید که این دستور یک فایل مایگریشن دیگر برای ما در پوشه `blog/migrations/` می‌سازد. حالا نیاز داریم تا این تغییرات را با نوشتن دستور `python manage.py migrate blog`در خط فرمان، ثبت کنیم. نتیجه شبیه به این خواهد بود: 
+می‌بینید که این دستور یک فایل مایگریشن دیگر برای ما در پوشه `blog/migrations/` می‌سازد. حالا نیاز داریم تا این تغییرات را با نوشتن دستور `python manage.py migrate blog`در خط فرمان، ثبت کنیم. نتیجه شبیه به این خواهد بود:
 
 ```
     (myvenv) ~/djangogirls$ python manage.py migrate blog
@@ -74,11 +74,11 @@ admin.site.register(Post)
 admin.site.register(Comment)
 ```
 
-اگر عبارت `python manage.py runserver` را در خط فرمان بنویسید و به آدرس [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) در مرورگر خود سر بزنید، به لیستی از کامنت‌ها دسترسی خواهید داشت و همچنین امکان آن را دارید که کامنتی اضافه یا کم کنید. کمی با این قابلیت کامنت‌ها بازی کنید! 
+اگر عبارت `python manage.py runserver` را در خط فرمان بنویسید و به آدرس [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) در مرورگر خود سر بزنید، به لیستی از کامنت‌ها دسترسی خواهید داشت و همچنین امکان آن را دارید که کامنتی اضافه یا کم کنید. کمی با این قابلیت کامنت‌ها بازی کنید!
 
 ## کامنت‌هایمان را نمایش دهیم
 
-به فایل `blog/templates/blog/post_detail.html` بروید و خطوط زیر را قبل از تگ `{% endblock %}` اضافه کنید:
+به فایل `blog/templates/blog/post_detail.html` بروید و خطوط زیر را قبل از تگ {% raw %}`{% endblock %}`{% endraw %} اضافه کنید:
 
 ```django
 <hr>
@@ -154,7 +154,7 @@ from .models import Post
 from .models import Post, Comment
 ```
 
-حالا به فایل `blog/templates/blog/post_detail.html` بروید و قبل از عبارت `{% for comment in post.comments.all %}`، این خط را اضافه کنید:
+حالا به فایل `blog/templates/blog/post_detail.html` بروید و قبل از عبارت {% raw %}`{% for comment in post.comments.all %}`{% endraw %}، این خط را اضافه کنید:
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
@@ -201,12 +201,12 @@ from .forms import PostForm, CommentForm
 
 ![AddComment](images/add_comment_button.png)
 
-با اینحال وقتی روی آن کلیک کنید خطای زیر را خواهید دید: 
+با اینحال وقتی روی آن کلیک کنید خطای زیر را خواهید دید:
 
 ![TemplateDoesNotExist](images/template_error.png)
 
 
-همان‌طور که این خطا نشان می‌دهد، تمپلیتی وجود ندارد بنابراین بیایید یک تمپلیت جدید در `blog/templates/blog/add_comment_to_post.html` بسازیم و کد زیر را به آن اضافه کنیم: 
+همان‌طور که این خطا نشان می‌دهد، تمپلیتی وجود ندارد بنابراین بیایید یک تمپلیت جدید در `blog/templates/blog/add_comment_to_post.html` بسازیم و کد زیر را به آن اضافه کنیم:
 
 ```django
 {% extends 'blog/base.html' %}
@@ -271,7 +271,7 @@ path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve')
 path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ```
 
-حالا احتمالاً خطای `AttributeError` را خواهید دید. برای اصلاح آن، ویوهای زیر را به فایل `blog/views.py` اضافه کنید: 
+حالا احتمالاً خطای `AttributeError` را خواهید دید. برای اصلاح آن، ویوهای زیر را به فایل `blog/views.py` اضافه کنید:
 
 ```python
 @login_required
