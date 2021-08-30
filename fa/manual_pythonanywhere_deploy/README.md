@@ -1,53 +1,53 @@
-# Deploying to PythonAnywhere manually
+# انتشار دستی بر روی PythonAnywhere
 
-In the main tutorial, we deployed our app using PythonAnywhere's "autoconfigure" script, which did a lot of magic for us.  In this extension we'll take a peek "behind the scenes" and find out what autoconfigure script actually did, by learning how to deploy our code manually to PythonAnywhere.
+در آموزش اصلی، ما برای انتشار اپ خود از اسکریپت اتوماتیک PythonAnywhere به صورت autoconfigure استفاده کردیم که کارهای جادویی زیادی برای ما انجام داد. در این آموزش اضافه، نگاهی به پشت صحنه خواهیم انداخت و با انتشار وبلاگ به صورت دستی، بررسی می‌کنیم که اسکریپت autoconfigure، واقعاً چطور کار می‌کند.
 
-Why might you be interested in doing this?  Beyond pure curiosity, the steps involved in a manual deployment are more or less the same steps you'd need to go through if you were trying to deploy to a different hosting provider, including running your own server, which is something you might want to do some day.
+چرا باید به چنین چیزی علاقمند باشید؟ سوای کنجکاوی خالص، مراحلی که در اینجا طی می‌کنید  تقریباً مشابه مراحلی است که اگر بخواهید وبلاگ خود را روی هاست دیگری منتشر کنید. که با توجه به راه‌اندازی سرور مخصوص به خودتان ممکن است چند روزی زمان لازم داشته باشد.
 
-Running through the procedure manually is also a good idea for DjangoGirls coaches.  If something goes wrong with the autoconfigure script in one of the workshops, knowing how to do it manually could help you get one of the attendees out of a broken state and back to a working deployment.
+طی کردن این مراحل به صورت غیر اتوماتیک همچنین برای مربیان جنگوگرلز کمک خوبی خواهد بود. اگر مشکلی با اسکریپت autoconfigure به‌وجود بیاید، دانستن روش عملکرد آن می‌تواند یک شرکت‌کننده را از بن‌بست خارج کرده به مراحل انتشار برگرداند.
 
-So, read on!
+پس به پیش برویم!
+
+## پیش فرض‌ها
+
+* این آموزش فرض می‌کند که شما در حال حاضر مقداری کد در گیتهاب دارید. اگر نیاز است ابتدای بخش انتشار را دوباره نگاه کنید.
+* علاوه براین فرض کرده‌ایم که اکانت PythonAnywhere  هم دارید. اگر هنوز در این اکانت وب اپلیکیشن جنگو شما در حال کار است ابتدا باید آن را پاک کنید (یا یک اکانت جدید بسازید).
+
+## بررسی اجمالی
+
+انتشار بر روی PythonAnywhere یا هر سرور دیگری شامل تقریباً یکسری مراحل مشخص است:
+
+* بردن کدها روی سرور. ما از دستورهای `git clone` و `git pull` برای این کار استفاده می‌کنیم.
+
+* نصب وابستگی‌های مورد نیاز بر روی سرور. ما برای این‌کار از یک virtualenv استفاده می‌کنیم. شبیه آنچه روی کامپیوتر خودتان اتفاق افتاده بود اما این‌بار از میانبر پیشنهادی PythonAnywhere به نام `virtualenvwrapper` استفاده خواهیم کرد.
+
+* تنظیم دیتابیس بر روی سرور. دیتابیس روی کامپیوتر شما و دیتابیس موجود روی سرور با هم متفاوت هستند. ما از دستورات `manage.py migrate` و `manage.py createsuperuser` برای تنظیم دیتابیس استفاده خواهیم کرد.
+
+* تنظیم فایل‌های استاتیک بر روی سرور. روی لپ‌تاپ شما دستور `runserver` وظیفه ارائه کردن فایل‌های استاتیک را دارد، اما سرور دوست دارد کارها را به شکل دیگری انجام دهد تا ارائه این فایل‌ها بهینه‌تر باشد. اینجا ما از یک دستور جدید به نام `collectstatic` استفاده می‌کنیم و از طریق تب Web در **PythonAnywhere** فایل‌های استاتیک را تنظیم خواهیم کرد.
+
+*و در نهایت وصل کردن اپ جنگو، برای اینکه در اینترنت و به طور زنده ارائه شود. ما این کار را در **Web tab** در PythonAnywhere و به وسیله چیزی به اسم **WSGI file** انجام خواهیم داد.
 
 
-## Assumptions
+## آوردن کدها به PythonAnywhere
 
-* This extension assumes you already have some code on GitHub.  See the begining of the deploy chapter for instructions on that, if you need.
-* It also assumes you have a PythonAnywhere account.  If it already has a djangogirls webapp running in it, you'll need to delete that first (or just sign up for a new account!)
+به [PythonAnywhere Dashboard](https://www.pythonanywhere.com) بروید و گزینه شروع کنسول "Bash" را بزنید، این نسخه خط فرمان PythonAnywhere است شبیه همان که روی کامپیوتر خود دارید.
 
-## Overview
-
-Deploying to PythonAnywhere, or indeed to any server, involves pretty much the same steps:
-
-* Getting your code onto the server.  We'll use `git clone` and `git pull` for this
-
-* Installing your dependencies on the server.  We'll use a virtualenv for this, just like on your own computer, but we'll use a shortcut recommended by PythonAnywhere called `virtualenvwrapper`
-
-* Configuring your database on the server.  The database on your own computer and the one on the server are separate.  We'll use `manage.py migrate` and `manage.py createsuperuser` for this.
-
-* Configuring your static files on the server.  On your own laptop, `runserver` takes care of static files, but servers like to manage things differently in order to optimise serving static files.  Here we'll use a new command called `collectstatic`, and configure the static files through PythonAnywhere's **Web tab**.
-
-* And actually hooking up our Django app to be served, live, on the public Internet.  We do this on PythonAnywhere's **Web tab**, by configuring something they call a **WSGI file**.
-
-
-## Pulling our code down on PythonAnywhere
-
-Go to the [PythonAnywhere Dashboard](https://www.pythonanywhere.com), and choose the option to start a "Bash" console – that's the PythonAnywhere version of a command-line, just like the one on your computer.
 
 <img src="images/pythonanywhere_bash_console.png" alt="pointing at Other: Bash in Start a new Console" />
 
-> **Note** PythonAnywhere is based on Linux, so if you're on Windows, the console will look a little different from the one on your computer.
+> **نکته** PythonAnywhere بر اساس لینوکس است، بنابراین در کامپیوتر ویندوزی، کنسول خط فرمان ممکن است کمی متفاوت باشد.
 
-Let's pull down our code from GitHub and onto PythonAnywhere by creating a "clone" of our repo. Type the following into the console on PythonAnywhere:
+حالا بیاید که کدها را از گیتهاب و به کمک ساخت یک کپی از ریپازیتوری مان به PythonAnywhere بیاوریم. دستور زیر را در کنسول PythonAnywhere تایپ کنید:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
 $ git clone https://github.com/<your-github-username>/my-first-blog.git <your-pythonanywhere-username>.pythonanywhere.com
 ```
 
-* Use your actual GitHub username in place of `<your-github-username>`
-* And use your actual PythonAnywhere username in place of `<your-pythonanywhere-username>`)
+* از نام کاربری واقعی خود در گیتهاب به جای `<your-github-username>` استفاده کنید
+* و به جای `<your-pythonanywhere-username>` هم از نام کاربری خود در PythonAnywhere استفاده کنید.
 
-This will pull down a copy of your code onto PythonAnywhere, and put it into a folder named after your (future) website address. Check it out by typing `tree`:
+این کار یک کپی از کدهای شما را به PythonAnywhere می آورد و آن‌ها در پوشه‌ای به نام وبسایت (آینده) شما قرار می‌دهد. با تایپ دستور `tree` آن را چک کنید:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
@@ -71,9 +71,9 @@ ola.pythonanywhere.com/
 ```
 
 
-### Creating a virtualenv on PythonAnywhere
+### ساخت یک virtualenv بر روی PythonAnywhere
 
-Just like you did on your own computer, you need to create a virtualenv on PythonAnywhere. In the Bash console, type:
+همانطور که قبل‌تر روی کامپیوتر خود امتحان کردید، لازم است که یک محیط مجازی روی PythonAnywhere بسازید. در کنسول Bash تایپ کنید:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
@@ -83,11 +83,11 @@ Running virtualenv with interpreter /usr/bin/python3.6
 Installing setuptools, pip...done.
 ```
 
-`mkvirtualenv` comes from a tool called "virtualenvwrapper", which PythonAnywhere recommends.  It's a set of shortcuts built around the normal `virtualenv` command that you've already learned about using on your own computer.
+`mkvirtualenv` از ابزاری به نام "virtualenvwrapper" استفاده می‌کند که PythonAnywhere آن را توصیه می‌کند. این‌ دستورات مجموعه‌ای از میانبرها هستند که به دستور معمولی `virtualenv` که قبلاً روی کامپیوتر خود استفاده کرده بودید، اضافه شده‌اند.
 
-When the command finishes, your virtualenv should be active; we've named it after your future website address, just like we named the project source code folder.  Let's try de-activating and re-activating the virtualenv, just for practice.
+وقتی که دستور تمام شد، محیط مجازی شما باید فعال شده باشد. ما اسم آن را شبیه نام پروژه شما خواهیم گذاشت، همانند نام پوشه کدهای اصلی پروژه. حالا بیایید برای تمرین محیط مجازی را فعال و غیرفعال کنیم.
 
-Deactivating is `deactivate`, just like on your computer, but to activate we use the virtualenvwrapper shortcut command `workon`, which just needs the name of your virtualenv:
+غیرفعال کردن به کمک دستور `deactivate` است، شبیه به آنچه در کامپیوتر خود داشتید. ولی برای فعال کردن می‌توانید از میانبر تهیه شده توسط virtualenvwrapper یعنی `workon` استفاده کنیم و فقط به نام محیط مجازی مان احتیاج داریم:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
@@ -99,7 +99,7 @@ $  workon <your-pythonanywhere-username>.pythonanywhere.com
 /home/ola/.virtualenvs/ola.pythonanywhere.com/bin/python
 ```
 
-Now let's install Django into our virtualenv on PythonAnywhere
+حالا بیایید جنگو را در محیط مجازی‌مان بر روی PythonAnywhere نصب کنیم
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
@@ -108,19 +108,18 @@ Collecting django
 [...]
 Successfully installed django-1.11.9
 ```
-
-> **Note** The `pip install` step can take a couple of minutes.  Patience, patience!  But if it takes more than five minutes, something is wrong.  Ask your coach.
+> **نکته** دستور `pip install` ممکن است دقایقی طول بکشد پس صبر داشته باشید اما اگر بیش از پنج دقیقه طول کشید از مربی خود کمک بگیرید.
 
 <!--TODO: think about using requirements.txt instead of pip install.-->
 
 
-### Creating the database on PythonAnywhere
+### ساخت دیتابیس بر روی PythonAnywhere
 
-Here's another thing that's different between your own computer and the server: it uses a different database. So the user accounts and posts can be different on the server and on your computer.
+اینجا یک کار دیگر هم هست که روی کامپیوتر خودتان انجام دادید اما  روشی که این کار را روی سرور انجام می‌دهیم متفاوت است: از دیتابیس متفاوتی استفاده می‌کنیم. بنابراین اطلاعات کاربری و پست‌های وبلاگ بر روی کامپیوتر خودتان و سرور متفاوت خواهد بود.
 
-Just as we did on your own computer, we repeat the step to initialize the database on the server, with `migrate` and `createsuperuser`:
+همانند کاری که روی کامپوتر خودتان انجام دادید، ما مراحل راه اندازی دیتابیس را به کمک دستورهای `migrate` و `createsuperuser` بر روی سرور انجام می‌دهیم:
 
-Go back to your Bash console, make sure your virtualenv is still active, and then run these commands. (If you've closed your console, you can open a new one, and use the `workon` command to activate your virtualenv).
+به کنسول Bash برگردید، مطمئن شوید که محیط مجازی شما هنوز فعال است، سپس دستورهای زیر را اجرا کنید. (اگر کنسول را بسته‌اید می‌توانید یک کنسول جدید باز کنید و به کمک دستور `workon` محیط مجازی را دوباره فعال کنید).
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
@@ -131,9 +130,9 @@ Operations to perform:
 (ola.pythonanywhere.com) $ python manage.py createsuperuser
 ```
 
-### Collecting static files
+### جمع‌آوری فایل‌های استاتیک
 
-Now we learn a new command, `collecstatic`, whose job it is to collect all the static files from your apps (including apps you've written like *blog*, and built-in Django apps like the *admin*), and put them in one place, so the server can find them:
+حالا یک دستور جدید یاد گرفته‌ایم، `collecstatic` که وظیفه آن جمع‌آوری تمام فایل‌های استاتیک از اپ شماست (شامل اپ‌هایی مثل *blog* که خودتان نوشته‌اید یا اپ‌های پیش ساخته موجود در جنگو مانند *admin*)، علاوه بر این همه آن‌ها را در یک محل قرار می‌دهد تا سرور به سادگی آن‌ها را پیدا کند:
 
 {% filename %}PythonAnywhere command-line{% endfilename %}
 ```
@@ -146,46 +145,41 @@ Are you sure you want to do this?
 ```
 
 
-## Publishing our blog as a web app
+## انتشار وبلاگ به صورت یک وب اپلیکیشن
 
-Now our code is on PythonAnywhere, our virtualenv is ready, and the database is initialized. We're ready to publish it as a web app!
+حالا که کد ما روی PythonAnywhere است، محیط مجازی ما آماده است و دیتابیس آماده شده، آماده هستیم تا به صورت یک وب اپلیکیشن آن را منتشر کنیم!
 
-Click back to the PythonAnywhere dashboard by clicking on its logo, and then click on the **Web** tab. Finally, hit **Add a new web app**.
+به داشبورد PythonAnywhere برگردید و بر روی لوگوی آن کلیک کنید و سپس بر روی تب **Web** کلیک کنید. در نهایت گزینه **Add a new web app** را انتخاب کنید.
 
-After confirming your domain name, choose **manual configuration** (N.B. – *not* the "Django" option) in the dialog. Next choose **Python 3.6**, and click Next to finish the wizard.
+پس از انتخاب نام دامین، گزینه **manual configuration** را انتخاب کنید (توجه کنید که گزینه "Django" را *انتخاب نکنید*). سپس **Python 3.6** را انتخاب کنید و Next  را بزنید تا مراحل راهنما تمام شود.
 
-> **Note** Make sure you choose the "Manual configuration" option, not the "Django" one. We're too cool for the default PythonAnywhere Django setup. ;-)
+> **نکته** مطمئن شوید که گزینه "Manual configuration" را انتخاب کرده باشید و اشتباهی گزینه "Django" را انتخاب نکرده باشید. ما برای انتخاب تنظیمات جنگو در PythonAnywhere خیلی راحت هستیم.  ;-)
 
+### تنظیم کردن virtualenv
 
-### Setting the virtualenv
-
-You'll be taken to the PythonAnywhere config screen for your webapp, which is where you'll need to go whenever you want to make changes to the app on the server.
+هر زمان که بخواهید تنظیمات اپ خود را روی سرور اصلاح کنید باید به صفحه کانفیگ PythonAnywhere مرتبط با اپ خود بروید.
 
 <img src="images/pythonanywhere_web_tab_virtualenv.png" alt="screenshot of web tab virtualenv config section with path correctly filled in" />
 
-In the "Virtualenv" section, click the red text that says "Enter the path to a virtualenv", and enter `/home/<your-PythonAnywhere-username>/my-first-blog/myvenv/`. Click the blue box with the checkmark to save the path before moving on.
+در بخش "Virtualenv"، بر روی نوشته قرمز "Enter the path to a virtualenv" کلیک کنید و عبارت `/home/<your-PythonAnywhere-username>/my-first-blog/myvenv/` را وارد کنید. بر روی دکمه آبی رنگ با علامت تیک، کلیک کنید تا مسیر مورد نظر ذخیره شود.
 
-> **Note** Substitute your own PythonAnywhere username as appropriate. If you make a mistake, PythonAnywhere will show you a little warning.
+> **نکته** نام کاربری PythonAnywhere خودتان را جایگزین کنید. اگر اشتباهی کنید PythonAnywhere به شما پیغام خطایی را نشان خواهد داد.
 
+### اضافه کردن مسیردهی فایل‌های استاتیک
 
-### Adding the static files mapping
+ما باید به PythonAnywhere اعلام کنیم که تمام فایل‌های استاتیک ما در پوشه `/static/` در سورس کد پروژه قرار دارد. ما این کار را در بخش "Static Files" در تب Web انجام می‌دهیم.
 
-We need to tell PythonAnywhere that static files which live under the URL `/static/` are all located in a file inside your source code folder called static. We do that in the "Static Files" section on the Web tab.
-
-Click the red text that says "Enter URL", and enter `/static/`, and click the blue checkbox to save.  Then click the text that says "Enter path", and enter `/home/<your-pythonanywhere-username>/<your-pythonanywhere-username.pythonanywhere.com/static` (using your own username, as usual):
+بر روی نوشته قرمز "Enter URL" کلیک کنید و `/static/` را وارد کنید و بر روی دکمه آبی رنگ با علامت تیک، کلیک کنید تا تغییرات ذخیره شود. سپس بر روی نوشته "Enter path" کلیک کنید و `/home/<your-pythonanywhere-username>/<your-pythonanywhere-username.pythonanywhere.com/static` را وارد کنید (از نام کاربری خود استفاده کنید):
 
 <img src="images/static_files_screenshot.png" alt="screenshot of web tab static files config section with url and path correctly filled in" />
 
+### تنظیم فایل WSGI
 
+جنگو به کمک "WSGI protocol" کار می‌کند، یک سیستم استاندارد ارائه وبسایت به کمک پایتون است که PythonAnywhere نیز آن را پشتیبانی می‌کند. روشی که ما PythonAnywhere را تنظیم می‌کنیم که بلاگ جنگویی ما را تشخیص دهد به کمک تنظیم فایل WSGI است.
 
+بر روی لینک "WSGI configuration file" ( در بخش "Code" نزدیک به بالای صفحه که چیزی شبیه به `/var/www/<your-PythonAnywhere-username>_pythonanywhere_com_wsgi.py` باید باشد) کلیک کنید. به یک ادیتور متصل خواهید شد.
 
-### Configuring the WSGI file
-
-Django works using the "WSGI protocol", a standard for serving websites using Python, which PythonAnywhere supports. The way we configure PythonAnywhere to recognize our Django blog is by editing a WSGI configuration file.
-
-Click on the "WSGI configuration file" link (in the "Code" section near the top of the page – it'll be named something like `/var/www/<your-PythonAnywhere-username>_pythonanywhere_com_wsgi.py`), and you'll be taken to an editor.
-
-Delete all the contents and replace them with the following:
+تمام محتویات را پاک کنید و کد زیر را به جای آن اضافه کنید:
 
 {% filename %}&lt;your-username&gt;_pythonanywhere_com_wsgi.py{% endfilename %}
 ```python
@@ -201,28 +195,24 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 ```
+> **نکته** مانند همیشه از نام کاربری خودتان استفاده کنید
 
-> **Note** As always, substitute your own PythonAnywhere username in this file.
+وظیفه این فایل این است که به PythonAnywhere اعلام کند که وب اپلیکیشن ما کجاست و فایل تنظیمات جنگویی آن کجا قرار دارد.
 
+دکمه **Save** را بزنید و به تب **Web** برگردید.
 
-This file's job is to tell PythonAnywhere where our web app lives and what the Django settings file's name is.
+کار ما تمام است! دکمه بزرگ سبز **Reload** را بزنید و حالا می‌توانید اپلیکیشن خود را ببینید. می‌توانید یک لینک به اپلیکیشن خود در بالای صفحه، پیدا کنید.
 
-Hit **Save** and then go back to the **Web** tab.
+## راهنمای رفع مشکل
 
-We're all done! Hit the big green **Reload** button and you'll be able to go view your application. You'll find a link to it at the top of the page.
+اگر برای مشاهده سایت خود ایرادی مشاهده کردید، اولین جایی که برای بررسی مشکل باید مراجعه کنید **error log**  است. یک لینک [Web tab](https://www.pythonanywhere.com/web_app_setup/) در PythonAnywhere برای این قضیه تعبیه شده است. ببینید آیا پیغام خطایی آنجا هست. جدیدترین خطاها معمولاً در پایین هستند. مشکلات رایج شامل این موارد است:
 
+- فراموش کردن مراحلی که در کنسول انجام داده‌ایم: ساخت محیط مجازی، فعال کردن آن، نصب جنگو در آن، میگریت کردن دیتابیس.
 
-## Debugging tips
+- اشتباه کردن در مسیر مربوط به virtualenv در تب Web. معمولاً اگر مشکلی در این قضیه باشد پیغام خطای قرمز رنگی مشاهده خواهید کرد.
 
-If you see an error when you try to visit your site, the first place to look for some debugging info is in your **error log**. You'll find a link to this on the PythonAnywhere [Web tab](https://www.pythonanywhere.com/web_app_setup/). See if there are any error messages in there; the most recent ones are at the bottom. Common problems include:
+- اشتباه کردن در تنظیمات فایل WSGI. آیا مسیر به سمت پوشه پروژه را درست وارد کرده‌اید؟
 
-- Forgetting one of the steps we did in the console: creating the virtualenv, activating it, installing Django into it, migrating the database.
+- آیا نسخه یکسانی برای پایتون در virtualenv و وب اپ انتخاب کرده‌اید هر دو باید 3.6باشد.
 
-- Making a mistake in the virtualenv path on the Web tab – there will usually be a little red error message on there, if there is a problem.
-
-- Making a mistake in the WSGI configuration file – did you get the path to your my-first-blog folder right?
-
-- Did you pick the same version of Python for your virtualenv as you did for your web app? Both should be 3.6.
-
-There are also some [general debugging tips on the PythonAnywhere wiki](https://www.pythonanywhere.com/wiki/DebuggingImportError).
-
+علاوه بر این‌ها موارد دیگری هم در لینک [general debugging tips on the PythonAnywhere wiki](https://www.pythonanywhere.com/wiki/DebuggingImportError) اشاره شده است.
