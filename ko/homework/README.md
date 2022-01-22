@@ -28,7 +28,7 @@ post.published_date = timezone.now()
 다음: url입니다! `blog/urls.py`을 열고 아래 내용을 추가할 거에요.
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts', views.post_draft_list, name='post_draft_list'),
 ```
 
 `blog/views.py`에 view를 생성할 차례입니다.
@@ -94,7 +94,7 @@ def post_draft_list(request):
 `blog/urls.py`에 URL 패턴을 추가해봅시다.
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/(?P<pk>\d+)/publish/', views.post_publish, name='post_publish'),
 ```
 
 마지막으로 `post_publish` *뷰*를 `blog/views.py` 에 추가해봅시다.
@@ -135,7 +135,7 @@ def publish(self):
 (`blog/urls.py`)에 URL 패턴을 추가해봅시다:
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/(?P<pk>\d+)/remove/', views.post_remove, name='post_remove'),
 ```
 
 이제 post_remove 뷰를 구현해봅시다. `blog/views.py` 에 아래 코드를 추가해주세요.
