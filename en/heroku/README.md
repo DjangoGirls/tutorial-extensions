@@ -25,7 +25,7 @@ This will create a file called `requirements.txt` with a list of your installed 
 
 Open this file and add the following line at the bottom:
 
-    psycopg2==2.7.2
+    psycopg2==2.9.3
 
 This line is needed for your application to work on Heroku.
 
