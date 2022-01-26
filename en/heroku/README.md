@@ -114,7 +114,7 @@ It'll do necessary configuration for Heroku.
 
 Then save the file.
 
-All right! 
+All right!
 
 ## Heroku account
 
