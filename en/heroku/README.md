@@ -108,7 +108,7 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 ```
 
-Note: When you add `whitenoise.middleware.WhiteNoiseMiddleware` to the  `MIDDLEWARE` list make sure it is placed after the django `SecurityMiddlewear`, and leave in the other django middlewear.
+Note: When you add `whitenoise.middleware.WhiteNoiseMiddleware` to the  `MIDDLEWARE` list make sure it is placed after the Django `SecurityMiddleware`, and keep the other Django middleware.
 
 It'll do necessary configuration for Heroku.
 
