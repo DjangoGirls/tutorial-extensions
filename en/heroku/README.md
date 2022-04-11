@@ -25,7 +25,7 @@ This will create a file called `requirements.txt` with a list of your installed 
 
 Open this file and add the following line at the bottom:
 
-    psycopg2==2.7.2
+    psycopg2==2.9.3
 
 This line is needed for your application to work on Heroku.
 
@@ -83,6 +83,14 @@ ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 ...
 
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    ...
+]
+
+...
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -100,18 +108,11 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 ```
 
+Note: When you add `whitenoise.middleware.WhiteNoiseMiddleware` to the  `MIDDLEWARE` list make sure it is placed after the Django `SecurityMiddleware`, and keep the other Django middlewares.
+
 It'll do necessary configuration for Heroku.
 
 Then save the file.
-
-## mysite/wsgi.py
-
-Open the `mysite/wsgi.py` file and add these lines at the end:
-
-```python
-from whitenoise.django import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
-```
 
 All right!
 
