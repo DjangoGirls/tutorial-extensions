@@ -105,7 +105,7 @@ def post_publish(request, pk):
     return redirect('post_detail', pk=pk)
 ```
 
-Recuerda, cuando creamos el modelo `Post` escribimos un método `publush`. Se veía como esto:
+Recuerda, cuando creamos el modelo `Post` escribimos un método `publish`. Se veía como esto:
 
 ```python
 def publish(self):
