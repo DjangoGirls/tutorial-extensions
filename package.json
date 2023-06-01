@@ -14,7 +14,7 @@
     "gitbook-plugin-richquotes": "0.0.3",
     "gitbook-plugin-github": "2.0.0",
     "gitbook-plugin-heading-anchors": "^1.0.3",
-    "gitbook-plugin-sidebar-ad": "*",
+    "gitbook-plugin-sidebar-ads": "^1.0.0",
     "honkit": "^3.4.0"
   }
 }
