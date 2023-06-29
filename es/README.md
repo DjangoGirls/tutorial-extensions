@@ -1,7 +1,7 @@
 # Tutorial Django Girls : Extensiones
 
 > **Información** Este trabajo está licenciado bajo la licencia Creative Commons Share Alike 4.0. Para ver una copia de esta licencia visite:
-http://creativecommons.org/licenses/by-sa/4.0/
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
 
 ## Introducción
 
