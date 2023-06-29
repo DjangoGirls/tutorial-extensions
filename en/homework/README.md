@@ -18,7 +18,7 @@ Remember the chapter about querysets? We created a view `post_list` that display
 
 Time to do something similar, but for draft posts.
 
-Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% if user.is_authenticated %}` check, right after the button for adding new posts.
+Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the `{% raw %}{% if user.is_authenticated %}{% endraw %}` check, right after the button for adding new posts.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
@@ -27,7 +27,7 @@ Let's add a link in `blog/templates/blog/base.html` in the header. We don't want
 Next: urls! In `blog/urls.py` we add:
 
 ```python
-path(drafts/', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 Time to create a view in `blog/views.py`:
@@ -88,12 +88,12 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+As you noticed, we added `{% raw %}{% else %}{% endraw %}` line here. That means, that if the condition from `{% raw %}{% if post.published_date %}{% endraw %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}`. Note that we are passing a `pk` variable in the `{% raw %}{% url %}{% endraw %}`.
 
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-path(post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
@@ -134,7 +134,7 @@ just under a line with the edit button.
 Now we need a URL (`blog/urls.py`):
 
 ```python
-path(post/<pk>)/remove/', views.post_remove, name='post_remove'),
+path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Now, time for a view! Open `blog/views.py` and add this code:
