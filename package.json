@@ -15,6 +15,6 @@
     "gitbook-plugin-github": "2.0.0",
     "gitbook-plugin-heading-anchors": "^1.0.3",
     "gitbook-plugin-sidebar-ads": "^1.0.0",
-    "honkit": "^4.0.7"
+    "honkit": "^3.4.0"
   }
 }
