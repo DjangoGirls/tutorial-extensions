@@ -8,7 +8,7 @@ Vamos a abrir `blog/models.py` y pega esta pieza de código al final del archivo
 
 ```python
 class Comment(models.Model):
-    post = models.ForeignKey('blog.Post', related_name='comments')
+    post = models.ForeignKey('blog.Post', related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
@@ -81,7 +81,7 @@ Si escribes `python manage.py runserver` en la línea de comandos y vas a [http:
 
 ## Has tus comentarios visibles
 
-Ve al archivo `blog/templates/blog/post_detail.html` y agrega el siguiente código antes de la etiqueta `{% endblock %}`:
+Ve al archivo `blog/templates/blog/post_detail.html` y agrega el siguiente código antes de la etiqueta `{% raw %}{% endblock %}{% endraw %}`:
 
 ```django
 <hr>
@@ -157,7 +157,7 @@ en:
 from .models import Post, Comment
 ```
 
-Ahora vamos a `blog/templates/blog/post_detail.html` y antes de la línea `{% for comment in post.comments.all %}`, agrega:
+Ahora vamos a `blog/templates/blog/post_detail.html` y antes de la línea `{% raw %}{% for comment in post.comments.all %}{% endraw %}`, agrega:
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>

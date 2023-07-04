@@ -8,7 +8,7 @@
 
 ```python
 class Comment(models.Model):
-    post = models.ForeignKey('blog.Post', related_name='comments')
+    post = models.ForeignKey('blog.Post', related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
@@ -84,7 +84,7 @@ admin.site.register(Comment)
 
 ## 댓글 보여주기
 
-`blog/templates/blog/post_detail.html`로 가서 `{% endblock %}` 태그 바로 전에 아래 코드를 추가하세요.
+`blog/templates/blog/post_detail.html`로 가서 `{% raw %}{% endblock %}{% endraw %}` 태그 바로 전에 아래 코드를 추가하세요.
 
 ```django
 <hr>
@@ -164,7 +164,7 @@ from .models import Post
 from .models import Post, Comment
 ```
 
-다음으로 `blog/templates/blog/post_detail.html` 파일에서 `{% for comment in post.comments.all %}` 전에 아래 코드를 추가해주세요.
+다음으로 `blog/templates/blog/post_detail.html` 파일에서 `{% raw %}{% for comment in post.comments.all %}{% endraw %}` 전에 아래 코드를 추가해주세요.
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>

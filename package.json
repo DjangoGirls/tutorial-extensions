@@ -8,7 +8,13 @@
   },
   "author": "Django Girls <hello@djangogirls.org>",
   "dependencies": {
+    "gitbook-plugin-codeblock-label": "*",
     "gitbook-plugin-anchors": "^0.3.0",
-    "gitbook-plugin-richquotes": "0.0.3"
+    "gitbook-plugin-language-picker": "*",
+    "gitbook-plugin-richquotes": "0.0.3",
+    "gitbook-plugin-github": "2.0.0",
+    "gitbook-plugin-heading-anchors": "^1.0.3",
+    "gitbook-plugin-sidebar-ads": "^1.0.0",
+    "honkit": "^4.0.7"
   }
 }

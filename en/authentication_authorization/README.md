@@ -20,9 +20,9 @@ def post_new(request):
     [...]
 ```
 
-That's it! Now try to access `http://localhost:8000/post/new/`. Notice the difference?
+That's it! Now try to access `http://127.0.0.1:8000/post/new/`. Notice the difference?
 
-> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://localhost:8000/admin/logout/` to log out, then go to `http://localhost:8000/post/new` again.
+> If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://127.0.0.1:8000/admin/logout/` to log out, then go to `http://127.0.0.1:8000/post/new` again.
 
 You should get one of our beloved errors. This one is quite interesting, actually: the decorator we added will redirect you to the login page, but since that's not yet available, it raises a "Page not found (404)".
 
@@ -35,18 +35,18 @@ Hooray, we've reached part of our goal!! Now other people can't create posts on 
 
 We could now try to do lots of magical stuff to implement users and passwords and authentication, but doing this correctly is rather complicated. As Django is "batteries included", someone has done the hard work for us, so we will make further use of the authentication tools provided.
 
-In your `mysite/urls.py` add a url `url(r'^accounts/login/$', views.login, name='login')`. So the file should now look similar to this:
+In your `mysite/urls.py` add a url `path('accounts/login/', views.LoginView.as_view(), name='login')`. So the file should now look similar to this:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('', include('blog.urls')),
 ]
 ```
 
@@ -144,21 +144,21 @@ Let's add some sugar to our templates while we're at it. First we will add some 
 
 This adds a nice "Hello _&lt;username&gt;_" to remind us who we are logged in as, and that we are authenticated. Also, this adds a link to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
 
-We decided to rely on Django to handle login, so let's see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/1.10/topics/auth/default/ and see if you find something.
+We decided to rely on Django to handle login, so let's see if Django can also handle logout for us. Check https://docs.djangoproject.com/en/2.0/topics/auth/default/ and see if you find something.
 
 Done reading? By now you may be thinking about adding a URL in `mysite/urls.py` pointing to Django's logout view (i.e. `django.contrib.auth.views.logout`), like this:
 
 ```python
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'', include('blog.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('', include('blog.urls')),
 ]
 ```
 

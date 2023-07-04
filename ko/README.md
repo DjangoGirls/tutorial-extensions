@@ -1,6 +1,6 @@
 # 장고걸스 튜토리얼 : 심화 (Django Girls Tutorial: Extensions)
 
-> **Info** 이 튜토리얼은 Creative Commons Attribution-ShareAlike 4.0 International 저작권을 따르고 있습니다. 라이센스 전문은 http://creativecommons.org/licenses/by-sa/4.0/ 에서 확인하세요.
+> **Info** 이 튜토리얼은 Creative Commons Attribution-ShareAlike 4.0 International 저작권을 따르고 있습니다. 라이센스 전문은 https://creativecommons.org/licenses/by-sa/4.0/deed.ko 에서 확인하세요.
 
 ## 소개
 이 튜토리얼은 [장고걸스 튜토리얼](http://tutorial.djangogirls.org/)을 마친 분들을 위한 심화 튜토리얼입니다.
@@ -21,4 +21,4 @@
 * [옵션: 파이썬애니웨어(PythonAnywhere) 수동 배포하기](manual_pythonanywhere_deploy/README.md)
 
 ## 튜토리얼 참여하기
-이 튜토리얼은 [장고걸스](https://djangogirls.org/)에서 지속적으로 관리하고 있습니다. 오류를 발견하거나 튜토리얼 내용을 업데이트하고 싶다면 [참여 방법](https://github.com/DjangoGirls/tutorial/blob/master/README.md)을 확인하세요.
+이 튜토리얼은 [장고걸스](https://djangogirls.org/)에서 지속적으로 관리하고 있습니다. 오류를 발견하거나 튜토리얼 내용을 업데이트하고 싶다면 [참여 방법](https://github.com/DjangoGirls/tutorial-extensions/blob/master/README.md)을 확인하세요.

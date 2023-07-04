@@ -1,7 +1,7 @@
 # Tutorial Django Girls : Extensiones
 
 > **Información** Este trabajo está licenciado bajo la licencia Creative Commons Share Alike 4.0. Para ver una copia de esta licencia visite:
-http://creativecommons.org/licenses/by-sa/4.0/
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
 
 ## Introducción
 
@@ -15,4 +15,4 @@ Los tutoriales actuales son:
 
 ## Contribuir
 
-Este tutorial es mantenido por [DjangoGirls](http://djangogirls.org). Si encuentras algunos errores o quieres actualizar el tutorial, por favor [Sigue la guía de contribución](https://github.com/DjangoGirls/tutorial/blob/master/CONTRIBUTING.md).
+Este tutorial es mantenido por [DjangoGirls](http://djangogirls.org). Si encuentras algunos errores o quieres actualizar el tutorial, por favor [Sigue la guía de contribución](https://github.com/DjangoGirls/tutorial/blob/master/README.md).

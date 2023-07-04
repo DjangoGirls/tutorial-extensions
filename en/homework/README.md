@@ -27,7 +27,7 @@ Let's add a link in the `<div class="page-header">` section of `blog/templates/b
 Next: urls! In `blog/urls.py` we add:
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 Time to create a view in `blog/views.py`:
@@ -88,12 +88,12 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added `{% else %}` line here. That means, that if the condition from `{% if post.published_date %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Note that we are passing a `pk` variable in the `{% url %}`.
+As you noticed, we added `{% raw %}{% else %}{% endraw %}` line here. That means, that if the condition from `{% raw %}{% if post.published_date %}{% endraw %}` is not fulfilled (so if there is no `published_date`), then we want to do the line `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}`. Note that we are passing a `pk` variable in the `{% raw %}{% url %}{% endraw %}`.
 
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
@@ -134,7 +134,7 @@ just under a line with the edit button.
 Now we need a URL (`blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Now, time for a view! Open `blog/views.py` and add this code:
