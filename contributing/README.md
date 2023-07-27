@@ -12,7 +12,7 @@ The tutorial extensions is written in [Markdown mark up language](https://help.g
 
 You can find any discussions about the contents of the tutorial extensions on the [GitHub issue tracker](https://github.com/DjangoGirls/tutorial-extensions/issues).
 
-[Crowdin](https://crowdin.com/project/django-girls-tutorial-extensions) platform is used to manage translations. If you want to join an existing translation team or launch a new translation, send an email to the [translation managers](mailto:translations@djangogirls.org) or contact [support team](mailto:hello@djangogirls.org). If you want to propose some small changes or fix typos in existing translations, please create a Pull Request.
+[Crowdin](https://crowdin.com/project/django-girls-tutorial-extensio) platform is used to manage translations. If you want to join an existing translation team or launch a new translation, send an email to the [translation managers](mailto:translations@djangogirls.org) or contact [support team](mailto:hello@djangogirls.org). If you want to propose some small changes or fix typos in existing translations, please create a Pull Request.
 
 # Getting started and prerequisites
 
