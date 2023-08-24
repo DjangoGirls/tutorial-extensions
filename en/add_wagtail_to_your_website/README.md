@@ -15,7 +15,8 @@ Django and see what cool applications we can build with it.
 
 In this part of the tutorial, we will cover the following aspects:
 - [Installing Wagtail and Configuring Wagtail](install_wagtail/README.md)
-- Integrating Wagtail to your website
-- Adding more functionality to your website
+- [Adding the Homepage](wagtail_integration_adding_homepage/README.md)
+- [Adding Posts](wagtail_integration_adding_posts/README.md)
+- [Change Website Homepage](change_website_homepage/README.md)
 
 So let's get started!
