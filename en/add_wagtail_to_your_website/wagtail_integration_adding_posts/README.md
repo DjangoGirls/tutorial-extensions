@@ -11,7 +11,7 @@ Now, we need to use our posts model to render the posts we already have on the b
 
 Let's get started!
 
-## Adding Post model to Wagtail
+## Adding BlogPage model to Wagtail for posts
 We already have a `Post` model in our `models.py` that inherits from `django.db.models.Model`. We will leave it as it is
 for now and add a new model, a child model of `HomePage` which we will name `BlogPage`. Like the `HomePage` model, our 
 new models also inherits from `wagtails.models.Page` like its parent model `HomePage`.
