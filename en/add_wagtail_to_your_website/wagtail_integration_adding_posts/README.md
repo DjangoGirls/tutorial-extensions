@@ -75,6 +75,7 @@ and the migrate command to create the `BlogPage` model as shown below:
 Now that we have created our `BlogPage` model, we need to add a template `blog_page.html` in our `blog/templates/blog` 
 folder and add the following:
 
+{% filename %} blog_page.html {% endfilename %}
 ```html
 {% extends "wagtail_base.html" %}
 
