@@ -106,9 +106,7 @@ Remember to change `name` to the user name that you created earlier in this chap
 
 # Installing PostgreSQL package for Python
 
-First, install Heroku Toolbelt from https://toolbelt.heroku.com/ While we will need this mostly for deploying your site later on, it also includes Git, which might come in handy already.
-
-Next up, we need to install a package which lets Python talk to PostgreSQL - this is called `psycopg2`. The installation instructions differ slightly between Windows and Linux/OS X.
+We need to install a package which lets Python talk to PostgreSQL - this is called `psycopg2`. The installation instructions differ slightly between Windows and Linux/OS X.
 
 ## Windows
 
