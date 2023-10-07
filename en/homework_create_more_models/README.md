@@ -228,6 +228,8 @@ Yay! Now your readers can let you know what they think of your blog posts!
 
 Not all of the comments should be displayed. As the blog owner, you probably want the option to approve or delete comments. Let's do something about it.
 
+> If you haven't already, you can download all the Bootstrap icons [here](https://github.com/twbs/icons/releases/download/v1.1.0/bootstrap-icons-1.1.0.zip). Unzip the file and copy all the SVG image files into a new folder inside `blog/templates/blog/` called `icons`. That way you can access an icon like `hand-thumbs-down.svg` using the file path `blog/templates/blog/icons/hand-thumbs-down.svg`
+
 Go to `blog/templates/blog/post_detail.html` and change lines:
 
 ```django
@@ -251,8 +253,12 @@ to:
         <div class="date">
             {{ comment.created_date }}
             {% if not comment.approved_comment %}
-                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}">
+                   {% include './icons/hand-thumbs-down.svg' %}
+                </a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}">
+                   {% include './icons/hand-thumbs-up.svg' %}
+                </a>
             {% endif %}
         </div>
         <strong>{{ comment.author }}</strong>
