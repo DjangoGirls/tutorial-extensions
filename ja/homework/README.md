@@ -18,7 +18,7 @@ Djangoのクエリセットを勉強した章を覚えていますか? `post_lis
 
 ここでは、それと同じようなことをして、草稿が表示されるようにしましょう。
 
-`blog/templates/blog/base.html` のヘッダーにリンクを追加しましょう。草稿の一覧は誰でも見られるようにはしません。なので、 `{% raw %}{% if user.is_authenticated %}{% endraw %}` という条件の確認に続く箇所で、新しい投稿を追加するボタンのすぐ後にリンクを書いてください。
+`blog/templates/blog/base.html` のヘッダーにリンクを追加しましょう。草稿の一覧は誰でも見られるようにはしません。なので、 {% raw %}`{% if user.is_authenticated %}`{% endraw %} という条件の確認に続く箇所で、新しい投稿を追加するボタンのすぐ後にリンクを書いてください。
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
@@ -88,7 +88,7 @@ def post_draft_list(request):
 {% endif %}
 ```
 
-お気づきのように、`{% raw %}{% else %}{% endraw %}` を追加しました。これは、 `{% raw %}{% if post.published_date %}{% endraw %}` という条件が満たされない(記事に `published_date` が無い)ときに、 `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}` を表示する、という意味です。 `{% raw %}{% url %}{% endraw %}` のキーワード引数である `pk` に値を渡していることに注意してください。
+お気づきのように、{% raw %}`{% else %}`{% endraw %} を追加しました。これは、 {% raw %}`{% if post.published_date %}`{% endraw %} という条件が満たされない(記事に `published_date` が無い)ときに、 {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %} を表示する、という意味です。 {% raw %}`{% url %}`{% endraw %} のキーワード引数である `pk` に値を渡していることに注意してください。
 
 それでは新しいURLを追加しましょう。( `blog/urls.py` に)
 

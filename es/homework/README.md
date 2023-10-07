@@ -18,7 +18,7 @@ De esta manera los nuevos post serán guardados como borradores y se podrán rev
 
 Es tiempo de hacer algo similiar, pero con borradores.
 
-Vamos a añadir un enlace en `blog/templates/blog/base.html` en el encabezado. No queremos mostrar nuestro borradores a todo el mundo, entonces vamos a colocarlo dentro de la verificación `{% raw %}{% if user.is_authenticated %}{% endraw %}`, justo después del botón de agregar posts.
+Vamos a añadir un enlace en `blog/templates/blog/base.html` en el encabezado. No queremos mostrar nuestro borradores a todo el mundo, entonces vamos a colocarlo dentro de la verificación {% raw %}`{% if user.is_authenticated %}`{% endraw %}, justo después del botón de agregar posts.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
@@ -88,7 +88,7 @@ por estas:
 {% endif %}
 ```
 
-Como puedes ver, hemos agregado la línea `{% raw %}{% else %}{% endraw %}`. Esto significa, que la condición de `{% raw %}{% if post.published_date %}{% endraw %}` no es cumplida (entonces no hay `publication_date`), entonces queremos agregar la línea `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}`. Nota que estamos pasando la variable `pk` en el `{% raw %}{% url %}{% endraw %}`.
+Como puedes ver, hemos agregado la línea {% raw %}`{% else %}`{% endraw %}. Esto significa, que la condición de {% raw %}`{% if post.published_date %}`{% endraw %} no es cumplida (entonces no hay `publication_date`), entonces queremos agregar la línea {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %}. Nota que estamos pasando la variable `pk` en el {% raw %}`{% url %}`{% endraw %}.
 
 Tiempo de crear una URL (en `blog/urls.py`):
 

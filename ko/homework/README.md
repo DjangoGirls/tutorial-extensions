@@ -19,7 +19,7 @@ post.published_date = timezone.now()
 
 이번에도 비슷한 것을 해볼 건데요. 하지만 이번에는 임시저장(draft) 기능을 구현해볼 거에요.
 
-새 글 추가하기 버튼 근처에 `blog/templates/blog/base.html` 링크를 추가하세요(`{% raw %}<h1><a href="/">Django Girls Blog</a></h1>{% endraw %}`위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 새로운 글 추가하기 바로 아래에 `{% raw %}{% if user.is_authenticated %}{% endraw %}`을 추가해 주세요.
+새 글 추가하기 버튼 근처에 `blog/templates/blog/base.html` 링크를 추가하세요({% raw %}`<h1><a href="/">Django Girls Blog</a></h1>`{% endraw %}위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 새로운 글 추가하기 바로 아래에 {% raw %}`{% if user.is_authenticated %}`{% endraw %}을 추가해 주세요.
 
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
@@ -89,7 +89,7 @@ def post_draft_list(request):
 {% endif %}
 ```
 
-보시는 대로 `{% raw %}{% else %}{% endraw %}` 템플릿 태그를 추가했습니다. 이는 `{% raw %}{% if post.published_date %}{% endraw %}` 조건이 만족하지 않을 때 (`published_date` 필드가 비어있을 때), `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}` 내용으로 렌더링됩니다. `{% raw %}{% url %}{% endraw %}` 템플릿태그에 `pk` 인자를 넘겨줌에 유의하세요.
+보시는 대로 {% raw %}`{% else %}`{% endraw %} 템플릿 태그를 추가했습니다. 이는 {% raw %}`{% if post.published_date %}`{% endraw %} 조건이 만족하지 않을 때 (`published_date` 필드가 비어있을 때), {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %} 내용으로 렌더링됩니다. {% raw %}`{% url %}`{% endraw %} 템플릿태그에 `pk` 인자를 넘겨줌에 유의하세요.
 
 `blog/urls.py`에 URL 패턴을 추가해봅시다.
 
