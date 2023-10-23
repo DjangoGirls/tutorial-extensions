@@ -83,8 +83,10 @@ into these:
     <div class="date">
         {{ post.published_date }}
     </div>
-{% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    {% else %}
+    <aside class="actions">
+        <a class="btn btn-secondary" role="button" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    </aside>
 {% endif %}
 ```
 
