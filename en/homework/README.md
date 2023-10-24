@@ -119,7 +119,7 @@ Now we can finally use this!
 
 And once again after publishing the post we are immediately redirected to the `post_detail` page!
 
-![Publish button](images/publish2.png)
+![Publish button](images/publish3.png)
 
 Congratulations! You are almost there. The last step is adding a delete button!
 
@@ -128,7 +128,9 @@ Congratulations! You are almost there. The last step is adding a delete button!
 Let's open `blog/templates/blog/post_detail.html` once again and add this line:
 
 ```django
-<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+<a class="btn btn-secondary" href="{% url 'post_remove' pk=post.pk %}">
+    {% include './icons/trash-fill.svg' %}
+</a>
 ```
 
 just under a line with the edit button.
@@ -154,6 +156,6 @@ And this time, after deleting a post we want to go to the webpage with a list of
 
 Let's test it! Go to the page with a post and try to delete it!
 
-![Delete button](images/delete3.png)
+![Delete button](images/delete4.png)
 
 Yes, this is the last thing! You completed this tutorial! You are awesome!
