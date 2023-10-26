@@ -128,7 +128,8 @@ After adding your posts, you should see that only posts/pages that have been pub
 In other words, Wagtail only shows posts which are `live` and a post is only `live` after you click the `Publish` button. 
 The `Save draft` button merely saves the post without publishing it or making it live.
 
-Also, take note that `live` posts are displayed in the order in which they are published, that is, `BlogPage.objects.filter(published=True).order_by(published_date)`.
+Also, take note that `live` posts are displayed in the order in which they are published, that is, they are ordered by date. 
+In Django, the statement to get blog posts would look like `BlogPage.objects.filter(published=True).order_by(published_date)`.
 
 That's all for this tutorial. If you want to learn more about Wagtail, you can read the 
 [Wagtail documentation](https://guide.wagtail.org/en-latest/) or search for more tutorials on Wagtail online.
