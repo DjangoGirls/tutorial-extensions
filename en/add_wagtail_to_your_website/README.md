@@ -1,7 +1,6 @@
 # Homework: Add WagTail to your website
 
-> Part of this chapter is based on the WagTail tutorial by 
-> TorchBox(https://docs.wagtail.org/en/stable/getting_started/tutorial.html).
+> Part of this chapter is based on Wagtail’s official [Getting Started tutorial](https://docs.wagtail.org/en/stable/getting_started/tutorial.html).
 
 We can make our blog even more professional by adding Wagtail to our website while at the same time we are
 developing our coding skills in Python and Django. Wagtail is an open source content management system built on 
