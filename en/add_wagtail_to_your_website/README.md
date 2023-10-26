@@ -8,7 +8,7 @@ Django, with a strong community and commercial support. It's focused on user exp
 and offers precise control for designers and developers.
 
 The website we built through following the tutorial is a simplified content management system because it allows us
-to add and manage content as well as serve it to the visitors of our blog. WagTail on the other hand is a more complex 
+to add and manage content as well as serve it to the visitors of our blog. Wagtail on the other hand is a more complex 
 content management system with more advanced features. Adding Wagtail to our website will enable us to learn more about 
 Django and see what cool applications we can build with it.
 
