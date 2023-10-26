@@ -119,10 +119,16 @@ You should get the `Welcome to your new Wagtail site!` on your homepage to show 
 website root.
 
 To change the root page of your Wagtail blog visit `https://<your-username.pythonanywhere.com/cms/` and login. 
-Then follow the steps in [Changing the Wagtail Homepage](../wagtail_integration_adding_homepage/README.md#changing-homepage) section of this tutorial to create a new homepage and
-change it to be the root of the blog.
+
+Then follow the steps in [Changing the Wagtail Homepage](../wagtail_integration_adding_homepage/README.md#changing-homepage) section of this tutorial to create a new homepage and change it to be the root of the blog.
 
 To create new posts, follow instructions in the [Adding posts](../wagtail_integration_adding_posts/README.md#adding-blog-posts) section of this tutorial. 
+
+After adding your posts, you should see that only posts/pages that have been published are the ones displayed on your blog. 
+In other words, Wagtail only shows posts which are `live` and a post is only `live` after you click the `Publish` button. 
+The `Save draft` button merely saves the post without publishing it or making it live.
+
+Also, take note that `live` posts are displayed in the order in which they are published, that is, `BlogPage.objects.filter(published=True).order_by(published_date)`.
 
 That's all for this tutorial. If you want to learn more about Wagtail, you can read the 
 [Wagtail documentation](https://guide.wagtail.org/en-latest/) or search for more tutorials on Wagtail online.
