@@ -1,4 +1,4 @@
-# Homework: Add WagTail to your website
+# Homework: Add Wagtail to your website
 
 > Part of this chapter is based on Wagtail’s official [Getting Started tutorial](https://docs.wagtail.org/en/stable/getting_started/tutorial.html).
 
