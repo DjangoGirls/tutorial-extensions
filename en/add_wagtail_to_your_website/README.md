@@ -4,7 +4,7 @@
 
 We can make our blog even more professional by adding Wagtail to our website while at the same time we are
 developing our coding skills in Python and Django. Wagtail is an open source content management system built on 
-Django, with a strong community and commercial support by its creators, Torchbox. It's focused on user experience, 
+Django, with a strong community and commercial support. It's focused on user experience, 
 and offers precise control for designers and developers.
 
 The website we built through following the tutorial is a simplified content management system because it allows us
