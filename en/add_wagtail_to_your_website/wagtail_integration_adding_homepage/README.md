@@ -1,8 +1,5 @@
 # Adding the Homepage
 
-> Part of this chapter is based on the WagTail tutorial by 
-> TorchBox (https://docs.wagtail.org/en/stable/getting_started/tutorial.html).
-
 Now that we have Wagtail installed, up and running, we now need to work towards serving our blog through Wagtail. 
 We already have developed a blog that we are serving using Django that we need to migrate to use Wagtail and this will 
 involve some changes to our models and HTML files so that we use Wagtail to manage our blog.
@@ -138,7 +135,7 @@ Let's explain a few new terms. The `pageurl` tag, is similar to Django’s `url`
 an argument. The `get_children` method gets a queryset of all the children of the homepage. This way we are able to
 display them on the homepage. For now, our blog doesn't have any children so no posts will be displayed on the homepage.
 
-## Changing the Wagtail Homepage
+## Changing the Wagtail Homepage {#changing-homepage}
 Now that we have created our homepage model and created the templates, we are ready to change our homepage from the 
 default provided by Wagtail and use our newly created homepage. 
 

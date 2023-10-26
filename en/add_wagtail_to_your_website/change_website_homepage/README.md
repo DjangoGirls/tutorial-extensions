@@ -49,7 +49,82 @@ and your first blog will now be at `http://127.0.0.1:8000/blog/` as shown below.
 
 ![Old Blog's New URL](images/old_blog_url.png)
 
+# Committing our changes to GitHub
+
+Now that we have managed to get Wagtail working well with out blog, we can deploy our changes to our live website 
+which we deployed to PythonAnywhere earlier on during the main tutorial. To do this, we need to first push our code to 
+GitHub as we have done before by typing the following in our command line:
+
+```
+(myvenv) ~/djangogirls$ git status
+```
+
+This will list all the files we have changed. Once we have confirmed those are the changes we have made, we can go 
+ahead and add the files to be committed by typing the following command:
+
+```
+(myvenv) ~/djangogirls$ git add .
+```
+
+Next we need to add a commit message for our changes to be saved by typing the following command:
+
+```
+(myvenv) ~/djangogirls$ git commit -m "Add Wagtail to our blog"
+```
+
+Lastly, we need to push the commit to GitHub by typing the following command:
+
+```
+(myvenv) ~/djangogirls$ git push origin HEAD
+```
+
+This will push our new changes to GitHub and we are now ready to deploy these changes to PythonAnywhere!
+
+# Deploying the changes to PythonAnywhere
+To deploy our changes to [PythonAnywhere](https://pythonanywhere.com) and click `Consoles` and click on 
+`Bash Console in virtualenv` to open a new Bash console with an activated virtual environment and then type in the
+following command:
+
+```
+$ git pull origin HEAD
+```
+
+This command will pull your changes from GitHub to your PythonAnywhere project.
+
+Next, you need to update the requirements for your project by installing Wagtail and its dependencies. Since we 
+updated our requirements file, you only need to type in the following command to install the required packages:
+
+```
+$ pip install -r requirements.txt
+```
+
+Next step is to run migrations for the new models and create the necessary tables in the database. To do this, type the 
+following command:
+
+```
+$ python manage.py migrate
+```
+
+Next, you need to run the `collectstatic` command to copy the static files required by Wagtail to the `static` root 
+folder specified in our `settings.py` file.
+
+``` 
+$ python manage.py collectstatic
+```
+
+Lastly, go to `Web` tab and reload your webapp by clicking the `Reload <your-username>.pythonanywhere.com` button and
+open `https://<your-username.pythonanywhere.com` in another tab to see your blog now using Wagtail CMS.
+
+You should get the `Welcome to your new Wagtail site!` on your homepage to show that Wagtail is now working as your
+website root.
+
+To change the root page of your Wagtail blog visit `https://<your-username.pythonanywhere.com/cms/` and login. 
+Then follow the steps in [Changing the Wagtail Homepage](../wagtail_integration_adding_homepage/README.md#changing-homepage) section of this tutorial to create a new homepage and
+change it to be the root of the blog.
+
+To create new posts, follow instructions in the [Adding posts](../wagtail_integration_adding_posts/README.md#adding-blog-posts) section of this tutorial. 
+
 That's all for this tutorial. If you want to learn more about Wagtail, you can read the 
-[Wagtail documentation](https://docs.wagtail.org/en/stable/) or search for more tutorials on Wagtail online.
+[Wagtail documentation](https://guide.wagtail.org/en-latest/) or search for more tutorials on Wagtail online.
 
 Happy coding!

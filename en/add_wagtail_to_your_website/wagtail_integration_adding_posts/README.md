@@ -1,8 +1,5 @@
 # Adding Posts to Wagtail
 
-> Part of this tutorial is based on the Wagtail Tutorial by TorchBox  
-> (https://docs.wagtail.org/en/stable/getting_started/tutorial.html#).
-
 In the last section, we created a new page model which we used to add content to our homepage called `Homepage`, changed 
 the root of our Wagtail site to use this new homepage. We also added the CSS styling we were already using in our 
 project and now the Wagtail has the same look and feel as our website, which is really pretty amazing!
@@ -26,6 +23,7 @@ Next we need to add the `BlogPage` model to as shown below:
 
 ```python
 class BlogPage(Page):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     text = RichTextField(blank=True)
@@ -43,11 +41,8 @@ class BlogPage(Page):
 ```
 
 Before we move on, we will make some comparisons between our `Post` and `BlogPage` models. 
-- Our `Post` model contains a field named but we can't use the same field name in our `BlogPage` model because our base 
-model `Page` already contains a field by that name and hence this will cause an error. 
-- Our `Post` model also has fields`author` and `published_date` which we omitted in our `BlogPage` model because our 
-base model `Page` has a field `owner`that represents the `author` and has a `-first_published_at` field that represents 
-the `published_date`. 
+- Our `Post` model contains a field named `title` which we won't define in it our `BlogPage` model because our base 
+model `Page` already contains a field by that name so we don’t need to define it because it’s there already. 
 - We also do not have the `publish` method as this is again handled by a method in our `Page` model. 
 - The `Page` class also takes care of the string representation for our `BlogPage` model hence we do not have to define 
 a `__str__()` method in the model as we already inherited that. 
@@ -96,8 +91,11 @@ folder and add the following:
 {% endblock %}
 ```
 
-Wagtail’s built-in `get_parent()` method  is used to obtain the URL of the blog this post is a part of.
+Wagtail’s built-in `get_parent()` method  is used to obtain the URL of the blog this post is a part of. You can refer to 
+[Wagtail's documentation](https://guide.wagtail.org/en-latest/) for more on this.
 
+
+# Adding blog posts {#adding-blog-posts}
 Now we can create a few blog posts as children of `Home Page`. To do this, navigate to `Pages` and click on the arrow
 to go to the new homepage you just created. 
 

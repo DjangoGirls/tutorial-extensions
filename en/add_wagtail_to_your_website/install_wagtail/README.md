@@ -1,8 +1,5 @@
 # Wagtail Installation and Configuration
 
-> Part of this chapter is based on the WagTail tutorial by 
-> TorchBox (https://docs.wagtail.org/en/stable/getting_started/integrating_into_django.html).
-
 In this section, we will cover how to install and configure Wagtail in an already existing project. The experience will
 slightly be different from just launching a new Wagtail project as we already have a working project that we need to 
 improve by adding the powerful and wonderful capabilities of Wagtail.
