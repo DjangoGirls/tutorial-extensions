@@ -39,7 +39,7 @@ If on Windows run the following command instead:
 > python .\aws-elastic-beanstalk-cli-setup\scripts\ebcli_installer.py
 ```
 
->>> Note: If the [EB CLI setup scripts](https://github.com/aws/aws-elastic-beanstalk-cli-setup) setup does not work for 
+> Note: If the [EB CLI setup scripts](https://github.com/aws/aws-elastic-beanstalk-cli-setup) setup does not work for 
 your platform, you can install `awsebcli` manually. 
 
 On Mac OSX, you can use `Homebrew`. First make sure you have the latest version of Homebrew by running the following command:
@@ -190,7 +190,7 @@ You will be presented many prompts with guidelines on how you should respond.
 In the example below, I used defaults but you can name things differently as you please, just be sure to remember the names.
 
 ```
-djangogirls2 $ eb init
+djangogirls $ eb init
 Do you wish to continue with CodeCommit? (Y/n): Y
 
 Enter Repository Name
@@ -211,7 +211,7 @@ Enter passphrase (empty for no passphrase):
 Enter same passphrase again: 
 ```
 
->>> Note: To change the settings later you can run `eb init -i` command.
+> Note: To change the settings later you can run `eb init -i` command.
 
 To create an environment and deploy your application to it run the following command:
 
