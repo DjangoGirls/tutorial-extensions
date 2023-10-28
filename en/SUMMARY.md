@@ -10,6 +10,3 @@
   * [Introduction to AWS](aws/intro_to_aws/README.md)
   * [Getting started with AWS](aws/getting_started_with_aws/README.md)
   * [Deploy to AWS Elastic Beanstalk](aws/aws_elastic_beanstalk/README.md)
-
-
-
