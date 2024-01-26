@@ -6,7 +6,6 @@
 * [کار در خانه: ساختن مدل کامنت‌ها](homework_create_more_models/README.md)
 * [فعالیت اختیاری: PostgreSQL نصب](optional_postgresql_installation/README.md)
 * [فعالیت اختیاری: دامین](domain/README.md)
-* [انتشار وب‌سایت بر روی  Heroku](heroku/README.md)
 
 
 
