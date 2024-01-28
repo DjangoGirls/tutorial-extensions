@@ -96,30 +96,34 @@ We already set things up so that only authorized users (i.e. us) see the buttons
 We will add a login button that looks like this:
 
 ```django
-    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+    <a href="{% url 'login' %}" class="top-menu">{% include './icons/lock-fill.svg' %}</a>
 ```
 
 For this we need to edit the templates, so let's open up `blog/templates/blog/base.html` and change it so the part between the `<body>` tags looks like this:
 
 ```django
 <body>
-    <div class="page-header">
-        {% if user.is_authenticated %}
-            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-        {% else %}
-            <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-        {% endif %}
-        <h1><a href="/">Django Girls Blog</a></h1>
-    </div>
-    <div class="content container">
+    <header class="page-header">
+        <div class="container">
+            {% if user.is_authenticated %}
+            <a href="{% url 'post_new' %}" class="top-menu">
+                {% include './icons/file-earmark-plus.svg' %}
+            </a>
+            <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-square.svg'%}</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="top-menu">{% include './icons/lock-fill.svg' %}</a>
+            {% endif %}
+            <h1><a href="/">Django Girls Blog</a></h1>
+        </div>
+    </header>
+    <main class="content container">
         <div class="row">
-            <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
+            <div class="col">
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
-    </div>
+    </main>
 </body>
 ```
 
@@ -130,16 +134,20 @@ You might recognize the pattern here. There is an if-condition in the template t
 Let's add some sugar to our templates while we're at it. First we will add some details to show when we are logged in. Edit `blog/templates/blog/base.html` like this:
 
 ```django
-<div class="page-header">
-    {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-        <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
-    {% else %}
-        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-    {% endif %}
-    <h1><a href="/">Django Girls Blog</a></h1>
-</div>
+<header class="page-header">
+        <div class="container">
+            {% if user.is_authenticated %}
+            <a href="{% url 'post_new' %}" class="top-menu">
+                {% include './icons/file-earmark-plus.svg' %}
+            </a>
+            <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-square.svg'%}</a>
+            <p id="logout" class="top-menu">Hello {{ user.username }} <small><a href="{% url 'logout' %}">(Log out)</a></small></p>
+            {% else %}
+            <a href="{% url 'login' %}" class="top-menu">{% include './icons/lock-fill.svg' %}</a>
+            {% endif %}
+            <h1><a href="/">Django Girls Blog</a></h1>
+        </div>
+    </header>
 ```
 
 This adds a nice "Hello _&lt;username&gt;_" to remind us who we are logged in as, and that we are authenticated. Also, this adds a link to log out of the blog -- but as you might notice this isn't working yet. Let's fix it!
@@ -161,6 +169,23 @@ urlpatterns = [
     path('', include('blog.urls')),
 ]
 ```
+Let's also add this to our `blog.css` file for the proper styling of our login:
+
+```css
+#logout {
+    font-family: 'Lobster', cursive;
+
+}
+
+small a,
+small a:hover,
+small a:visited {
+    font-size: 15pt;
+    color: #ffffff;
+    text-decoration: none;
+}
+```
+![Publish button](images/loggdin.png)
 
 That's it! If you followed all of the above up to this point (and did the homework), you now have a blog where you
 

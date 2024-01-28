@@ -158,7 +158,7 @@ from .models import Post, Comment
 Now, go to `blog/templates/blog/post_detail.html` and before the line {% raw %}`{% for comment in post.comments.all %}`{% endraw %}, add:
 
 ```django
-<a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+<a class="btn btn-secondary" role="button" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
 
 If you go to the post detail page you should see this error:
@@ -201,7 +201,7 @@ from .forms import PostForm, CommentForm
 
 Now, on the post detail page, you should see the "Add Comment" button.
 
-![AddComment](images/add_comment_button.png)
+![AddComment](images/add_comment_button1.png)
 
 However, when you click that button, you'll see:
 
@@ -214,11 +214,11 @@ Like the error tells us, the template doesn't exist yet. So, let's create a new 
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h1>New comment</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Send</button>
-    </form>
+<h1>New comment</h1>
+<form method="POST" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="save btn btn-secondary">Send</button>
+</form>
 {% endblock %}
 ```
 
