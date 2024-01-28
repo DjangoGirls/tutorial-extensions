@@ -12,6 +12,7 @@ Current tutorials are:
 * [Homework: add more to your website!](homework/README.md)
 * [Homework: secure your website](authentication_authorization/README.md)
 * [Homework: create comment model](homework_create_more_models/README.md)
+* [Homework: Add Wagtail to your website](add_wagtail_to_your_website/README.md)
 * [Optional: PostgreSQL installation](optional_postgresql_installation/README.md)
 
 ## Contributing
