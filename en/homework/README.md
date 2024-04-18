@@ -6,6 +6,7 @@ Our blog has come a long way but there's still room for improvement. Next, we wi
 
 Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 post.published_date = timezone.now()
 ```
@@ -18,20 +19,23 @@ Remember the chapter about querysets? We created a view `post_list` that display
 
 Time to do something similar, but for draft posts.
 
-Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the {% raw %}`{% if user.is_authenticated %}`{% endraw %} check, right after the button for adding new posts.
+Let's add a link to the header.of our `base.html` template.  We don't want to show our list of drafts to everybody, so we'll put it inside the {% raw %}`{% if user.is_authenticated %}`{% endraw %} check, right after the button for adding new posts.
 
+{% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 ```
 
-Next: urls! In `blog/urls.py` we add:
+Next we define the url path! 
 
+{% filename %}blog/urls.py{% endfilename %}
 ```python
 path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
-Time to create a view in `blog/views.py`:
+Time to create a view:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 def post_draft_list(request):
     posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
@@ -40,8 +44,9 @@ def post_draft_list(request):
 
 The line `    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')` makes sure that we take only unpublished posts (`published_date__isnull=True`) and order them by `created_date` (`order_by('created_date')`).
 
-Ok, the last bit is of course a template! Create a file `blog/templates/blog/post_draft_list.html` and add the following:
+Ok, the last bit is of course a template! Create a new template file `post_draft_list.html` and add the following:
 
+{% filename %}blog/templates/blog/post_draft_list.html{% endfilename %}
 ```django
 {% extends 'blog/base.html' %}
 
@@ -66,8 +71,9 @@ Yay! Your first task is done!
 
 It would be nice to have a button on the blog post detail page that will immediately publish the post, right?
 
-Let's open `blog/templates/blog/post_detail.html` and change these lines:
+Let's open `post_detail.html` and change these lines:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 {% if post.published_date %}
     <div class="date">
@@ -78,6 +84,7 @@ Let's open `blog/templates/blog/post_detail.html` and change these lines:
 
 into these:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 {% if post.published_date %}
     <div class="date">
@@ -90,14 +97,16 @@ into these:
 
 As you noticed, we added {% raw %}`{% else %}`{% endraw %} line here. That means, that if the condition from {% raw %}`{% if post.published_date %}`{% endraw %} is not fulfilled (so if there is no `published_date`), then we want to do the line {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %}. Note that we are passing a `pk` variable in the {% raw %}`{% url %}`{% endraw %}.
 
-Time to create a URL (in `blog/urls.py`):
+Time to create a URL:
 
+{% filename %}blog/urls.py{% endfilename %}
 ```python
 path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
-and finally, a *view* (as always, in `blog/views.py`):
+and finally, a *view*:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -107,6 +116,7 @@ def post_publish(request, pk):
 
 Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
 
+{% filename %}blog/models.py{% endfilename %}
 ```python
 def publish(self):
     self.published_date = timezone.now()
@@ -123,22 +133,25 @@ Congratulations! You are almost there. The last step is adding a delete button!
 
 ## Delete post
 
-Let's open `blog/templates/blog/post_detail.html` once again and add this line:
+Let's open `post_detail.html` once again and add this line:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 ```
 
 just under a line with the edit button.
 
-Now we need a URL (`blog/urls.py`):
+Now we need a URL:
 
+{% filename %}blog/urls.py{% endfilename %}
 ```python
 path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
-Now, time for a view! Open `blog/views.py` and add this code:
+Now, time for a view!
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
