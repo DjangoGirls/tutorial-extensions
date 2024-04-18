@@ -98,23 +98,27 @@ so that when the login page is accessed directly, it will redirect a successful 
 
 We already set things up so that only authorized users (i.e. us) see the buttons for adding and editing posts. Now we want to make sure a login button appears for everybody else.
 
-We will add a login button that looks like this:
+We will add a login button using an unlock icon. 
+
+Download the unlock image from [https://icons.getbootstrap.com/assets/icons/unlock.svg](https://icons.getbootstrap.com/assets/icons/unlock.svg) and save it in the folder `blog/templates/registration/icons/`
+
+We will add the login button like this
 
 ```django
-    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+    <a href="{% url 'login' %}" class="top-menu">{% include 'registration/icons/unlock.svg' %}</a>
 ```
 
-For this we need to edit the templates, so let's open up `base.html` and change it so the part between the `<body>` tags looks like this:
+We want to ensure the button is only visible to non-authenticated users, so let's open up `base.html` and change it so the part between the `<body>` tags looks like this:
 
 {% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
 <body>
     <div class="page-header">
         {% if user.is_authenticated %}
-            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+            <a href="{% url 'post_new' %}" class="top-menu">{% include './icons/file-earmark-plus.svg' %}</a>
+            <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-fill.svg' %}</a>
         {% else %}
-            <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+            <a href="{% url 'login' %}" class="top-menu">{% include 'registration/icons/unlock.svg' %}</a>
         {% endif %}
         <h1><a href="/">Django Girls Blog</a></h1>
     </div>
@@ -129,7 +133,7 @@ For this we need to edit the templates, so let's open up `base.html` and change 
 </body>
 ```
 
-You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. Otherwise it shows a login button.
+You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. {% raw %}`{% else %}`{% endraw %} it shows a login button.
 
 ## More on authenticated users
 
@@ -139,11 +143,11 @@ Let's add some sugar to our templates while we're at it. First we will add some 
 ```django
 <div class="page-header">
     {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+        <a href="{% url 'post_new' %}" class="top-menu">{% include './icons/file-earmark-plus.svg' %}</a>
+        <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-fill.svg' %}</a>
         <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
     {% else %}
-        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        <a href="{% url 'login' %}" class="top-menu">{% include 'registration/icons/unlock.svg' %}</a>
     {% endif %}
     <h1><a href="/">Django Girls Blog</a></h1>
 </div>
