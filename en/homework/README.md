@@ -23,7 +23,7 @@ Let's add a link to the header.of our `base.html` template.  We don't want to sh
 
 {% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+    <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-fill.svg' %}</a>
 ```
 
 Next we define the url path! 
@@ -133,14 +133,14 @@ Congratulations! You are almost there. The last step is adding a delete button!
 
 ## Delete post
 
-Let's open `post_detail.html` once again and add this line:
+First let's download a trash icon and save with others in `blog/templates/blog/icons/`: [https://icons.getbootstrap.com/assets/icons/trash.svg](https://icons.getbootstrap.com/assets/icons/trash.svg)
+
+Let's open `post_detail.html` once again and add this line just under the line with the edit button:
 
 {% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
-<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+    <a class="btn btn-secondary" href="{% url 'post_remove' pk=post.pk %}">{% include './icons/trash3.svg' %}</a>
 ```
-
-just under a line with the edit button.
 
 Now we need a URL:
 
