@@ -8,12 +8,14 @@ First let's make things secure. We will protect our `post_new`, `post_edit`, `po
 
 So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 from django.contrib.auth.decorators import login_required
 ```
 
 Then add a line before each of the `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorating them) like the following:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 @login_required
 def post_new(request):
@@ -37,6 +39,7 @@ We could now try to do lots of magical stuff to implement users and passwords an
 
 In your `mysite/urls.py` add a url `path('accounts/login/', views.LoginView.as_view(), name='login')`. So the file should now look similar to this:
 
+{% filename %}mysite/urls.py{% endfilename %}
 ```python
 from django.urls import path, include
 from django.contrib import admin
@@ -52,6 +55,7 @@ urlpatterns = [
 
 Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
 
+{% filename %}blog/templates/registration/login.html{% endfilename %}
 ```django
 {% extends "blog/base.html" %}
 
@@ -83,6 +87,7 @@ You will see that this also makes use of our _base_ template for the overall loo
 
 The nice thing here is that this _just works<sup>TM</sup>_. We don't have to deal with handling of the form submission nor with passwords and securing them. Only more thing is left to do. We should add a setting to `mysite/settings.py`:
 
+{% filename %}mysite/settings.py{% endfilename %}
 ```python
 LOGIN_REDIRECT_URL = '/'
 ```
@@ -99,8 +104,9 @@ We will add a login button that looks like this:
     <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
 ```
 
-For this we need to edit the templates, so let's open up `blog/templates/blog/base.html` and change it so the part between the `<body>` tags looks like this:
+For this we need to edit the templates, so let's open up `base.html` and change it so the part between the `<body>` tags looks like this:
 
+{% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
 <body>
     <div class="page-header">
@@ -127,8 +133,9 @@ You might recognize the pattern here. There is an if-condition in the template t
 
 ## More on authenticated users
 
-Let's add some sugar to our templates while we're at it. First we will add some details to show when we are logged in. Edit `blog/templates/blog/base.html` like this:
+Let's add some sugar to our templates while we're at it. First we will add some details to show when we are logged in. Edit `base.html` like this:
 
+{% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
 <div class="page-header">
     {% if user.is_authenticated %}
@@ -148,6 +155,7 @@ We decided to rely on Django to handle login, so let's see if Django can also ha
 
 Done reading? By now you may be thinking about adding a URL in `mysite/urls.py` pointing to Django's logout view (i.e. `django.contrib.auth.views.logout`), like this:
 
+{% filename %}mysite/urls.py{% endfilename %}
 ```python
 from django.urls import path, include
 from django.contrib import admin
