@@ -91,11 +91,11 @@ into these:
         {{ post.published_date }}
     </div>
 {% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    <a class="btn btn-secondary" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
 {% endif %}
 ```
 
-As you noticed, we added {% raw %}`{% else %}`{% endraw %} line here. That means, that if the condition from {% raw %}`{% if post.published_date %}`{% endraw %} is not fulfilled (so if there is no `published_date`), then we want to do the line {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %}. Note that we are passing a `pk` variable in the {% raw %}`{% url %}`{% endraw %}.
+As you noticed, we added {% raw %}`{% else %}`{% endraw %} line here. That means, that if the condition from {% raw %}`{% if post.published_date %}`{% endraw %} is not fulfilled (so if there is no `published_date`), then we want to do the line {% raw %}`<a class="btn btn-secondary" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %}. Note that we are passing a `pk` variable in the {% raw %}`{% url %}`{% endraw %}.
 
 Time to create a URL:
 
