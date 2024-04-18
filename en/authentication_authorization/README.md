@@ -174,6 +174,30 @@ urlpatterns = [
 ]
 ```
 
+## Is there anything missing? 
+
+We made sure non-logged in users can't access the `post_draft_list` view by using the `@login_required` decorator.  We also decorated the `post_edit`, `post_remove` and `post_publish` views so they can't make changes.  But could a non-logged in user still see a draft post? 
+
+While logged out, try navigating to a draft post by editing the url address bar directly.  Whoops!  We can still see the draft post! 
+
+This is because we use the `post_detail()` view method for both published and draft posts.  We need to protect this view as well.  We definitely want non-logged in users to see published posts, so using the decorator won't work. 
+
+Instead, let's go to the `blog/views.py` file and update the `post_detail()` view to check for a `published_date` or whether a `user` `is_authenticated`.  If neither condition is true, we will redirect the user to login.  
+
+{% filename %}blog/views.py{% endfilename %}
+```
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.published_date or request.user.is_authenticated:
+        return render(request, 'blog/post_detail.html', {'post': post})
+    else:
+        return redirect("/accounts/login/")
+```
+
+Check again if you can navigate directly to a draft post using the address bar.
+
+
+
 That's it! If you followed all of the above up to this point (and did the homework), you now have a blog where you
 
  - need a username and password to log in,
