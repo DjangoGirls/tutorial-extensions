@@ -6,6 +6,7 @@ Currently, we only have a Post model. What about receiving some feedback from yo
 
 Let's open `blog/models.py` and append this piece of code to the end of file:
 
+{% filename %}blog/models.py{% endfilename %}
 ```python
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
@@ -55,6 +56,7 @@ Our Comment model exists in the database now! Wouldn't it be nice if we had acce
 
 To register the Comment model in the admin panel, go to `blog/admin.py` and add this line:
 
+{% filename %}blog/admin.py{% endfilename %}
 ```python
 admin.site.register(Comment)
 ```
@@ -67,6 +69,7 @@ admin.site.register(Post)
 
 Remember to import the Comment model at the top of the file, too, like this:
 
+{% filename %}blog/admin.py{% endfilename %}
 ```python
 from django.contrib import admin
 from .models import Post, Comment
@@ -79,8 +82,9 @@ If you type `python manage.py runserver` on the command line and go to [http://1
 
 ## Make our comments visible
 
-Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the {% raw %}`{% endblock %}`{% endraw %} tag:
+Go to the `post_detail.html` file and add the following lines before the {% raw %}`{% endblock %}`{% endraw %} tag:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 <hr>
 {% for comment in post.comments.all %}
@@ -96,22 +100,25 @@ Go to the `blog/templates/blog/post_detail.html` file and add the following line
 
 Now we can see the comments section on pages with post details.
 
-But it could look a little bit better, so let's add some CSS to the bottom of the `static/css/blog.css` file:
+But it could look a little bit better, so let's add some configuration to the CSS file:
 
+{% filename %}static/css/blog.css{% endfilename %}
 ```css
 .comment {
     margin: 20px 0px 20px 20px;
 }
 ```
 
-We can also let visitors know about comments on the post list page. Go to the `blog/templates/blog/post_list.html` file and add the line:
+We can also let visitors know about comments on the post list page. Go to the `post_list.html` file and add the line:
 
+{% filename %}blog/templates/blog/post_list.html{% endfilename %}
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
 After that our template should look like this:
 
+{% filename %}blog/templates/blog/post_list.html{% endfilename %}
 ```django
 {% extends 'blog/base.html' %}
 
@@ -135,6 +142,7 @@ Right now we can see comments on our blog, but we can't add them. Let's change t
 
 Go to `blog/forms.py` and add the following lines to the end of the file:
 
+{% filename %}blog/forms.py{% endfilename %}
 ```python
 class CommentForm(forms.ModelForm):
 
@@ -151,12 +159,14 @@ from .models import Post
 
 into:
 
+{% filename %}blog/forms.py{% endfilename %}
 ```python
 from .models import Post, Comment
 ```
 
-Now, go to `blog/templates/blog/post_detail.html` and before the line {% raw %}`{% for comment in post.comments.all %}`{% endraw %}, add:
+Now, go to `post_detail.html` and before the line {% raw %}`{% for comment in post.comments.all %}`{% endraw %}, add:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 ```
@@ -167,6 +177,7 @@ If you go to the post detail page you should see this error:
 
 We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
+{% filename %}blog/urls.py{% endfilename %}
 ```python
 path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
 ```
@@ -175,8 +186,9 @@ Refresh the page, and we get a different error!
 
 ![AttributeError](images/views_error.png)
 
-To fix this error, add this view to `blog/views.py`:
+To fix this error, add this view:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -194,6 +206,7 @@ def add_comment_to_post(request, pk):
 
 Remember to import `CommentForm` at the beginning of the file:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 from .forms import PostForm, CommentForm
 ```
@@ -208,8 +221,9 @@ However, when you click that button, you'll see:
 ![TemplateDoesNotExist](images/template_error.png)
 
 
-Like the error tells us, the template doesn't exist yet. So, let's create a new one at `blog/templates/blog/add_comment_to_post.html` and add the following code:
+Like the error tells us, the template doesn't exist yet. So, let's create a new one at `add_comment_to_post.html` and add the following code:
 
+{% filename %}blog/templates/blog/add_comment_to_post.html{% endfilename %}
 ```django
 {% extends 'blog/base.html' %}
 
@@ -230,8 +244,9 @@ Not all of the comments should be displayed. As the blog owner, you probably wan
 
 > If you haven't already, you can download all the Bootstrap icons [here](https://github.com/twbs/icons/releases/download/v1.1.0/bootstrap-icons-1.1.0.zip). Unzip the file and copy all the SVG image files into a new folder inside `blog/templates/blog/` called `icons`. That way you can access an icon like `hand-thumbs-down.svg` using the file path `blog/templates/blog/icons/hand-thumbs-down.svg`
 
-Go to `blog/templates/blog/post_detail.html` and change lines:
+Go to `post_detail.html` and change lines:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 {% for comment in post.comments.all %}
     <div class="comment">
@@ -246,6 +261,7 @@ Go to `blog/templates/blog/post_detail.html` and change lines:
 
 to:
 
+{% filename %}blog/templates/blog/post_detail.html{% endfilename %}
 ```django
 {% for comment in post.comments.all %}
     {% if user.is_authenticated or comment.approved_comment %}
@@ -274,13 +290,15 @@ You should see `NoReverseMatch`, because no URL matches the `comment_remove` and
 
 To fix the error, add these URL patterns to `blog/urls.py`:
 
+{% filename %}blog/urls.py{% endfilename %}
 ```python
 path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
 path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ```
 
-Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
+Now, you should see `AttributeError`. To fix this error, add these views:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 @login_required
 def comment_approve(request, pk):
@@ -298,26 +316,30 @@ def comment_remove(request, pk):
 
 You'll need to import `Comment` at the top of the file:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 from .models import Post, Comment
 ```
 
 Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.
 
-To fix this, go to `blog/templates/blog/post_list.html` and change the line:
+To fix this, go to `post_list.html` and change the line:
 
+{% filename %}blog/templates/blog/post_list.html{% endfilename %}
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 ```
 
 to:
 
+{% filename %}blog/templates/blog/post_list.html{% endfilename %}
 ```django
 <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
 ```
 
-Finally, add this method to the `Post` model in `blog/models.py`:
+Finally, add this method to the `Post` model:
 
+{% filename %}blog/models.py{% endfilename %}
 ```python
 def approved_comments(self):
     return self.comments.filter(approved_comment=True)
