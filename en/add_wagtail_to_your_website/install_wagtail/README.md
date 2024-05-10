@@ -150,6 +150,12 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
+After this, we need to run migrations to create models for Wagtail as shown below:
+
+```
+(myvenv) ~/djangogirls$ python manage.py runserver
+```
+
 We should now be able to get the following when we visit `http://127.0.0.1:8000/cms/`:
 
 ![Wagtail CMS homepage](images/wagtail_cms.png)
