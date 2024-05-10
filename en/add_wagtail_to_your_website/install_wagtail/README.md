@@ -1,6 +1,6 @@
 # Wagtail Installation and Configuration
 
-In this section, we will cover how to install and configure Wagtail in an already existing project. The experience will
+In this section, we will cover how to install and configure Wagtail in an existing project. The experience will
 slightly be different from just launching a new Wagtail project as we already have a working project that we need to 
 improve by adding the powerful and wonderful capabilities of Wagtail.
 
