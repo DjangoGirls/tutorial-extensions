@@ -2,7 +2,7 @@
 
 In the last section, we created a new page model which we used to add content to our homepage called `Homepage`, changed 
 the root of our Wagtail site to use this new homepage. We also added the CSS styling we were already using in our 
-project and now the Wagtail has the same look and feel as our website, which is really pretty amazing!
+project and now the Wagtail homepage has the same look and feel as our blog homepage, which is really pretty amazing!
 
 Now, we need to use our posts model to render the posts we already have on the blog using Wagtail. 
 

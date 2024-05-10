@@ -152,7 +152,7 @@ Once you open this page, click on the menu icon and select `Add Child Page` and 
 
 Enter the title and content and then click `Publish` to save the content and publish the page. Notice how we do not have
 a `publish()` method in our model because the Wagtail base class `Page` model which we inherit from already takes care 
-of that for us and we do not need to do extra work to ensure we can publish posts while saving the timestamp for when 
+of that for us. Therefore we do not need to do extra work to ensure we can publish posts while saving the timestamp for when 
 the post was published.
 
 
