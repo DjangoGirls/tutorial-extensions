@@ -108,7 +108,7 @@ using `/cms/` to access the Wagtail admin interface and keep using `/admin/` to 
 
 Wagtail also comes with a user interface for serving Wagtail pages which is provided for by `wagtail_urls` and can be 
 accessed by visiting the `/pages/` URL. In our current setup, Wagtail will handle Wagtail URLs under `/pages/` and leave
-our the root and admin URLs to be handled by our normal Django project. Alternatively, we can have Wagtail serve all 
+the root and admin URLs to be handled by our normal Django project. Alternatively, we can have Wagtail serve all 
 URLs, which we will work towards in this project, but for now, we will leave things as they are.
 
 Wagtail also has `wagtail.documents` to be used for documents management which we could also import as 
