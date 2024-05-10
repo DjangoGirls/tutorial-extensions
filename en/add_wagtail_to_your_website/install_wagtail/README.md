@@ -100,7 +100,7 @@ Then we need to add the following lines to `urlspatterns` list to include Wagtai
     path('pages/', include(wagtail_urls)),
 ```
 
-Wagtail comes with its own custom admin interface provide by `wagtailadmin_urls` which we will be able to access by 
+Wagtail comes with its own custom admin interface provided by `wagtailadmin_urls` which we will be able to access by 
 visiting the URL`/cms/`. This is different from the Django admin interface provided by `django.contrib.admin`we have 
 been accessing by the `/admin/` URL. In a typical Wagtail only project, the admin site would be at `/admin/` but 
 because we are adding Wagtail to an already existing Django project, this would clash with our , admin URL so we are 
