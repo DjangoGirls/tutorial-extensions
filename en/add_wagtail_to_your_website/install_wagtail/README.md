@@ -20,8 +20,7 @@ update the `requirements.txt`, type the following command in the command prompt:
 ```
 
 ## Wagtail Settings
-The next thing we need to do is to add some configuration for Wagtail in `mysite/settings.py`. The first thing we need 
-to add is Wagtail and its associated apps to `INSTALLED_APPS` so that it looks like below:
+Now, we should update the Wagtail configuration in `mysite/settings.py`. First, add Wagtail and its associated apps to `INSTALLED_APPS`, like this:
 
 ```python
 INSTALLED_APPS = [
