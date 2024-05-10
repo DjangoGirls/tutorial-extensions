@@ -8,7 +8,7 @@ improve by adding the powerful and wonderful capabilities of Wagtail.
 To install Wagtail, type the following command in the command prompt:
 
 ```
-(myvenv) ~/djangogirls$ pip install wagtail
+(myvenv) ~/djangogirls$ pip install wagtail>=5.2,<5.3
 ```
 
 Now that we have installed Wagtail, we need to add it to our `requirements.txt` so that we can keep track of our 
