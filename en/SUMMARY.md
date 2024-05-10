@@ -6,6 +6,7 @@
 * [Homework: create comment model](homework_create_more_models/README.md)
 * [Optional: PostgreSQL installation](optional_postgresql_installation/README.md)
 * [Optional: Domain](domain/README.md)
-
-
-
+* [Deploy your website on AWS](aws/README.md)
+  * [Introduction to AWS](aws/intro_to_aws/README.md)
+  * [Getting started with AWS](aws/getting_started_with_aws/README.md)
+  * [Deploy to AWS Elastic Beanstalk](aws/aws_elastic_beanstalk/README.md)
