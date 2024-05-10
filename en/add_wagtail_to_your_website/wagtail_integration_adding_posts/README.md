@@ -41,8 +41,7 @@ class BlogPage(Page):
 ```
 
 Before we move on, we will make some comparisons between our `Post` and `BlogPage` models. 
-- Our `Post` model contains a field named `title` which we won't define in it our `BlogPage` model because our base 
-model `Page` already contains a field by that name so we don’t need to define it because it’s there already. 
+- Our `Post` model contains a field named `title`. We won't define it in our `BlogPage` model because our base model `Page` already includes a field with the same name. So, there's no need to define it again since it's already there.
 - We also do not have the `publish` method as this is again handled by a method in our `Page` model. 
 - The `Page` class also takes care of the string representation for our `BlogPage` model hence we do not have to define 
 a `__str__()` method in the model as we already inherited that. 
