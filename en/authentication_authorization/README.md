@@ -8,12 +8,14 @@ First let's make things secure. We will protect our `post_new`, `post_edit`, `po
 
 So edit your `blog/views.py` and add these lines at the top along with the rest of the imports:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 from django.contrib.auth.decorators import login_required
 ```
 
 Then add a line before each of the `post_new`, `post_edit`, `post_draft_list`, `post_remove` and `post_publish` views (decorating them) like the following:
 
+{% filename %}blog/views.py{% endfilename %}
 ```python
 @login_required
 def post_new(request):
@@ -37,6 +39,7 @@ We could now try to do lots of magical stuff to implement users and passwords an
 
 In your `mysite/urls.py` add a url `path('accounts/login/', views.LoginView.as_view(), name='login')`. So the file should now look similar to this:
 
+{% filename %}mysite/urls.py{% endfilename %}
 ```python
 from django.urls import path, include
 from django.contrib import admin
@@ -52,6 +55,7 @@ urlpatterns = [
 
 Then we need a template for the login page, so create a directory `blog/templates/registration` and a file inside named `login.html`:
 
+{% filename %}blog/templates/registration/login.html{% endfilename %}
 ```django
 {% extends "blog/base.html" %}
 
@@ -83,6 +87,7 @@ You will see that this also makes use of our _base_ template for the overall loo
 
 The nice thing here is that this _just works<sup>TM</sup>_. We don't have to deal with handling of the form submission nor with passwords and securing them. Only more thing is left to do. We should add a setting to `mysite/settings.py`:
 
+{% filename %}mysite/settings.py{% endfilename %}
 ```python
 LOGIN_REDIRECT_URL = '/'
 ```
@@ -93,22 +98,27 @@ so that when the login page is accessed directly, it will redirect a successful 
 
 We already set things up so that only authorized users (i.e. us) see the buttons for adding and editing posts. Now we want to make sure a login button appears for everybody else.
 
-We will add a login button that looks like this:
+We will add a login button using an unlock icon. 
+
+Download the unlock image from [https://icons.getbootstrap.com/assets/icons/unlock.svg](https://icons.getbootstrap.com/assets/icons/unlock.svg) and save it in the folder `blog/templates/registration/icons/`
+
+We will add the login button like this
 
 ```django
-    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+    <a href="{% url 'login' %}" class="top-menu">{% include 'registration/icons/unlock.svg' %}</a>
 ```
 
-For this we need to edit the templates, so let's open up `blog/templates/blog/base.html` and change it so the part between the `<body>` tags looks like this:
+We want to ensure the button is only visible to non-authenticated users, so let's open up `base.html` and change it so the part between the `<body>` tags looks like this:
 
+{% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
 <body>
     <div class="page-header">
         {% if user.is_authenticated %}
-            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-            <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+            <a href="{% url 'post_new' %}" class="top-menu">{% include './icons/file-earmark-plus.svg' %}</a>
+            <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-fill.svg' %}</a>
         {% else %}
-            <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+            <a href="{% url 'login' %}" class="top-menu">{% include 'registration/icons/unlock.svg' %}</a>
         {% endif %}
         <h1><a href="/">Django Girls Blog</a></h1>
     </div>
@@ -123,20 +133,21 @@ For this we need to edit the templates, so let's open up `blog/templates/blog/ba
 </body>
 ```
 
-You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. Otherwise it shows a login button.
+You might recognize the pattern here. There is an if-condition in the template that checks for authenticated users to show the add and edit buttons. {% raw %}`{% else %}`{% endraw %} it shows a login button.
 
 ## More on authenticated users
 
-Let's add some sugar to our templates while we're at it. First we will add some details to show when we are logged in. Edit `blog/templates/blog/base.html` like this:
+Let's add some sugar to our templates while we're at it. First we will add some details to show when we are logged in. Edit `base.html` like this:
 
+{% filename %}blog/templates/blog/base.html{% endfilename %}
 ```django
 <div class="page-header">
     {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+        <a href="{% url 'post_new' %}" class="top-menu">{% include './icons/file-earmark-plus.svg' %}</a>
+        <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-fill.svg' %}</a>
         <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
     {% else %}
-        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        <a href="{% url 'login' %}" class="top-menu">{% include 'registration/icons/unlock.svg' %}</a>
     {% endif %}
     <h1><a href="/">Django Girls Blog</a></h1>
 </div>
@@ -148,6 +159,7 @@ We decided to rely on Django to handle login, so let's see if Django can also ha
 
 Done reading? By now you may be thinking about adding a URL in `mysite/urls.py` pointing to Django's logout view (i.e. `django.contrib.auth.views.logout`), like this:
 
+{% filename %}mysite/urls.py{% endfilename %}
 ```python
 from django.urls import path, include
 from django.contrib import admin
@@ -161,6 +173,30 @@ urlpatterns = [
     path('', include('blog.urls')),
 ]
 ```
+
+## Is there anything missing? 
+
+We made sure non-logged in users can't access the `post_draft_list` view by using the `@login_required` decorator.  We also decorated the `post_edit`, `post_remove` and `post_publish` views so they can't make changes.  But could a non-logged in user still see a draft post? 
+
+While logged out, try navigating to a draft post by editing the url address bar directly.  Whoops!  We can still see the draft post! 
+
+This is because we use the `post_detail()` view method for both published and draft posts.  We need to protect this view as well.  We definitely want non-logged in users to see published posts, so using the decorator won't work. 
+
+Instead, let's go to the `blog/views.py` file and update the `post_detail()` view to check for a `published_date` or whether a `user` `is_authenticated`.  If neither condition is true, we will redirect the user to login.  
+
+{% filename %}blog/views.py{% endfilename %}
+```
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.published_date or request.user.is_authenticated:
+        return render(request, 'blog/post_detail.html', {'post': post})
+    else:
+        return redirect("/accounts/login/")
+```
+
+Check again if you can navigate directly to a draft post using the address bar.
+
+
 
 That's it! If you followed all of the above up to this point (and did the homework), you now have a blog where you
 
