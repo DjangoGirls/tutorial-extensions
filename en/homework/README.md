@@ -21,7 +21,7 @@ Time to do something similar, but for draft posts.
 Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the {% raw %}`{% if user.is_authenticated %}`{% endraw %} check, right after the button for adding new posts.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit">Drafts</span></a>
 ```
 
 Next: urls! In `blog/urls.py` we add:
