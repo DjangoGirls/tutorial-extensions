@@ -4,7 +4,7 @@ Our blog has come a long way but there's still room for improvement. Next, we wi
 
 ## Save new posts as drafts
 
-Currently when we're creating new posts using our *New post* form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
+Currently when we're creating new posts using our _New post_ form the post is published directly. To instead save the post as a draft, **remove** this line in `blog/views.py` in the `post_new` and `post_edit` methods:
 
 ```python
 post.published_date = timezone.now()
@@ -84,7 +84,7 @@ into these:
         {{ post.published_date }}
     </div>
 {% else %}
-    <form method="POST" action="{% url post_publish pk=post.pk %} class="post-form">{% csrf_token %}
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
         <button type="submit" class="post btn btn-info" name="publish">Publish</button>
     </form>
 {% endif %}
@@ -104,7 +104,7 @@ Time to create a URL (in `blog/urls.py`):
 path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
-and finally, a *view* (as always, in `blog/views.py`):
+and finally, a _view_ (as always, in `blog/views.py`):
 
 ```python
 def post_publish(request, pk):
@@ -116,7 +116,7 @@ def post_publish(request, pk):
 
 Note that we check the request method before executing the operation -- although the pages we will emit will not include a direct link to the URL of this view, and so one could think this check is redundant, in practice this sort of "defensive programming" often pays off, preventing damage which could have been caused by bugs.
 
-Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
+And add a `publish` method which is called in the `post_publish` method:
 
 ```python
 def publish(self):
