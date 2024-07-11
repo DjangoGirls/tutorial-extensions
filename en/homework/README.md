@@ -116,7 +116,7 @@ def post_publish(request, pk):
 
 Note that we check the request method before executing the operation -- although the pages we will emit will not include a direct link to the URL of this view, and so one could think this check is redundant, in practice this sort of "defensive programming" often pays off, preventing damage which could have been caused by bugs.
 
-And add a `publish` method which is called in the `post_publish` method:
+Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
 
 ```python
 def publish(self):
@@ -137,10 +137,8 @@ Congratulations! You are almost there. The last step is adding a delete button!
 Let's open `blog/templates/blog/post_detail.html` once again and add these lines:
 
 ```django
-<form method="POST" action="{% url post_remove pk=post.pk %} class="post-form">{% csrf_token %}
-    <button type="submit" class="post btn btn-danger" name="delete">
-        <span class="glyphicon glyphicon-remove"></span>
-    </button>
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
+    <button type="submit" class="post btn btn-danger" name="delete">Delete</button>
 </form>
 ```
 
