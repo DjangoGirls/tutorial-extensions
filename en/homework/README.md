@@ -84,7 +84,7 @@ into these:
         {{ post.published_date }}
     </div>
 {% else %}
-    <form method="POST" action="{% url post_publish pk=post.pk %} class="post-form">{% csrf_token %}
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
         <button type="submit" class="post btn btn-info" name="publish">Publish</button>
     </form>
 {% endif %}
@@ -101,7 +101,7 @@ Now, let's take a look at the details of the form. We are using a new attribute,
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-path('post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
@@ -137,7 +137,7 @@ Congratulations! You are almost there. The last step is adding a delete button!
 Let's open `blog/templates/blog/post_detail.html` once again and add these lines:
 
 ```django
-<form method="POST" action="{% url post_remove pk=post.pk %} class="post-form">{% csrf_token %}
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
     <button type="submit" class="post btn btn-danger" name="delete">
         <span class="glyphicon glyphicon-remove"></span>
     </button>
@@ -149,7 +149,7 @@ just under a line with the edit button.
 Now we need a URL (`blog/urls.py`):
 
 ```python
-path('post/<pk>/remove/', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Now, time for a view! Open `blog/views.py` and add this code:
