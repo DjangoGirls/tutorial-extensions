@@ -21,7 +21,7 @@ Time to do something similar, but for draft posts.
 Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the {% raw %}`{% if user.is_authenticated %}`{% endraw %} check, right after the button for adding new posts.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
 ```
 
 Next: urls! In `blog/urls.py` we add:
@@ -85,7 +85,7 @@ into these:
     </div>
 {% else %}
     <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
-        <button type="submit" class="post btn btn-info" name="publish">Publish</button>
+        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
     </form>
 {% endif %}
 ```
@@ -139,7 +139,7 @@ Let's open `blog/templates/blog/post_detail.html` once again and add these lines
 ```django
 <form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
     <button type="submit" class="post btn btn-danger" name="delete">
-        <span class="glyphicon glyphicon-remove"></span>
+    Delete
     </button>
 </form>
 ```
