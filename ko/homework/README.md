@@ -22,13 +22,13 @@ post.published_date = timezone.now()
 새 글 추가하기 버튼 근처에 `blog/templates/blog/base.html` 링크를 추가하세요({% raw %}`<h1><a href="/">Django Girls Blog</a></h1>`{% endraw %}위에 바로 추가하면 됩니다!). 발행 전 미리 보기가 모두에게 보이는 걸 원치 않을 거예요. 새로운 글 추가하기 바로 아래에 {% raw %}`{% if user.is_authenticated %}`{% endraw %}을 추가해 주세요.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
 ```
 
 다음: url입니다! `blog/urls.py`을 열고 아래 내용을 추가할 거에요.
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 `blog/views.py`에 view를 생성할 차례입니다.
@@ -59,7 +59,7 @@ def post_draft_list(request):
 
 `post_list.html` 템플릿과 코드가 많이 비슷해보이죠?
 
-브라우저로 `http://127.0.0.1:8000/draft/` 페이지를 열어보면, 미 게시된 글목록을 확인할 수 있어요.
+브라우저로 `http://127.0.0.1:8000/drafts/` 페이지를 열어보면, 미 게시된 글목록을 확인할 수 있어요.
 
 야호! 첫 번째 일이 마쳤어요!
 
@@ -85,7 +85,9 @@ def post_draft_list(request):
         {{ post.published_date }}
     </div>
 {% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
+        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
+    </form>
 {% endif %}
 ```
 
@@ -94,7 +96,7 @@ def post_draft_list(request):
 `blog/urls.py`에 URL 패턴을 추가해봅시다.
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 마지막으로 `post_publish` *뷰*를 `blog/views.py` 에 추가해봅시다.
@@ -102,7 +104,8 @@ url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
 ```python
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish()
+    if request.method=='POST':
+        post.publish()
     return redirect('post_detail', pk=pk)
 ```
 
@@ -127,7 +130,11 @@ def publish(self):
 `blog/templates/blog/post_detail.html` 파일에 아래 코드를 추가해주세요.
 
 ```django
-<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
+    <button type="submit" class="post btn btn-danger" name="delete">
+    Delete
+    </button>
+</form>
 ```
 
 수정 버튼 바로 아래 줄에 추가해주세요.
@@ -135,7 +142,7 @@ def publish(self):
 (`blog/urls.py`)에 URL 패턴을 추가해봅시다:
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 이제 post_remove 뷰를 구현해봅시다. `blog/views.py` 에 아래 코드를 추가해주세요.
@@ -143,7 +150,8 @@ url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
 ```python
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    if request.method=='POST':
+        post.delete()
     return redirect('post_list')
 ```
 
