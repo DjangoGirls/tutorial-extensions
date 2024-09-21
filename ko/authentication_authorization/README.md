@@ -19,9 +19,9 @@ from django.contrib.auth.decorators import login_required
 def post_new(request):
     [...]
 ```
-잘했어요! 이제 `http://localhost:8000/post/new/` 로 접속해보세요. 다른 점을 찾으셨나요? 
+잘했어요! 이제 `http://127.0.0.1:8000/post/new/` 로 접속해보세요. 다른 점을 찾으셨나요? 
 
-> 만약 비어있는 폼 페이지만 보인다면, 이미 관리자 화면을 통해 로그인한 상태일 거예요. `http://localhost:8000/admin/logout/` 로 로그아웃을 한 다음, `http://localhost:8000/post/new` 로 다시 접속해보세요. 
+> 만약 비어있는 폼 페이지만 보인다면, 이미 관리자 화면을 통해 로그인한 상태일 거예요. `http://127.0.0.1:8000/admin/logout/` 로 로그아웃을 한 다음, `http://127.0.0.1:8000/post/new` 로 다시 접속해보세요. 
 
 사랑스러운 에러 중 하나를 보게 될 거예요. 정말 흥미로운 사실 중 하나: 추가한 Decorator는 로그인 페이지로 우리를 돌려보낼 거예요. 아직 사용할 수 없지만, "페이지를 찾을 수 없습니다. (404)"라는 에러를 나타내죠. 
 

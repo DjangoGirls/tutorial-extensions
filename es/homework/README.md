@@ -18,16 +18,16 @@ De esta manera los nuevos post serán guardados como borradores y se podrán rev
 
 Es tiempo de hacer algo similiar, pero con borradores.
 
-Vamos a añadir un enlace en `blog/templates/blog/base.html` en el encabezado. No queremos mostrar nuestro borradores a todo el mundo, entonces vamos a colocarlo dentro de la verificación `{% if user.is_authenticated %}`, justo después del botón de agregar posts.
+Vamos a añadir un enlace en `blog/templates/blog/base.html` en el encabezado. No queremos mostrar nuestro borradores a todo el mundo, entonces vamos a colocarlo dentro de la verificación {% raw %}`{% if user.is_authenticated %}`{% endraw %}, justo después del botón de agregar posts.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
 ```
 
 Siguiente: ¡urls! en `blog/urls.py` vamos a agregar:
 
 ```python
-url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
+path('drafts/', views.post_draft_list, name='post_draft_list'),
 ```
 
 Tiempo de crear una nueva vista en `blog/views.py`
@@ -84,16 +84,18 @@ por estas:
         {{ post.published_date }}
     </div>
 {% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
+        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
+    </form>
 {% endif %}
 ```
 
-Como puedes ver, hemos agregado la línea `{% else %}`. Esto significa, que la condición de `{% if post.published_date %}` no es cumplida (entonces no hay `publication_date`), entonces queremos agregar la línea `<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`. Nota que estamos pasando la variable `pk` en el `{% url %}`.
+Como puedes ver, hemos agregado la línea {% raw %}`{% else %}`{% endraw %}. Esto significa, que la condición de {% raw %}`{% if post.published_date %}`{% endraw %} no es cumplida (entonces no hay `publication_date`), entonces queremos agregar la línea {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %}. Nota que estamos pasando la variable `pk` en el {% raw %}`{% url %}`{% endraw %}.
 
 Tiempo de crear una URL (en `blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 Y finalmente una *vista* (como siempre, en `blog/views.py`):
@@ -101,11 +103,12 @@ Y finalmente una *vista* (como siempre, en `blog/views.py`):
 ```python
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish()
+    if request.method=='POST':
+        post.publish()
     return redirect('post_detail', pk=pk)
 ```
 
-Recuerda, cuando creamos el modelo `Post` escribimos un método `publush`. Se veía como esto:
+Recuerda, cuando creamos el modelo `Post` escribimos un método `publish`. Se veía como esto:
 
 ```python
 def publish(self):
@@ -126,7 +129,11 @@ Y de nuevo al publicar el post, ¡somos redirigidos inmediatamente a la página 
 Vamos a abrir `blog/templates/blog/post_detail.html` de nuevo y vamos a añadir esta línea
 
 ```django
-<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
+    <button type="submit" class="post btn btn-danger" name="delete">
+    Delete
+    </button>
+</form>
 ```
 
 Justo debajo de la línea co el botón editar.
@@ -134,7 +141,7 @@ Justo debajo de la línea co el botón editar.
 Ahora necesitamos una URL (`blog/urls.py`):
 
 ```python
-url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Ahora, ¡Tiempo para la vista! Abre `blog/views.py` y agrega este código:
@@ -142,7 +149,8 @@ Ahora, ¡Tiempo para la vista! Abre `blog/views.py` y agrega este código:
 ```python
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    if request.method=='POST':
+        post.delete()
     return redirect('post_list')
 ```
 

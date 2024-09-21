@@ -79,7 +79,7 @@ If you type `python manage.py runserver` on the command line and go to [http://1
 
 ## Make our comments visible
 
-Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the `{% endblock %}` tag:
+Go to the `blog/templates/blog/post_detail.html` file and add the following lines before the {% raw %}`{% endblock %}`{% endraw %} tag:
 
 ```django
 <hr>
@@ -155,7 +155,7 @@ into:
 from .models import Post, Comment
 ```
 
-Now, go to `blog/templates/blog/post_detail.html` and before the line `{% for comment in post.comments.all %}`, add:
+Now, go to `blog/templates/blog/post_detail.html` and before the line {% raw %}`{% for comment in post.comments.all %}`{% endraw %}, add:
 
 ```django
 <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
@@ -168,7 +168,7 @@ If you go to the post detail page you should see this error:
 We know how to fix that! Go to `blog/urls.py` and add this pattern to `urlpatterns`:
 
 ```python
-url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
 ```
 
 Refresh the page, and we get a different error!
@@ -228,6 +228,8 @@ Yay! Now your readers can let you know what they think of your blog posts!
 
 Not all of the comments should be displayed. As the blog owner, you probably want the option to approve or delete comments. Let's do something about it.
 
+> If you haven't already, you can download all the Bootstrap icons [here](https://github.com/twbs/icons/releases/download/v1.1.0/bootstrap-icons-1.1.0.zip). Unzip the file and copy all the SVG image files into a new folder inside `blog/templates/blog/` called `icons`. That way you can access an icon like `hand-thumbs-down.svg` using the file path `blog/templates/blog/icons/hand-thumbs-down.svg`
+
 Go to `blog/templates/blog/post_detail.html` and change lines:
 
 ```django
@@ -251,8 +253,12 @@ to:
         <div class="date">
             {{ comment.created_date }}
             {% if not comment.approved_comment %}
-                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}">
+                   {% include './icons/hand-thumbs-down.svg' %}
+                </a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}">
+                   {% include './icons/hand-thumbs-up.svg' %}
+                </a>
             {% endif %}
         </div>
         <strong>{{ comment.author }}</strong>
@@ -269,8 +275,8 @@ You should see `NoReverseMatch`, because no URL matches the `comment_remove` and
 To fix the error, add these URL patterns to `blog/urls.py`:
 
 ```python
-url(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
-url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
+path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
+path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ```
 
 Now, you should see `AttributeError`. To fix this error, add these views in `blog/views.py`:
