@@ -21,7 +21,7 @@ Time to do something similar, but for draft posts.
 Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the {% raw %}`{% if user.is_authenticated %}`{% endraw %} check, right after the button for adding new posts.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
 ```
 
 Next: urls! In `blog/urls.py` we add:
@@ -84,8 +84,8 @@ into these:
         {{ post.published_date }}
     </div>
 {% else %}
-    <form method="POST" action="{% url post_publish pk=post.pk %} class="post-form">{% csrf_token %}
-        <button type="submit" class="post btn btn-info" name="publish">Publish</button>
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
+        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
     </form>
 {% endif %}
 ```
@@ -101,7 +101,7 @@ Now, let's take a look at the details of the form. We are using a new attribute,
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-path('post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
@@ -137,9 +137,9 @@ Congratulations! You are almost there. The last step is adding a delete button!
 Let's open `blog/templates/blog/post_detail.html` once again and add these lines:
 
 ```django
-<form method="POST" action="{% url post_remove pk=post.pk %} class="post-form">{% csrf_token %}
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
     <button type="submit" class="post btn btn-danger" name="delete">
-        <span class="glyphicon glyphicon-remove"></span>
+    Delete
     </button>
 </form>
 ```
@@ -149,7 +149,7 @@ just under a line with the edit button.
 Now we need a URL (`blog/urls.py`):
 
 ```python
-path('post/<pk>/remove/', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Now, time for a view! Open `blog/views.py` and add this code:
