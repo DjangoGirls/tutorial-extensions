@@ -51,7 +51,7 @@ Después, ve a la [pestaña Web](https://www.pythonanywhere.com/web_app_setup/) 
 
 Seguidamente, **elimina** tu vieja aplicación. No te preocupes, esto no elimina nada de tu código, solamente apaga el dominio en `nombredeusuario.pythonanywhere.com`. Después, crea una nueva aplicación y sigue estos pasos:
 
-* Escrine el nombre de tu dominio
+* Escribe el nombre de tu dominio
 * Escoge "configuración manual"
 * Selecciona Python 3.4
 * Y estamos listos
