@@ -20,6 +20,19 @@ def post_new(request):
     [...]
 ```
 
+Or if you have a class based view:
+
+```python
+from django.views import View
+from django.utils.decorators import method_decorator
+
+class MyView(View):
+    
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        [...]
+```
+
 That's it! Now try to access `http://127.0.0.1:8000/post/new/`. Notice the difference?
 
 > If you just got the empty form, you are probably still logged in from the chapter on the admin-interface. Go to `http://127.0.0.1:8000/admin/logout/` to log out, then go to `http://127.0.0.1:8000/post/new` again.
