@@ -18,10 +18,10 @@ Djangoのクエリセットを勉強した章を覚えていますか? `post_lis
 
 ここでは、それと同じようなことをして、草稿が表示されるようにしましょう。
 
-`blog/templates/blog/base.html` のヘッダーにリンクを追加しましょう。草稿の一覧は誰でも見られるようにはしません。なので、 `{% raw %}{% if user.is_authenticated %}{% endraw %}` という条件の確認に続く箇所で、新しい投稿を追加するボタンのすぐ後にリンクを書いてください。
+`blog/templates/blog/base.html` のヘッダーにリンクを追加しましょう。草稿の一覧は誰でも見られるようにはしません。なので、 {% raw %}`{% if user.is_authenticated %}`{% endraw %} という条件の確認に続く箇所で、新しい投稿を追加するボタンのすぐ後にリンクを書いてください。
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
 ```
 
 次は `blog/urls.py` に、urlを追加しましょう!
@@ -84,16 +84,18 @@ def post_draft_list(request):
         {{ post.published_date }}
     </div>
 {% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
+        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
+    </form>
 {% endif %}
 ```
 
-お気づきのように、`{% raw %}{% else %}{% endraw %}` を追加しました。これは、 `{% raw %}{% if post.published_date %}{% endraw %}` という条件が満たされない(記事に `published_date` が無い)ときに、 `{% raw %}<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>{% endraw %}` を表示する、という意味です。 `{% raw %}{% url %}{% endraw %}` のキーワード引数である `pk` に値を渡していることに注意してください。
+お気づきのように、{% raw %}`{% else %}`{% endraw %} を追加しました。これは、 {% raw %}`{% if post.published_date %}`{% endraw %} という条件が満たされない(記事に `published_date` が無い)ときに、 {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %} を表示する、という意味です。 {% raw %}`{% url %}`{% endraw %} のキーワード引数である `pk` に値を渡していることに注意してください。
 
 それでは新しいURLを追加しましょう。( `blog/urls.py` に)
 
 ```python
-path('post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 最後に *ビュー* を追加します。(いつものように `blog/views.py` に)
@@ -101,7 +103,8 @@ path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```python
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish()
+    if request.method=='POST':
+        post.publish()
     return redirect('post_detail', pk=pk)
 ```
 
@@ -127,13 +130,17 @@ def publish(self):
 下の行を編集ボタンの行の直後に追加します:
 
 ```django
-<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
+    <button type="submit" class="post btn btn-danger" name="delete">
+    Delete
+    </button>
+</form>
 ```
 
 URLも必要ですね。( `blog/urls.py` に)
 
 ```python
-path('post/<pk>/remove/', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 次はビューも作りましょう。 `blog/views.py` を開いて下のコードを追加してください。
@@ -141,7 +148,8 @@ path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```python
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    if request.method=='POST':
+        post.delete()
     return redirect('post_list')
 ```
 
