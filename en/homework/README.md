@@ -21,7 +21,7 @@ Time to do something similar, but for draft posts.
 Let's add a link in `blog/templates/blog/base.html` in the header. We don't want to show our list of drafts to everybody, so we'll put it inside the {% raw %}`{% if user.is_authenticated %}`{% endraw %} check, right after the button for adding new posts.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-square.svg'%}</a>
 ```
 
 Next: urls! In `blog/urls.py` we add:
@@ -83,10 +83,11 @@ into these:
     <div class="date">
         {{ post.published_date }}
     </div>
-{% else %}
-    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
-        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
-    </form>
+
+    {% else %}
+    <aside class="actions">
+        <a class="btn btn-secondary" role="button" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    </aside>
 {% endif %}
 ```
 
@@ -128,7 +129,7 @@ Now we can finally use this!
 
 And once again after publishing the post we are immediately redirected to the `post_detail` page!
 
-![Publish button](images/publish2.png)
+![Publish button](images/publish3.png)
 
 Congratulations! You are almost there. The last step is adding a delete button!
 
@@ -137,11 +138,9 @@ Congratulations! You are almost there. The last step is adding a delete button!
 Let's open `blog/templates/blog/post_detail.html` once again and add these lines:
 
 ```django
-<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
-    <button type="submit" class="post btn btn-danger" name="delete">
-    Delete
-    </button>
-</form>
+<a class="btn btn-secondary" href="{% url 'post_remove' pk=post.pk %}">
+    {% include './icons/trash-fill.svg' %}
+</a>
 ```
 
 just under a line with the edit button.
@@ -168,6 +167,6 @@ And this time, after deleting a post we want to go to the webpage with a list of
 
 Let's test it! Go to the page with a post and try to delete it!
 
-![Delete button](images/delete3.png)
+![Delete button](images/delete4.png)
 
 Yes, this is the last thing! You completed this tutorial! You are awesome!
