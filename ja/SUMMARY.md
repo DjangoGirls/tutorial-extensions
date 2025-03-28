@@ -6,4 +6,3 @@
 * [宿題: コメントモデルを作ろう](homework_create_more_models/README.md)
 * [オプション: PostgreSQLのインストール](optional_postgresql_installation/README.md)
 * [オプション: ドメイン](domain/README.md)
-* [Herokuにデプロイしよう](heroku/README.md)

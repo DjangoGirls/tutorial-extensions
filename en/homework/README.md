@@ -83,6 +83,7 @@ into these:
     <div class="date">
         {{ post.published_date }}
     </div>
+
     {% else %}
     <aside class="actions">
         <a class="btn btn-secondary" role="button" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
@@ -90,12 +91,18 @@ into these:
 {% endif %}
 ```
 
-As you noticed, we added {% raw %}`{% else %}`{% endraw %} line here. That means, that if the condition from {% raw %}`{% if post.published_date %}`{% endraw %} is not fulfilled (so if there is no `published_date`), then we want to do the line {% raw %}`<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>`{% endraw %}. Note that we are passing a `pk` variable in the {% raw %}`{% url %}`{% endraw %}.
+As you noticed, we added {% raw %}`{% else %}`{% endraw %} line here. That means, that if the condition from {% raw %}`{% if post.published_date %}`{% endraw %} is not fulfilled (so if there is no `published_date`), then we want to do the lines with `<form ... </form>`. But wait -- why are we bothering with a form here? There are no fields to fill in. Why are we not creating the publish button using an `<a class="btn">` element like we did before?
+
+So far, we have glossed over the difference between user actions which only retrieve data to show (like listing the posts), on one hand, and actions which change the data (like creating a new post) on the other hand. It is useful for all kinds of software running on the web (including your web browser) to be able to tell the difference between the two, before sending the relevant requests. To facilitate this, the web standards define GET requests as retrieval-only operations, and POST requests as potentially-data-changing operations.
+
+As you may have noticed, when a user clicks an `<a>` element, the browser sends out a GET request. So these elements are not suitable for data-changing operations. Since publishing the blog-post changes the data on the server, an `<a>` element is not suitable here. In order to generate a POST request, we need to create a form.
+
+Now, let's take a look at the details of the form. We are using a new attribute, `action`, to specify that the form is submitted to a URL that is different from the one on which it is presented. As before, we are using a {% raw %}`{% url %}`{% endraw %} template-tag, and are passing a `pk` variable to it. The rest is as it was with the edit form -- the {% raw %}`{% csrf_token %}`{% endraw %} for security, and the submit button.
 
 Time to create a URL (in `blog/urls.py`):
 
 ```python
-path('post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 and finally, a *view* (as always, in `blog/views.py`):
@@ -103,9 +110,12 @@ and finally, a *view* (as always, in `blog/views.py`):
 ```python
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish()
+    if request.method=='POST':
+        post.publish()
     return redirect('post_detail', pk=pk)
 ```
+
+Note that we check the request method before executing the operation -- although the pages we will emit will not include a direct link to the URL of this view, and so one could think this check is redundant, in practice this sort of "defensive programming" often pays off, preventing damage which could have been caused by bugs.
 
 Remember, when we created a `Post` model we wrote a method `publish`. It looked like this:
 
@@ -125,7 +135,7 @@ Congratulations! You are almost there. The last step is adding a delete button!
 
 ## Delete post
 
-Let's open `blog/templates/blog/post_detail.html` once again and add this line:
+Let's open `blog/templates/blog/post_detail.html` once again and add these lines:
 
 ```django
 <a class="btn btn-secondary" href="{% url 'post_remove' pk=post.pk %}">
@@ -138,7 +148,7 @@ just under a line with the edit button.
 Now we need a URL (`blog/urls.py`):
 
 ```python
-path('post/<pk>/remove/', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 Now, time for a view! Open `blog/views.py` and add this code:
@@ -146,7 +156,8 @@ Now, time for a view! Open `blog/views.py` and add this code:
 ```python
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    if request.method=='POST':
+        post.delete()
     return redirect('post_list')
 ```
 

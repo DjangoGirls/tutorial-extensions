@@ -6,7 +6,6 @@
 * [Tarea: Crea un modelo de comentarios](homework_create_more_models/README.md)
 * [Opcional: Instalación de PostgreSQL](optional_postgresql_installation/README.md)
 * [Opcional: Dominio](domain/README.md)
-* [Despliega tu sitio en Heroku](heroku/README.md)
 
 
 

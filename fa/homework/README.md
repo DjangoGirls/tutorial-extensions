@@ -21,7 +21,7 @@ post.published_date = timezone.now()
 حالا می‌خواهیم در هدر فایل `blog/templates/blog/base.html` یک لینک اضافه کنیم. از آنجا که  نمی‌خواهیم لیست پست‌های پیش‌نویس را به همه نشان بدهیم، پس این لینک رادر عبارت کنترلی {% raw %}`{% if user.is_authenticated %}`{% endraw %} و دقیقاً بعد از دکمه مربوط به اضافه کردن پست جدید، اضافه می‌کنیم.
 
 ```django
-<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+<a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</span></a>
 ```
 
 حالا وقت اصلاح urlها در فایل `blog/urls.py` است:
@@ -84,7 +84,9 @@ def post_draft_list(request):
         {{ post.published_date }}
     </div>
 {% else %}
-    <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    <form method="POST" action="{% url 'post_publish' pk=post.pk %}" class="post-form">{% csrf_token %}
+        <button type="submit" class="post btn btn-secondary" name="publish">Publish</button>
+    </form>
 {% endif %}
 ```
 
@@ -93,7 +95,7 @@ def post_draft_list(request):
 زمان ساختن یک URL (در فایل `blog/urls.py`) است:
 
 ```python
-path('post/<pk>/publish/', views.post_publish, name='post_publish'),
+path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
 ```
 
 و در نهایت یک *ویو* (مانند همیشه در فایل `blog/views.py`) می‌سازیم:
@@ -101,7 +103,8 @@ path('post/<pk>/publish/', views.post_publish, name='post_publish'),
 ```python
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish()
+    if request.method=='POST':
+        post.publish()
     return redirect('post_detail', pk=pk)
 ```
 
@@ -115,7 +118,7 @@ def publish(self):
 
 حالا بالاخره می‌توانیم از آن استفاده کنیم!
 
-و یک بار دیگر بعد از انتشار پست ما بلافاصله به صفحه جزییات پست یا `post_detail` هدایت خواهیم شد!  
+و یک بار دیگر بعد از انتشار پست ما بلافاصله به صفحه جزییات پست یا `post_detail` هدایت خواهیم شد!
 
 ![Publish button](images/publish2.png)
 
@@ -126,7 +129,11 @@ def publish(self):
 بیایید یک بار دیگر فایل `blog/templates/blog/post_detail.html` را باز کنید و این خط را به آن اضافه کنید:
 
 ```django
-<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+<form method="POST" action="{% url 'post_remove' pk=post.pk %}" class="post-form">{% csrf_token %}
+    <button type="submit" class="post btn btn-danger" name="delete">
+    Delete
+    </button>
+</form>
 ```
 
 دقیقاً زیر خطی که دکمه اصلاح یا Edit button قرار دارد.
@@ -134,7 +141,7 @@ def publish(self):
 حالا یک URL لازم داریم (`blog/urls.py`):
 
 ```python
-path('post/<pk>/remove/', views.post_remove, name='post_remove'),
+path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
 ```
 
 و الان زمان اضافه کردن یک ویو است! فایل `blog/views.py` را باز کنید و این کد را به آن اضافه کنید:
@@ -142,7 +149,8 @@ path('post/<pk>/remove/', views.post_remove, name='post_remove'),
 ```python
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    if request.method=='POST':
+        post.delete()
     return redirect('post_list')
 ```
 
