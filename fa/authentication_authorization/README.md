@@ -134,7 +134,17 @@ LOGIN_REDIRECT_URL = '/'
     {% if user.is_authenticated %}
         <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
         <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-        <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+        <p id="logout" class="top-menu">
+            Hello {{ user.username }} 
+            <small>
+                (<form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding:0; border:none; background:none; color:#337ab7; text-decoration:underline; cursor:pointer;">
+                        Log out
+                    </button>
+                </form>)
+            </small>
+        </p> 
     {% else %}
         <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
     {% endif %}
