@@ -292,6 +292,7 @@ def comment_remove(request, pk):
 
 ```python
 from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 ```
 
 همه چیز کار می‌کند! فقط یک تغییر کوچک باقی مانده که انجام بدهیم. در صفحه لیست پست‌ها، ما تعداد همه کامنت‌هایی که هر پست دریافت کرده را می‌بینیم. بیایید آن را به تعداد کامنت‌های *تأییدشده* تغییر بدهیم.

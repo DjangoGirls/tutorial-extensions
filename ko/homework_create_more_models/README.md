@@ -300,6 +300,7 @@ def comment_remove(request, pk):
 
 ```python
 from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 ```
 
 모든 것이 잘 작동되네요! 하지만 마지막 한 가지가 남았어요. 현재 post_list 페이지에서는 등록된 모든 댓글의 개수가 보이는데요. *승인된* 댓글의 개수만 보이게 수정해봅시다.
