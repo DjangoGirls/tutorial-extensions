@@ -7,9 +7,11 @@ Actualmente, solamente tenemos un modelo de Post, ¿Qué si queremos recibir ret
 Vamos a abrir `blog/models.py` y pega esta pieza de código al final del archivo:
 
 ```python
+from django.conf import settings
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', related_name='comments', on_delete=models.CASCADE)
-    author = models.CharField(max_length=200)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
@@ -142,7 +144,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('author', 'text',)
+        fields = ('text',)
 ```
 
 Recuerda importar el modelo Comentario, cambiando la línea:
@@ -180,6 +182,7 @@ url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment
 Para agregar este error, agrega esto a `blog/views.py`:
 
 ```python
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -187,6 +190,7 @@ def add_comment_to_post(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('post_detail', pk=post.pk)
     else:
@@ -194,10 +198,11 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-Recuerda importar `CommentForm` al comienzo del archivo:
+Recuerda importar `CommentForm` y `login_required` al comienzo del archivo:
 
 ```python
 from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 ```
 
 Ahora vamos a los detalles de la página y deberíamos ver el botón "Add Comment":
@@ -279,20 +284,25 @@ Ahora debereias ver un `AttributeError`. Para arreglar este error, agrega las si
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.post.author != request.user:
+        raise PermissionDenied
     comment.approve()
     return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.author != request.user and comment.post.author != request.user:
+        raise PermissionDenied
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
 ```
 
-Necesitas importar `Comment` al comienzo del archivo:
+Necesitas importar `Comment` y `PermissionDenied` al comienzo del archivo:
 
 ```python
 from .models import Post, Comment
+from django.core.exceptions import PermissionDenied
 ```
 
 ¡Todo funciona! Hay un pequeño cambio que podemos hacer. en nuestra página de lista -- debajo de posts -- actualmente vemos el número de los comentarios que el post ha recibifo. Vamos a cambiar esto para ver el número de comentarios aprobados.

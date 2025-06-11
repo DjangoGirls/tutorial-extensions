@@ -7,9 +7,11 @@ Currently, we only have a Post model. What about receiving some feedback from yo
 Let's open `blog/models.py` and append this piece of code to the end of file:
 
 ```python
+from django.conf import settings
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
@@ -140,7 +142,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('author', 'text',)
+        fields = ('text',)
 ```
 
 Remember to import the Comment model, changing the line:
@@ -178,6 +180,7 @@ Refresh the page, and we get a different error!
 To fix this error, add this view to `blog/views.py`:
 
 ```python
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -185,6 +188,7 @@ def add_comment_to_post(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('post_detail', pk=post.pk)
     else:
@@ -192,10 +196,11 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-Remember to import `CommentForm` at the beginning of the file:
+Remember to import `CommentForm` and `login_required` at the beginning of the file:
 
 ```python
 from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 ```
 
 
@@ -285,21 +290,26 @@ Now, you should see `AttributeError`. To fix this error, add these views in `blo
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.post.author != request.user:
+        raise PermissionDenied
     comment.approve()
     return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.author != request.user and comment.post.author != request.user:
+        raise PermissionDenied
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
 ```
 
 
-You'll need to import `Comment` at the top of the file:
+You'll need to import `Comment` and `PermissionDenied` at the top of the file:
 
 ```python
 from .models import Post, Comment
+from django.core.exceptions import PermissionDenied
 ```
 
 Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.
