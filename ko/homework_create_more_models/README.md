@@ -7,9 +7,11 @@
 `blog/models.py` 파일을 열어, 파일의 맨 마지막에 아래 코드를 추가해주세요.
 
 ```python
+from django.conf import settings
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', related_name='comments', on_delete=models.CASCADE)
-    author = models.CharField(max_length=200)
+       author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
@@ -148,7 +150,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('author', 'text',)
+        fields = ('text',)
 ```
 
 파일 맨 처음에 Comment 모델을 import 하는 것을 잊지 마세요. 
@@ -187,12 +189,14 @@ url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment
 에러를 해결하려면 `blog/views.py` 파일에서 새로운 뷰를 추가해야해요.
 
 ```python
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.author = request.user
             comment.post = post
             comment.save()
             return redirect('post_detail', pk=post.pk)
@@ -201,10 +205,11 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-이번에도 파일 맨 처음에  `CommentForm` 을 import 하는 것을 잊지 마세요.
+이번에도 파일 맨 처음에  `CommentForm` , `login_required` 을 import 하는 것을 잊지 마세요.
 
 ```python
 from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 ```
 
 이제 post_detail 페이지로 가보면, "Add comment" 버튼을 확인할 수 있을 거에요.
@@ -286,20 +291,25 @@ url(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.post.author != request.user:
+        raise PermissionDenied
     comment.approve()
     return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.author != request.user and comment.post.author != request.user:
+        raise PermissionDenied
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
 ```
 
-파일 맨 처음에 `Comment`를 import하는 것을 잊지 않았겠죠.
+파일 맨 처음에 `Comment`,`PermissionDenied` 를 import하는 것을 잊지 않았겠죠.
 
 ```python
 from .models import Post, Comment
+from django.core.exceptions import PermissionDenied
 ```
 
 모든 것이 잘 작동되네요! 하지만 마지막 한 가지가 남았어요. 현재 post_list 페이지에서는 등록된 모든 댓글의 개수가 보이는데요. *승인된* 댓글의 개수만 보이게 수정해봅시다.

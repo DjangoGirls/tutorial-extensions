@@ -7,9 +7,11 @@
 فایل `blog/models.py` را باز کنید و این قطعه کد را به آن اضافه کنید:
 
 ```python
+from django.conf import settings
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
@@ -139,7 +141,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('author', 'text',)
+        fields = ('text',)
 ```
 
 به یاد داشته باشید که مدل کامنت را فراخوانی کنید، خط زیر را پیدا کنید:
@@ -177,6 +179,7 @@ path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_p
 برای حل این مشکل به فایل `blog/views.py` بروید و ویو زیر را به آن اضافه کنید:
 
 ```python
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -184,6 +187,7 @@ def add_comment_to_post(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('post_detail', pk=post.pk)
     else:
@@ -191,10 +195,11 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 ```
 
-به یاد داشته باشید که `CommentForm` را در ابتدای فایل فراخوانی کنید:
+به یاد داشته باشید که `CommentForm` و `login_required` را در ابتدای فایل فراخوانی کنید:
 
 ```python
 from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 ```
 
 حالا در صفحه جزییات پست، باید کلید "Add Comment" را ببینید.
@@ -277,21 +282,26 @@ path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.post.author != request.user:
+        raise PermissionDenied
     comment.approve()
     return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
+    if comment.author != request.user and comment.post.author != request.user:
+        raise PermissionDenied
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
 ```
 
 
-لازم است که مدل `Comment` را در ابتدای فایل فراخوانی کنید:
+لازم است که مدل `Comment` و `PermissionDenied` را در ابتدای فایل فراخوانی کنید:
 
 ```python
 from .models import Post, Comment
+from django.core.exceptions import PermissionDenied
 ```
 
 همه چیز کار می‌کند! فقط یک تغییر کوچک باقی مانده که انجام بدهیم. در صفحه لیست پست‌ها، ما تعداد همه کامنت‌هایی که هر پست دریافت کرده را می‌بینیم. بیایید آن را به تعداد کامنت‌های *تأییدشده* تغییر بدهیم.
