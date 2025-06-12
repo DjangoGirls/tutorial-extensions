@@ -300,6 +300,7 @@ You'll need to import `Comment` at the top of the file:
 
 ```python
 from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 ```
 
 Everything works! There is one small tweak we can make. In our post list page -- under posts -- we currently see the number of all the comments the blog post has received. Let's change that to show the number of *approved* comments there.

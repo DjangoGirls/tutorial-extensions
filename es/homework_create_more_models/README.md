@@ -293,6 +293,7 @@ Necesitas importar `Comment` al comienzo del archivo:
 
 ```python
 from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 ```
 
 ¡Todo funciona! Hay un pequeño cambio que podemos hacer. en nuestra página de lista -- debajo de posts -- actualmente vemos el número de los comentarios que el post ha recibifo. Vamos a cambiar esto para ver el número de comentarios aprobados.

@@ -292,6 +292,7 @@ def comment_remove(request, pk):
 
 ```python
 from .models import Post, Comment
+from django.contrib.auth.decorators import login_required
 ```
 
 すべて動作します！私たちにできる小さな微調整があります。投稿一覧ページ（の投稿の下）には、現在、投稿が受け取ったすべてのコメントの数が表示されます。*承認された* コメントの数を表示するように変更しましょう。
