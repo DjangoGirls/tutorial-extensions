@@ -141,7 +141,17 @@ Let's add some sugar to our templates while we're at it. First we will add some 
                 {% include './icons/file-earmark-plus.svg' %}
             </a>
             <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-square.svg'%}</a>
-            <p id="logout" class="top-menu">Hello {{ user.username }} <small><a href="{% url 'logout' %}">(Log out)</a></small></p>
+            <p id="logout" class="top-menu">
+                Hello {{ user.username }} 
+                <small>
+                    (<form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="padding:0; border:none; background:none; color:#337ab7; text-decoration:underline; cursor:pointer;">
+                            Log out
+                        </button>
+                    </form>)
+                </small>
+            </p>
             {% else %}
             <a href="{% url 'login' %}" class="top-menu">{% include './icons/lock-fill.svg' %}</a>
             {% endif %}
